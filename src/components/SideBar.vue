@@ -1,6 +1,5 @@
 <template>
     <div class="side-bar">
-        <a href="#" class="btn-sidebar-close">&times;</a>
         <a href="/Index.html">Home</a>
         <a href="/todo.html">To Do List</a>
         <a href="app.html">Components</a>
@@ -17,24 +16,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "SideBar"
+};
 </script>
 
 <style scoped>
 .side-bar {
-  height: 100%;
-  width: 200px;
   position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
+  top: 4em;
   background-color: #262626;
   overflow-x: hidden;
-  padding-top: 20px;
 }
 
 .side-bar a {
-  padding: 6px 6px 6px 20px;
+  padding: 6px 6px 6px 6px;
   text-decoration: none;
   font-size: 20px;
   color: #818181;

@@ -1,7 +1,7 @@
 {
   "name": "gpx-spa",
   "version": "1.0.0",
-  "description": "a spa for GPX",
+  "description": "A SPA for GPX",
   "author": "ChrisKao <chi1010860@gmail.com>",
   "private": true,
   "scripts": {
@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

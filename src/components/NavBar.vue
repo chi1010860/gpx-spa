@@ -26,14 +26,13 @@ export default {
 
 <style scoped>
 .nav-bar {
-  width: 100%-200px;
+  width: 100%;
   background-color: #003344;
   color: white;
   font-weight: bold;
   font-size: 30px;
   text-align: center;
-  padding: 10px;
-  margin-left: 200px;
+  padding-left: 1em;
 }
 
 .btn-sidebar-open {

@@ -1,6 +1,6 @@
 # gpx-spa
 
-> a spa for GPX
+> A SPA for GPX
 
 ## Build Setup
 
