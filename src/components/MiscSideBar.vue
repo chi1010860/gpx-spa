@@ -1,9 +1,8 @@
 <template>
     <div class="side-bar">
-      <router-link class="link" :to="{name: 'home'}" exact>Home</router-link>
-      <router-link class="link" :to="{name: 'Todo'}" exact>Todo List</router-link>
+      <router-link class="link" :to="{path: '/miscellaneous/Todo'}" exact>Todo List</router-link>
       <router-link class="link" :to="{name: 'ProductTester'}" exact>ProductTester</router-link>
-      <router-link class="link" :to="{name: 'Miscellaneous'}" exact>Miscellaneous</router-link>
+      <router-link class="link" :to="{name: 'Markdown'}" exact>Markdown</router-link>
     </div>
 </template>
 

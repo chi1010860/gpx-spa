@@ -1,13 +1,15 @@
 <template>
-    <section id="page">
+    <section class="page">
         <header>
           <nav-bar/>
         </header>
         <nav>
           <side-bar/>
         </nav>
-        <main>Main area</main>
-        <footer>Footer</footer>
+        <main>
+          <router-view></router-view>
+        </main>
+        <footer>2018 IMLAB</footer>
     </section>
 </template>
 
@@ -25,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#page {
+.page {
   display: grid;
   width: 100%;
   height: 100vh;
@@ -33,12 +35,11 @@ export default {
     "head head"
     "nav  main"
     "nav  foot";
-  grid-template-rows: 4em 1fr auto;
-  grid-template-columns: 150px 1fr;
+  grid-template-rows: 4em 10fr 1fr;
+  grid-template-columns: 200px 1fr;
   header,
   nav,
-  footer,
-  main {
+  footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,14 +54,33 @@ export default {
     grid-area: nav;
     background-color: #262626;
   }
+
   main {
     grid-area: main;
-    background-color: #64b4ffaf;
+    background-color: #f2f2f2;
+    width: 100%;
+    height: 100%;
+    text-align: center;
   }
+
   footer {
     grid-area: foot;
-    background-color: #8cff9f81;
-    padding: 2rem;
+    background-color: #003344;
+    padding: 1em;
+    color: white;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .page {
+    grid-template-columns: 0px 1fr;
+  }
+  .nav {
+    padding-top: 15px;
+    width: 0px;
+  }
+  .nav a {
+    font-size: 18px;
   }
 }
 </style>

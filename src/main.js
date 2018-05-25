@@ -3,15 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import ProductTester from './pages/ProductTester'
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: {
-    App,
-    ProductTester
-  }
+  components: { App }
 })
