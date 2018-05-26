@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 /* pages */
-import Home from '../pages/Home'
+import Home from '@/pages/Home'
 import Miscellaneous from '../pages/Miscellaneous'
 import Todo from '../components/Todo'
 import Markdown from '../components/Markdown'
 import ProductTester from '../pages/ProductTester'
+import Loading from '../pages/Loading'
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -51,6 +52,11 @@ export default new Router({
           component: ProductTester
         }
       ]
+    },
+    {
+      path: '/loading',
+      name: 'Loading',
+      component: Loading
     },
     {
       // 其他路徑一律導回首頁
