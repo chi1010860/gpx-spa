@@ -8,6 +8,7 @@ import Todo from '../components/Todo'
 import Markdown from '../components/Markdown'
 import ProductTester from '../pages/ProductTester'
 import Loading from '../pages/Loading'
+import Chatroom from '../components/Chatroom'
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -22,7 +23,7 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'home',
+          name: 'Home',
           component: Todo
         },
         {
@@ -50,6 +51,11 @@ export default new Router({
           path: 'ProductTester',
           name: 'ProductTester',
           component: ProductTester
+        },
+        {
+          path: 'Chatroom',
+          name: 'Chatroom',
+          component: Chatroom
         }
       ]
     },
