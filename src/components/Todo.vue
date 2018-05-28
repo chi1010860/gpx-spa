@@ -2,23 +2,94 @@
     <div class="container">
         <div id="myDIV" class="header">
             <h2>Todo List</h2>
-            <input type="text" id="myInput" placeholder="Title..." onkeypress="addKeyPress()">
-            <span id="btnAdd" onclick="newElement()" class="addBtn">&plus;</span>
+            <input type="text" id="myInput" placeholder="要做的事..." v-model="newTodo" v-on:keyup="addKeyPress">
+            <span id="btnAdd" v-on:click="newElement" class="addBtn">&plus;</span>
         </div>
 
         <ul id="myUL">
-            <li>健身</li>
-            <li class="checked">付帳單</li>
-            <li>研討會論文</li>
-            <li>訂機票</li>
-            <li>簽約</li>
+            <li v-for="(item, index) in todos" 
+            v-bind:key="item.id"
+            v-bind:id="index"
+            v-on:click="check">
+              {{ item.todo }}
+              <span class="close" 
+              v-bind:id="index"
+              v-on:click="cancel">&times;</span>
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
 export default {
-  name: "Todo"
+  name: "Todo",
+  data() {
+    return {
+      todoDB: "",
+      newTodo: "",
+      todos: []
+    };
+  },
+  methods: {
+    newElement: function() {
+      if (this.newTodo == "") return
+      this.todoDB.push({
+        isArchive: false,
+        isChecked: false,
+        todo: this.newTodo
+      });
+      this.newTodo = "";
+    },
+    addKeyPress: function(e) {
+      e = e || window.event;
+      if (e.keyCode == 13) {
+        document.getElementById("btnAdd").click();
+      }
+    },
+    check: function(e) {
+      const vm = this;
+      e.target.classList.toggle("checked");
+      let index = e.target.id;
+      let newItem;
+      vm.todoDB
+        .once("value")
+        .then(function(snapshot) {
+          let item = snapshot.child(index).val();
+          newItem = {
+            isArchive: item.isArchive,
+            isChecked: !item.isChecked,
+            todo: item.todo
+          };
+        })
+        .then(function() {
+          return vm.todoDB.child(index).set(newItem);
+        });
+    },
+    cancel: function(e) {
+      this.todoDB.child(e.target.id).remove();
+    }
+  },
+  created: function() {
+    const vm = this
+    var db = firebase.database().ref("/todos/");
+    vm.todoDB = db;
+  },
+  mounted: function() {
+    const vm = this;
+    this.todoDB.on("value", function(snapshot) {
+      vm.todos = snapshot.val();
+    });
+  },
+  updated: function(){
+    const vm = this
+    for (let key in vm.todos) {
+      if (vm.todos[key].isChecked) {
+        document.getElementById(key).classList.add("checked");
+      } else {
+        document.getElementById(key).classList.remove("checked");
+      }
+    }
+  }
 };
 </script>
 
@@ -43,7 +114,7 @@ ul {
 ul li {
   cursor: pointer;
   position: relative;
-  padding: 12px 8px 12px 40px;
+  padding: 12px 8px 12px 8px;
   list-style-type: none;
   background: #eee;
   font-size: 18px;
@@ -95,6 +166,13 @@ ul li.checked::before {
   padding: 12px 16px 12px 16px;
 }
 
+.check {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 12px 16px 12px 16px;
+}
+
 .close:hover {
   background-color: #007399;
   color: white;
@@ -124,6 +202,7 @@ ul li.checked::before {
 input {
   border: none;
   width: 90%;
+  height: 40px;
   padding: 10px;
   float: left;
   font-size: 1em;
@@ -133,6 +212,7 @@ input {
 .addBtn {
   padding: 0.5px;
   width: 10%;
+  height: 40px;
   background: #d9d9d9;
   color: #555;
   float: left;
