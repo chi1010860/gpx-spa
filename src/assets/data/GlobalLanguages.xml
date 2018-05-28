@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GlobalLanguages>
+  <EnglishData>
+    <EnData1>Sample Project</EnData1>
+    <EnData2>Control Link</EnData2>
+    <EnData3>User Input</EnData3>
+    <EnData4>Typing Input</EnData4>
+    <EnData5>Date Selection</EnData5>
+    <EnData6>Color Control</EnData6>
+    <EnData7>Others</EnData7>
+    <EnData8>Radio</EnData8>
+    <EnData9>Checkbox</EnData9>
+    <EnData10>Slider</EnData10>
+    <EnData11>Horizontal</EnData11>
+    <EnData12>Vertical</EnData12>
+    <EnData13>Planar</EnData13>
+    <EnData14>Push Buttons</EnData14>
+    <EnData15>Discrete</EnData15>
+    <EnData16>Action</EnData16>
+    <EnData17>Home</EnData17>
+    <EnData18>Output</EnData18>
+    <EnData19>Figure Control</EnData19>
+    <EnData20>Miscellaneous</EnData20>
+    <EnData21>Color Control</EnData21>
+    <EnData22>User Input</EnData22>
+    <EnData23>Horizontal:</EnData23>
+    <EnData24>Vertical:</EnData24>
+    <EnData25>Switch</EnData25>
+    <EnData26>To Do List</EnData26>
+  </EnglishData>
+  <ChineseData>
+    <ChData1>專案樣本</ChData1>
+    <ChData2>基礎控制項</ChData2>
+    <ChData3>使用者輸入</ChData3>
+    <ChData4>鍵入</ChData4>
+    <ChData5>日期選擇</ChData5>
+    <ChData6>顏色控制</ChData6>
+    <ChData7>其他</ChData7>
+    <ChData8>單選</ChData8>
+    <ChData9>核取</ChData9>
+    <ChData10>滑塊</ChData10>
+    <ChData11>水平</ChData11>
+    <ChData12>垂直</ChData12>
+    <ChData13>平面</ChData13>
+    <ChData14>按鈕</ChData14>
+    <ChData15>開關</ChData15>
+    <ChData16>動作</ChData16>
+    <ChData17>首頁</ChData17>
+    <ChData18>輸出</ChData18>
+    <ChData19>圖案控制</ChData19>
+    <ChData20>混合</ChData20>
+    <ChData21>顏色控制</ChData21>
+    <ChData22>使用者輸入</ChData22>
+    <ChData23>水平：</ChData23>
+    <ChData24>垂直：</ChData24>
+    <ChData25>滑動開關</ChData25>
+    <ChData26>待辦清單</ChData26>
+  </ChineseData>
+</GlobalLanguages>

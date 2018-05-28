@@ -9,6 +9,7 @@ import Markdown from '../components/Markdown'
 import ProductTester from '../pages/ProductTester'
 import Loading from '../pages/Loading'
 import Chatroom from '../components/Chatroom'
+import SampleControl from '../components/SampleControl'
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -22,9 +23,14 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: '',
+          path: '/',
           name: 'Home',
-          component: Todo
+          component: SampleControl
+        },
+        {
+          path: 'SampleControl',
+          name: 'SampleControl',
+          component: SampleControl
         },
         {
           path: 'Todo',
