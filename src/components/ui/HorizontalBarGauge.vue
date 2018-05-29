@@ -1,5 +1,5 @@
 <template>
-    <canvas id="canvas" width="300" height="300"></canvas>
+    <canvas v-bind:id="id" v-bind:width="W" v-bind:height="H"></canvas>
 </template>
 
 <script>
@@ -8,20 +8,23 @@ export default {
   data() {
     return {
       // Canvas Initialization
+      id: "HorizontalBarGauge",
       canvas: {},
       ctx: {},
       // Dimensions
-      W: 0,
-      H: 0,
+      W: 200,
+      H: 200,
       // Variables
       level: 0,
       new_level: 0,
       difference: 0,
-      max_level: 300,
+      max_level: 0,
       color: "LIGHTSEAGREEN",
       bgcolor: "#DDD",
       text: "",
+      font: "40px Arial",
       text_space: 50,
+      line_width: 30,
       animationLoop: "",
       redrawLoop: ""
     };
@@ -32,10 +35,14 @@ export default {
       var ctx = this.ctx;
       ctx.clearRect(0, 0, this.W, this.H);
 
+      // Initial variables
+      this.max_level = this.H;
+      this.start_level = this.H - this.text_space;
+
       // Background bar
       ctx.beginPath();
       ctx.strokeStyle = this.bgcolor;
-      ctx.lineWidth = 30;
+      ctx.lineWidth = this.line_width;
       ctx.moveTo(0, this.H / 2);
       ctx.lineTo(this.W, this.H / 2);
       ctx.stroke();
@@ -43,14 +50,14 @@ export default {
       // Draw the level of bar value
       ctx.beginPath();
       ctx.strokeStyle = this.color;
-      ctx.lineWidth = 30;
+      ctx.lineWidth = this.line_width;
       ctx.moveTo(0, this.H / 2);
       ctx.lineTo(this.level, this.H / 2);
       ctx.stroke();
 
       // Add the text
       ctx.fillStyle = this.color;
-      ctx.font = "40px Arial";
+      ctx.font = this.font;
       this.text = Math.floor(this.level / this.max_level * 100) + "%";
       // Set the text to the center
       let text_width = ctx.measureText(this.text).width;
@@ -84,11 +91,9 @@ export default {
   },
   mounted() {
     // Canvas Initialization
-    this.canvas = document.getElementById("canvas");
+    this.canvas = document.getElementById(this.id);
     this.ctx = this.canvas.getContext("2d");
-    // Dimensions
-    this.W = this.canvas.width;
-    this.H = this.canvas.height;
+
     // Invoke the animation
     this.draw();
     this.redrawLoop = setInterval(this.draw, 1000);
@@ -96,9 +101,5 @@ export default {
 };
 </script>
 
-<style>
-#canvas {
-  display: block;
-  margin: 100px auto;
-}
+<style scoped>
 </style>
