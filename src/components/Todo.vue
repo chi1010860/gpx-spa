@@ -2,8 +2,10 @@
     <div class="container">
         <div id="myDIV" class="header">
             <h2>Todo List</h2>
-            <input type="text" id="myInput" placeholder="要做的事..." v-model="newTodo" v-on:keyup="addKeyPress">
-            <span id="btnAdd" v-on:click="newElement" class="addBtn">&plus;</span>
+            <div class="input-line">
+              <input type="text" id="myInput" placeholder="要做的事..." v-model="newTodo" v-on:keyup="addKeyPress">
+              <span id="btnAdd" v-on:click="newElement" class="addBtn">&plus;</span>
+            </div>
         </div>
 
         <ul id="myUL">
@@ -32,7 +34,7 @@ export default {
   },
   methods: {
     newElement: function() {
-      if (this.newTodo == "") return
+      if (this.newTodo == "") return;
       this.todoDB.push({
         isArchive: false,
         isChecked: false,
@@ -70,7 +72,7 @@ export default {
     }
   },
   created: function() {
-    const vm = this
+    const vm = this;
     var db = firebase.database().ref("/todos/");
     vm.todoDB = db;
   },
@@ -80,8 +82,8 @@ export default {
       vm.todos = snapshot.val();
     });
   },
-  updated: function(){
-    const vm = this
+  updated: function() {
+    const vm = this;
     for (let key in vm.todos) {
       if (vm.todos[key].isChecked) {
         document.getElementById(key).classList.add("checked");
@@ -96,12 +98,20 @@ export default {
 <style scoped>
 body {
   margin: 0;
-  font-family: "Lato", sans-serif;
+  font-family: "微軟正黑體", "Microsoft JhengHei", "Segoe UI Semibold",
+    "Segoe UI", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 }
 
 /*Todo List*/
 * {
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.input-line {
+  display: flex;
+  justify-content: center;
 }
 
 /* Remove margins and padding from the list */
@@ -228,13 +238,14 @@ input {
 
 @media screen and (max-width: 500px) {
   .header {
-    padding: 1px 1px;
+    padding: 1px 1px 10px 1px;
+    height: 20vh;
   }
   input {
-    width: 80%;
+    width: 80vw;
   }
   .addBtn {
-    width: 20%;
+    width: 18vw;
   }
 }
 </style>

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/ui/ProductCard";
 
 export default {
   name: "ProductTester",

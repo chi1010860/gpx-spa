@@ -6,10 +6,11 @@ import Home from '@/pages/Home'
 import Miscellaneous from '../pages/Miscellaneous'
 import Todo from '../components/Todo'
 import Markdown from '../components/Markdown'
-import ProductTester from '../pages/ProductTester'
+import ProductTester from '../components/ProductTester'
 import Loading from '../pages/Loading'
 import Chatroom from '../components/Chatroom'
 import SampleControl from '../components/SampleControl'
+import Winpc32 from "../components/Winpc32"
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -33,9 +34,9 @@ export default new Router({
           component: SampleControl
         },
         {
-          path: 'Todo',
-          name: 'Todo',
-          component: Todo
+          path: 'Winpc32',
+          name: 'Winpc32',
+          component: Winpc32
         }
       ]
     },
@@ -44,8 +45,13 @@ export default new Router({
       component: Miscellaneous,
       children: [
         {
-          path: 'Todo',
+          path: '/',
           name: 'Miscellaneous',
+          component: Todo
+        },
+        {
+          path: 'Todo',
+          name: 'Todo',
           component: Todo
         },
         {
