@@ -32,7 +32,6 @@ export default {
   mounted() {
     var vm = this;
     vm._isSidebarOpen = vm.isSidebarOpen;
-    console.log(vm._isSidebarOpen);
   }
 };
 </script>

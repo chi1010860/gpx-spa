@@ -3,6 +3,7 @@
       <router-link class="link" :to="{name: 'Home'}" exact>Home</router-link>
       <router-link class="link" :to="{name: 'Winpc32'}" exact>Winpc32</router-link>
       <router-link class="link" :to="{name: 'SampleControl'}" exact>SampleControl</router-link>
+      <router-link class="link" :to="{name: 'ButtonNavBar'}" exact>ButtonNavBar</router-link>
       <a class="link" href="#">-------------------</a>
       <router-link class="link" :to="{name: 'Miscellaneous'}" exact>Miscellaneous</router-link>
     </div>

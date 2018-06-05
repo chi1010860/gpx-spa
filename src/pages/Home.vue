@@ -63,7 +63,6 @@ export default {
     } else {
       vm.isSidebarOpen = false;
     }
-    console.log(vm.isSidebarOpen);
   },
   updated() {
     this.sidebarWidth();

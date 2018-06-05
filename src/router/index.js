@@ -11,6 +11,7 @@ import Loading from '../pages/Loading'
 import Chatroom from '../components/Chatroom'
 import SampleControl from '../components/SampleControl'
 import Winpc32 from "../components/Winpc32"
+import ButtonNavBar from "../components/ButtonNavBar"
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -37,6 +38,11 @@ export default new Router({
           path: 'Winpc32',
           name: 'Winpc32',
           component: Winpc32
+        },
+        {
+          path: 'ButtonNavBar',
+          name: 'ButtonNavBar',
+          component: ButtonNavBar
         }
       ]
     },
