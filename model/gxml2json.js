@@ -1,5 +1,5 @@
 const fs = require('fs')
-const filePath = 'static/ControlLink.gxml'
+const filePath = 'app_data/ControlLink.gxml'
 var gpx = {}
 
 // main
