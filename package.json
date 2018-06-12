@@ -10,15 +10,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "cors": "^2.8.4",
+    "edge-js": "^9.3.7",
+    "express": "^4.16.3",
     "hoek": "^5.0.3",
+    "mssql": "^4.1.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "edge-js": "^9.3.7",
-    "express": "^4.16.3",
-    "mssql": "^4.1.0"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

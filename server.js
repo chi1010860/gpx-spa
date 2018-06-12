@@ -1,7 +1,14 @@
 var gpx = require('./model/gxml2json')
 var express = require('express')
+var cors = require('cors')
 var app = express()
 var PORT = process.env.PORT || 80
+
+// CORS (Cross-Origin Resource Sharing) Setting
+var corsOptions = {
+    origin: 'http://localhost:8081',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 var usersApi = require('./controller/usersApi.js')
 var winpc32Api = require('./controller/winpc32Api.js')
@@ -18,21 +25,28 @@ app.use(winpc32Api)
 app.use(lightswitchApi)
 
 // GPX API
-app.get('/keyText', function (req, res) {
-    res.send(gpx.keyText)
+app.get('/api/gpx', cors(corsOptions), function (req, res) {
+    res.send(gpx)
 })
-app.get('/languagetable', function (req, res) {
+app.get('/api/gpxDocument', cors(corsOptions), function (req, res) {
+    res.send(gpx.gpxDocument)
+})
+app.get('/api/languagetable', cors(corsOptions), function (req, res) {
     res.send(gpx.languageTable)
 })
-app.get('/gpx', function (req, res) {
-    res.send(gpx)
+app.get('/api/keyText', cors(corsOptions), function (req, res) {
+    res.send(gpx.keyText)
+})
+app.get('/api/pageFrame', cors(corsOptions), function (req, res) {
+    res.send(gpx.pageFrame)
+})
+app.get('/api/button', cors(corsOptions), function (req, res) {
+    res.send(gpx.button)
 })
 // GPX API
 
 app.listen(PORT, function (err) {
     if (err) throw err
     console.log("Server has been built on http://localhost:%d/", PORT)
-    console.log("Get GPX object by API: http://localhost:%d/gpx", PORT)
-    console.log("Get keytext by API: http://localhost:%d/keytext", PORT)
-    console.log("Get languagetable by API: http://localhost:%d/languagetable", PORT)
+    console.log("Get GPX object by API: http://localhost:%d/api/gpx", PORT)
 })
