@@ -1,32 +1,32 @@
 <template>
-	<div class="container">
-		<!--User Input Block-->
-		<div class="block">
-			<fieldset>
-				<legend>Control</legend>
-				<button class="gpx-button" @click="initWinpc32">初始化</button>
-				<br />
-				<button class="gpx-button" @click="Reduce">遞減</button>
-				<button class="gpx-button" @click="Increase">遞增</button>
-				<br />
-				<div class="bit-watcher">
-					<span>Port {{ watchedBit }}:</span>
-					<span>{{ uValue }}</span>
-				</div>
-				<div>
-					<gpx-switch id="1" port-number="2048"></gpx-switch>
-					<gpx-switch id="2" port-number="2049"></gpx-switch>
-					<gpx-switch id="3" port-number="2050"></gpx-switch>
-					<gpx-switch id="4" port-number="2051"></gpx-switch>
-					<gpx-switch id="5" port-number="2052"></gpx-switch>
-					<gpx-switch id="6" port-number="2053"></gpx-switch>
-					<gpx-switch id="7" port-number="2054"></gpx-switch>
-					<gpx-switch id="8" port-number="2055"></gpx-switch>
-				</div>
-			</fieldset>
-		</div>
+    <div class="container">
+        <!--User Input Block-->
+        <div class="block">
+            <fieldset>
+                <legend>Control</legend>
+                <button class="gpx-button" @click="initWinpc32">初始化</button>
+                <br />
+                <button class="gpx-button" @click="Reduce">遞減</button>
+                <button class="gpx-button" @click="Increase">遞增</button>
+                <br />
+                <div class="bit-watcher">
+                    <span>Port {{ watchedBit }}:</span>
+                    <span>{{ uValue }}</span>
+                </div>
+                <div>
+                    <gpx-switch id="1" port-number="2048"></gpx-switch>
+                    <gpx-switch id="2" port-number="2049"></gpx-switch>
+                    <gpx-switch id="3" port-number="2050"></gpx-switch>
+                    <gpx-switch id="4" port-number="2051"></gpx-switch>
+                    <gpx-switch id="5" port-number="2052"></gpx-switch>
+                    <gpx-switch id="6" port-number="2053"></gpx-switch>
+                    <gpx-switch id="7" port-number="2054"></gpx-switch>
+                    <gpx-switch id="8" port-number="2055"></gpx-switch>
+                </div>
+            </fieldset>
+        </div>
 
-	</div>
+    </div>
 </template>
 
 <script>
@@ -36,6 +36,8 @@ export default {
     name: 'Winpc32',
     data() {
         return {
+            // urlOrigin: '',   // Production version
+            urlOrigin: 'http://localhost', // Development version
             watchedId: 9,
             watchedBit: 2091,
             uValue: 0
@@ -46,7 +48,7 @@ export default {
             var startTime = Date.now()
             console.log('Initail Start')
             var xhr = new XMLHttpRequest()
-            var url = '/winpc32'
+            var url = this.urlOrigin + '/winpc32'
             xhr.open('POST', url, true)
             xhr.send()
             xhr.onreadystatechange = function() {
@@ -60,7 +62,7 @@ export default {
         Increase() {
             var vm = this
             var xhr = new XMLHttpRequest()
-            var url = '/winpc32/add'
+            var url = this.urlOrigin + '/winpc32/add'
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     vm.uValue = JSON.parse(this.responseText).uValue
@@ -73,7 +75,7 @@ export default {
         Reduce() {
             var vm = this
             var xhr = new XMLHttpRequest()
-            var url = '/winpc32/reduce'
+            var url = this.urlOrigin + '/winpc32/reduce'
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     vm.uValue = JSON.parse(this.responseText).uValue
@@ -86,7 +88,7 @@ export default {
         getLightValue(id, bit, value) {
             var vm = this
             var xhr = new XMLHttpRequest()
-            var url = '/lightswitch/' + id
+            var url = this.urlOrigin + '/lightswitch/' + id
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var address = JSON.parse(this.responseText).Address
@@ -100,7 +102,7 @@ export default {
         },
         setLightValue(id, value) {
             var xhr = new XMLHttpRequest()
-            var url = '/lightswitch/' + id + '/' + value
+            var url = this.urlOrigin + '/lightswitch/' + id + '/' + value
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(JSON.parse(this.responseText))

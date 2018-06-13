@@ -12,6 +12,11 @@ import Chatroom from '@/components/Chatroom'
 import SampleControl from '@/components/SampleControl'
 import Winpc32 from "@/components/Winpc32"
 import PageFrame from "@/components/PageFrame"
+import Void from "@/components/ui/Void"
+import Void2 from "@/components/ui/Void2"
+import Void3 from "@/components/ui/Void3"
+import Void4 from "@/components/ui/Void4"
+import Void5 from "@/components/ui/Void5"
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -42,7 +47,34 @@ export default new Router({
 				{
 					path: 'Gpx',
 					name: 'Gpx',
-					component: PageFrame
+					component: PageFrame,
+					children: [
+						{
+							path: '',
+							name: 'UserInput',
+							component: Void,
+						},
+						{
+							path: 'ColorControl',
+							name: 'ColorControl',
+							component: Void2,
+						},
+						{
+							path: 'Output',
+							name: 'Output',
+							component: Void3,
+						},
+						{
+							path: 'FigureControl',
+							name: 'FigureControl',
+							component: Void4,
+						},
+						{
+							path: 'Miscellaneous',
+							name: 'Miscellaneous',
+							component: Void5,
+						},
+					]
 				}
 			]
 		},

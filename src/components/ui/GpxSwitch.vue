@@ -1,12 +1,12 @@
 <template>
-	<div class="switchSet">
-		<div class="switchText">Port {{ portNumber }}:</div>
-		<label class="switch">
-			<input v-bind:id="id" type="checkbox" v-bind:checked="isChecked" @click="onSwitchClick">
-			<span class="slider round"></span>
-		</label>
-		<span class="light" v-bind:id="lightId"></span>
-	</div>
+    <div class="switchSet">
+        <div class="switchText">Port {{ portNumber }}:</div>
+        <label class="switch">
+            <input v-bind:id="id" type="checkbox" v-bind:checked="isChecked" @click="onSwitchClick">
+            <span class="slider round"></span>
+        </label>
+        <span class="light" v-bind:id="lightId"></span>
+    </div>
 </template>
 
 <script>
@@ -26,6 +26,8 @@ export default {
     },
     data() {
         return {
+            // urlOrigin: '',   // Production version
+            urlOrigin: 'http://localhost', // Development version
             isChecked: false
         }
     },
@@ -41,7 +43,7 @@ export default {
         onSwitchClick(id) {
             var vm = this
             var xhr = new XMLHttpRequest()
-            var url = '/winpc32/light-switch/' + vm.id
+            var url = vm.urlOrigin + '/winpc32/light-switch/' + vm.id
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var isTurnOn = JSON.parse(this.responseText).bValue
@@ -52,8 +54,9 @@ export default {
             xhr.send()
         },
         setLightSwitchState(id, isTurnOn) {
+            var vm = this
             var xhr = new XMLHttpRequest()
-            var url = '/lightswitch/' + id + '/' + isTurnOn
+            var url = vm.urlOrigin + '/lightswitch/' + id + '/' + isTurnOn
             xhr.open('GET', url, true)
             xhr.send()
             xhr.onreadystatechange = function() {

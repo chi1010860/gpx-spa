@@ -1,55 +1,173 @@
 <template>
-	<div class="page-frame">
-
-	</div>
+    <div class="router-main">
+        <div class="page-frame">
+            <div class="window">
+                <router-view></router-view>
+            </div>
+            <div class="button-navbar">
+                <router-link class="gpx-button" :to="{name: 'UserInput'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'ColorControl'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'Output'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'FigureControl'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'Miscellaneous'}" exact></router-link>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
     name: 'PageFrame',
     data() {
-        return {
-            //   URL: "/api/gpxDocument"
-            URL: 'http://localhost/api/gpxDocument'
-        }
+        return {}
     },
     methods: {
         getApiByXMLHttpRequest() {
-            var vm = this
+            let URL = 'http://localhost/api/gpxDocument'
             var xhttp = new XMLHttpRequest()
-            xhttp.open('GET', vm.URL, true)
+            xhttp.open('GET', URL, true)
             xhttp.send()
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    var data = this.responseText
-                    console.log(data)
+                    var result = this.responseText
+                    console.log(result)
                 }
             }
         },
-        getApiByFetch: async function() {
-            var vm = this
-            let res = await fetch(vm.URL)
+        getGpxDocument: async function() {
+            let URL = 'http://localhost/api/gpxDocument'
+            let res = await fetch(URL)
             if (res.ok) {
-                let data = await res.json()
-                console.log(res)
-                console.log(data)
+                let result = await res.json()
+                this.drawWindow(result)
             } else {
                 let text = await res.text()
                 console.log(text)
             }
+        },
+        getPageFrame: async function() {
+            let URL = 'http://localhost/api/pageframe'
+            let res = await fetch(URL)
+            if (res.ok) {
+                let result = await res.json()
+                this.drawButtonNavbar(result)
+            } else {
+                let text = await res.text()
+                console.log(text)
+            }
+        },
+        getButton: async function() {
+            let URL = 'http://localhost/api/button'
+            let res = await fetch(URL)
+            if (res.ok) {
+                let result = await res.json()
+                this.drawButton(result)
+            } else {
+                let text = await res.text()
+                console.log(text)
+            }
+        },
+        getKeyText: async function(btns, pData) {
+            let URL = 'http://localhost/api/keytext'
+            let res = await fetch(URL)
+            if (res.ok) {
+                let result = await res.json()
+                this.drawKeyText(result, btns, pData)
+            } else {
+                let text = await res.text()
+                console.log(text)
+            }
+        },
+        drawWindow(data) {
+            // define the color of main
+            let main = document.getElementsByClassName('router-main')[0]
+            main.style.backgroundColor = data.colorVoid
+
+            // define the dimentions of PageFrame
+            let pf = document.getElementsByClassName('page-frame')[0]
+            pf.style.width = data.rect[2].toString() + 'px'
+            pf.style.height = data.rect[3].toString() + 'px'
+            pf.style.backgroundColor = data.colorPaper
+        },
+        drawButtonNavbar(data) {
+            // computed the size of ButtonNavbar and window
+            let winWidth = data[0].rect[2]
+            let winHeight = data[0].rect[1]
+            let bnWidth = data[0].rect[2] - data[0].rect[0]
+            let bnHeight = data[0].rect[3] - data[0].rect[1]
+
+            // define the window
+            let win = document.getElementsByClassName('window')[0]
+            win.style.width = winWidth.toString() + 'px'
+            win.style.height = winHeight.toString() + 'px'
+
+            // define the ButtonNavbar
+            let bn = document.getElementsByClassName('button-navbar')[0]
+            bn.style.width = bnWidth.toString() + 'px'
+            bn.style.height = bnHeight.toString() + 'px'
+            bn.style.backgroundColor = data[0].brushColor
+        },
+        drawButton(data) {
+            // define the buttons
+            let btns = document.getElementsByClassName('gpx-button')
+            for (let i in data) {
+                btns[i].style.width = data[i].width.toString() + 'px'
+                btns[i].style.height = data[i].height.toString() + 'px'
+                btns[i].style.backgroundColor = data[i].brushColor
+                btns[i].style.border = '1px solid' + data[i].penColor
+            }
+            this.getKeyText(btns, data)
+        },
+        drawKeyText(data, arrTarget, pData) {
+            for (let i = 0; i < arrTarget.length; i++) {
+                let mi = pData[i].messageIndex
+                console.log(mi)
+                let objKeyText = data.find(item => item.id === mi)
+                arrTarget[i].innerHTML = objKeyText.original
+            }
+            console.log(data)
+            console.log(arrTarget)
         }
     },
     created() {
-        // this.getApiByXMLHttpRequest()
-        this.getApiByFetch()
+        this.getGpxDocument()
+        this.getPageFrame()
+        this.getButton()
     }
 }
 </script>
 
 <style>
+.router-main {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+}
 .page-frame {
-    width: 800px;
-    height: 600px;
-    border: 2px solid SEAGREEN;
+    width: 100px;
+    height: 100px;
+}
+.window {
+    border: 1px solid SEAGREEN;
+}
+.button-navbar {
+    display: flex;
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.gpx-button {
+    margin-right: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 </style>

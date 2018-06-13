@@ -113,6 +113,7 @@ function getPageFrame(_gxml) {
 		// Defination of item in this scope
 		var item = {
 			pageTitle: "",
+			rect: [],
 			tagname: "",
 			message: "",
 			textColor: "",
@@ -120,7 +121,7 @@ function getPageFrame(_gxml) {
 			brushColor: "",
 			titleSize: 0,
 			yGrid: 0,
-			drawingOP: "",
+			drawingOP: ""
 		}
 
 		// get pageTitle
@@ -128,6 +129,14 @@ function getPageFrame(_gxml) {
 		pageTitleTag = pageTitleTag.match(/".*"/)[0]
 		pageTitleTag = pageTitleTag.match(/\w+/)[0]
 		item.pageTitle = pageTitleTag
+
+		// get rect
+		var rectTag = targetTag[i].match(/rect=".*?"/g)[0]
+		var _rect = rectTag.match(/[0-9]+/g)
+		for (let key in _rect) {
+			_rect[key] = parseInt(_rect[key])
+		}
+		item.rect = _rect
 
 		// get tagname
 		var tagnameTag = targetTag[i].match(/tagname=".*?"/)[0]
@@ -194,6 +203,8 @@ function getButton(_gxml) {
 		// Defination of item in this scope
 		var item = {
 			rect: [],
+			width: 0,
+			height: 0,
 			penColor: "",
 			brushColor: "",
 			tagname: "",
@@ -212,12 +223,16 @@ function getButton(_gxml) {
 		}
 
 		// get rect
-		rectTag = buttonTag[i].match(/rect=".*?"/g)[0]
+		var rectTag = buttonTag[i].match(/rect=".*?"/g)[0]
 		var _rect = rectTag.match(/[0-9]+/g)
 		for (let key in _rect) {
 			_rect[key] = parseInt(_rect[key])
 		}
 		item.rect = _rect
+
+		// get size
+		item.width = item.rect[2] - item.rect[0]
+		item.height = item.rect[3] - item.rect[1]
 
 		// get penColor
 		var penColorTag = buttonTag[i].match(/pen-color=".*?"/g)[0]
