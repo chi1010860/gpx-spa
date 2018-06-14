@@ -1,5 +1,5 @@
 <template>
-    <div class="router-main">
+    <div class="gpx">
         <div class="page-frame">
             <div class="window">
                 <router-view></router-view>
@@ -80,7 +80,7 @@ export default {
         },
         drawWindow(data) {
             // define the color of main
-            let main = document.getElementsByClassName('router-main')[0]
+            let main = document.getElementsByClassName('gpx')[0]
             main.style.backgroundColor = data.colorVoid
 
             // define the dimentions of PageFrame
@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style>
-.router-main {
+.gpx {
     width: 100%;
     height: 100%;
     background-color: #ffffff;

@@ -1,22 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-/* pages */
+/* Pages */
 import Home from '@/pages/Home'
 import Miscellaneous from '@/pages/Miscellaneous'
-import Todo from '@/components/Todo'
-import Markdown from '@/components/Markdown'
-import ProductTester from '@/components/ProductTester'
 import Loading from '@/pages/Loading'
-import Chatroom from '@/components/Chatroom'
-import SampleControl from '@/components/SampleControl'
-import Winpc32 from "@/components/Winpc32"
-import PageFrame from "@/components/PageFrame"
-import Void from "@/components/ui/Void"
-import Void2 from "@/components/ui/Void2"
-import Void3 from "@/components/ui/Void3"
-import Void4 from "@/components/ui/Void4"
-import Void5 from "@/components/ui/Void5"
+
+/* Sub pages */
+import SampleControl from '@/pages/home/SampleControl'
+import Winpc32 from "@/pages/home/Winpc32"
+import Todo from '@/pages/miscellaneous/Todo'
+import Markdown from '@/pages/miscellaneous/Markdown'
+import ProductTester from '@/pages/miscellaneous/ProductTester'
+import Chatroom from '@/pages/miscellaneous/Chatroom'
+
+/* GPX pages */
+import Gpx from "@/pages/home/Gpx"
+import Void from "@/components/gpx_window/Void"
+import Void2 from "@/components/gpx_window/Void2"
+import Void3 from "@/components/gpx_window/Void3"
+import Void4 from "@/components/gpx_window/Void4"
+import Void5 from "@/components/gpx_window/Void5"
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -47,7 +51,7 @@ export default new Router({
 				{
 					path: 'Gpx',
 					name: 'Gpx',
-					component: PageFrame,
+					component: Gpx,
 					children: [
 						{
 							path: '',
@@ -75,7 +79,7 @@ export default new Router({
 							component: Void5,
 						},
 					]
-				}
+				},
 			]
 		},
 		{
@@ -83,7 +87,7 @@ export default new Router({
 			component: Miscellaneous,
 			children: [
 				{
-					path: '/',
+					path: '',
 					name: 'Miscellaneous',
 					component: Todo
 				},
