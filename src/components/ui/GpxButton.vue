@@ -1,5 +1,5 @@
 <template>
-	<button @click="EnglishSetting">{{ MSG }}</button>
+    <button @click="EnglishSetting">{{ MSG }}</button>
 </template>
 
 <script>
@@ -7,7 +7,20 @@ export default {
     name: 'GpxButton',
     data() {
         return {
-            MSG: 'User Input'
+            MSG: 'User Input',
+            tagname: '',
+            controllink: {
+                type: {
+                    discrete
+                }
+            },
+            discrete: {
+                direct: 'direct',
+                reverse: 'reverse',
+                toggle: 'toggle',
+                reset: 'reset',
+                set: 'set'
+            }
         }
     },
     methods: {}

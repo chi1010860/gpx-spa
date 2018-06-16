@@ -9,7 +9,7 @@ var corsOptions = {
     origin: 'http://localhost:8081',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
+// Import API
 var usersApi = require('./controller/usersApi.js')
 var winpc32Api = require('./controller/winpc32Api.js')
 var lightswitchApi = require('./controller/lightswitchApi.js')
