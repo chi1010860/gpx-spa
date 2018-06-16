@@ -16,26 +16,15 @@
 </template>
 
 <script>
+import gURL from '@/router/url.js'
 export default {
     name: 'PageFrame',
     data() {
         return {}
     },
     methods: {
-        getApiByXMLHttpRequest() {
-            let URL = 'http://localhost/api/gpxDocument'
-            var xhttp = new XMLHttpRequest()
-            xhttp.open('GET', URL, true)
-            xhttp.send()
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var result = this.responseText
-                    console.log(result)
-                }
-            }
-        },
         getGpxDocument: async function() {
-            let URL = 'http://localhost/api/gpxDocument'
+            let URL = gURL + '/api/gpxDocument'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -46,7 +35,7 @@ export default {
             }
         },
         getPageFrame: async function() {
-            let URL = 'http://localhost/api/pageframe'
+            let URL = gURL + '/api/pageframe'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -57,7 +46,7 @@ export default {
             }
         },
         getButton: async function() {
-            let URL = 'http://localhost/api/button'
+            let URL = gURL + '/api/button'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -68,7 +57,7 @@ export default {
             }
         },
         getKeyText: async function(btns, pData) {
-            let URL = 'http://localhost/api/keytext'
+            let URL = gURL + '/api/keytext'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -133,6 +122,9 @@ export default {
         this.getGpxDocument()
         this.getPageFrame()
         this.getButton()
+    },
+    mounted() {
+        console.log(gURL)
     }
 }
 </script>
