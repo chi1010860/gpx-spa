@@ -110,21 +110,15 @@ export default {
         drawKeyText(data, arrTarget, pData) {
             for (let i = 0; i < arrTarget.length; i++) {
                 let mi = pData[i].messageIndex
-                console.log(mi)
                 let objKeyText = data.find(item => item.id === mi)
                 arrTarget[i].innerHTML = objKeyText.original
             }
-            console.log(data)
-            console.log(arrTarget)
         }
     },
     created() {
         this.getGpxDocument()
         this.getPageFrame()
         this.getButton()
-    },
-    mounted() {
-        console.log(gURL)
     }
 }
 </script>

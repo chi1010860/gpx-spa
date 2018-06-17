@@ -16,7 +16,7 @@ import Chatroom from '@/pages/miscellaneous/Chatroom'
 
 /* GPX pages */
 import Gpx from "@/pages/home/Gpx"
-import Void from "@/components/gpx_window/Void"
+import UserControl from "@/components/gpx_window/UserControl"
 import Void2 from "@/components/gpx_window/Void2"
 import Void3 from "@/components/gpx_window/Void3"
 import Void4 from "@/components/gpx_window/Void4"
@@ -56,7 +56,7 @@ export default new Router({
 						{
 							path: '',
 							name: 'UserInput',
-							component: Void,
+							component: UserControl,
 						},
 						{
 							path: 'ColorControl',

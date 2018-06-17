@@ -1,14 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var cors = require('cors')
+var corsOptions = require('./corsOptions')
 var db = require('../model/db')
 var sql = require('mssql')
-
-// CORS (Cross-Origin Resource Sharing) Setting
-var corsOptions = {
-    origin: 'http://localhost:8081',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 
 // RESTful API for lightswitch
 // GET /lightswitch 查詢全部

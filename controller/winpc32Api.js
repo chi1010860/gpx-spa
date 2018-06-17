@@ -1,13 +1,8 @@
 var express = require('express')
 var cors = require('cors')
+var corsOptions = require('./corsOptions')
 var router = express.Router()
 var winpc32 = require('../model/winpc32.js')
-
-// CORS (Cross-Origin Resource Sharing) Setting
-var corsOptions = {
-    origin: 'http://localhost:8081',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 
 // Web API for winpc32
 // POST /winpc32

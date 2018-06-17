@@ -1,14 +1,10 @@
 var gpx = require('./model/gxml2json')
 var express = require('express')
 var cors = require('cors')
+var corsOptions = require('./controller/corsOptions')
 var app = express()
 var PORT = process.env.PORT || 80
 
-// CORS (Cross-Origin Resource Sharing) Setting
-var corsOptions = {
-    origin: 'http://localhost:8081',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 // Import API
 var usersApi = require('./controller/usersApi.js')
 var winpc32Api = require('./controller/winpc32Api.js')
