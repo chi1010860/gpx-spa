@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import gURL from '@/router/url'
+
 export default {
     name: 'GpxSwitch',
     props: {
@@ -26,8 +28,6 @@ export default {
     },
     data() {
         return {
-            // urlOrigin: '',   // Production version
-            urlOrigin: 'http://localhost', // Development version
             isChecked: false
         }
     },
@@ -43,7 +43,7 @@ export default {
         onSwitchClick(id) {
             var vm = this
             var xhr = new XMLHttpRequest()
-            var url = vm.urlOrigin + '/winpc32/light-switch/' + vm.id
+            var url = gURL + '/winpc32/light-switch/' + vm.id
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var isTurnOn = JSON.parse(this.responseText).bValue
@@ -56,7 +56,7 @@ export default {
         setLightSwitchState(id, isTurnOn) {
             var vm = this
             var xhr = new XMLHttpRequest()
-            var url = vm.urlOrigin + '/lightswitch/' + id + '/' + isTurnOn
+            var url = gURL + '/lightswitch/' + id + '/' + isTurnOn
             xhr.open('GET', url, true)
             xhr.send()
             xhr.onreadystatechange = function() {

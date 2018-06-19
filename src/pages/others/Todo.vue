@@ -1,23 +1,25 @@
 <template>
-	<div class="container">
-		<div id="myDIV" class="header">
-			<h2>Todo List</h2>
-			<div class="input-line">
-				<input type="text" id="myInput" placeholder="要做的事..." v-model="newTodo" v-on:keyup="addKeyPress">
-				<span id="btnAdd" v-on:click="newElement" class="addBtn">&plus;</span>
-			</div>
-		</div>
+    <div class="container">
+        <div id="myDIV" class="header">
+            <h2>Todo List</h2>
+            <div class="input-line">
+                <input type="text" id="myInput" placeholder="要做的事..." v-model="newTodo" v-on:keyup="addKeyPress">
+                <span id="btnAdd" v-on:click="newElement" class="addBtn">&plus;</span>
+            </div>
+        </div>
 
-		<ul id="myUL">
-			<li v-for="(item, index) in todos" v-bind:key="item.id" v-bind:id="index" v-on:click="check">
-				{{ item.todo }}
-				<span class="close" v-bind:id="index" v-on:click="cancel">&times;</span>
-			</li>
-		</ul>
-	</div>
+        <ul id="myUL">
+            <li v-for="(item, index) in todos" v-bind:key="item.id" v-bind:id="index" v-on:click="check">
+                {{ item.todo }}
+                <span class="close" v-bind:id="index" v-on:click="cancel">&times;</span>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
+import config from '@/assets/js/firebase.js'
+firebase.initializeApp(config)
 export default {
     name: 'Todo',
     data() {

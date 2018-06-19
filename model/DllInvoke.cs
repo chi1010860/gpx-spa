@@ -60,11 +60,20 @@ namespace Winpc32
         public static UInt32 MyGetBit(UInt32 nAddress)
         {
             return dll.GDEGetBit(48, nAddress);
-        }
+        }     
 
         public static UInt32 MySetBit(UInt32 nAddress, UInt32 nValue)
         {
             return dll.GDESetBit(48, nAddress, nValue);
+        }
+        public static UInt32 MyGetBit_A(UInt32 nAddress)
+        {
+            return dll.GDEGetBit(5, nAddress);
+        }
+
+        public static UInt32 MySetBit_A(UInt32 nAddress, UInt32 nValue)
+        {
+            return dll.GDESetBit(5, nAddress, nValue);
         }
     }
 
@@ -105,6 +114,35 @@ namespace Winpc32
                 UInt32 anAddress = (uint)input.address;
                 UInt32 aValue = (uint)input.value;
                 return Helper.MySetBit(anAddress, aValue);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+                return null;
+            }
+        }
+
+        public async Task<object> MyGetBit_A(dynamic input)
+        {
+            try
+            {
+                UInt32 anAddress = (uint)input.address;
+                return Helper.MyGetBit_A(anAddress);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "," + ex.StackTrace);
+                return null;
+            }
+        }
+
+        public async Task<object> MySetBit_A(dynamic input)
+        {
+            try
+            {
+                UInt32 anAddress = (uint)input.address;
+                UInt32 aValue = (uint)input.value;
+                return Helper.MySetBit_A(anAddress, aValue);
             }
             catch (Exception ex)
             {

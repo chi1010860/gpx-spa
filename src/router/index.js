@@ -3,16 +3,16 @@ import Router from 'vue-router'
 
 /* Pages */
 import Home from '@/pages/Home'
-import Miscellaneous from '@/pages/Miscellaneous'
+import Others from '@/pages/Others'
 import Loading from '@/pages/Loading'
 
 /* Sub pages */
 import SampleControl from '@/pages/home/SampleControl'
 import Winpc32 from "@/pages/home/Winpc32"
-import Todo from '@/pages/miscellaneous/Todo'
-import Markdown from '@/pages/miscellaneous/Markdown'
-import ProductTester from '@/pages/miscellaneous/ProductTester'
-import Chatroom from '@/pages/miscellaneous/Chatroom'
+import Todo from '@/pages/Others/Todo'
+import Markdown from '@/pages/Others/Markdown'
+import ProductTester from '@/pages/Others/ProductTester'
+import Chatroom from '@/pages/Others/Chatroom'
 
 /* GPX pages */
 import Gpx from "@/pages/home/Gpx"
@@ -54,7 +54,7 @@ export default new Router({
 					component: Gpx,
 					children: [
 						{
-							path: '',
+							path: 'UserInput',
 							name: 'UserInput',
 							component: UserControl,
 						},
@@ -83,12 +83,12 @@ export default new Router({
 			]
 		},
 		{
-			path: '/Miscellaneous',
-			component: Miscellaneous,
+			path: '/Others',
+			component: Others,
 			children: [
 				{
 					path: '',
-					name: 'Miscellaneous',
+					name: 'Others',
 					component: Todo
 				},
 				{
