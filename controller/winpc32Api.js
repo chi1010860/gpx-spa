@@ -28,9 +28,16 @@ router.post('/winpc32', cors(corsOptions), function (req, res) {
         }
     }
 
-    console.log("Initial completed")
-    res.send("Initial completed")
-});
+    console.log('Initial completed')
+    res.send('Initial completed')
+})
+
+// GET /winpc32/init
+router.get('/winpc32/init', cors(corsOptions), function (req, res) {
+    winpc32.MyInitial()
+    console.log('Winpc32 initial completed')
+    res.send('Winpc32 initial completed')
+})
 
 // POST /winpc32/add
 router.post('/winpc32/add', cors(corsOptions), function (req, res) {
@@ -53,7 +60,7 @@ router.post('/winpc32/add', cors(corsOptions), function (req, res) {
 
     console.log(data)
     res.send(data)
-});
+})
 
 // POST /winpc32/reduce
 router.post('/winpc32/reduce', cors(corsOptions), function (req, res) {
@@ -76,7 +83,7 @@ router.post('/winpc32/reduce', cors(corsOptions), function (req, res) {
 
     console.log(data)
     res.send(data)
-});
+})
 
 // GET /winpc32/light-switch/id
 router.get('/winpc32/light-switch/:id', cors(corsOptions), function (req, res) {
@@ -121,6 +128,68 @@ router.get('/winpc32/light-switch/:id', cors(corsOptions), function (req, res) {
 
     console.log(data)
     res.send(data)
-});
+})
+
+// POST /winpc32/button-state
+router.post('/winpc32/button-state', cors(corsOptions), function (req, res) {
+    console.log(req.body)
+    let watchBit = req.body.tagname
+    let getbitInput = {
+        address: watchBit
+    }
+
+    let bValue = winpc32.MyGetBit(getbitInput)
+    if (bValue == 0 || bValue == 1) {
+        if (bValue == 0) {
+            bValue = 1
+        }
+        else if (bValue == 1) {
+            bValue = 0
+        }
+    }
+    else { bValue = 0; }
+
+    let setbitInput = {
+        address: watchBit,
+        value: bValue
+    }
+
+    winpc32.MySetBit(setbitInput)
+    bValue = winpc32.MyGetBit(getbitInput)
+    let data = { bValue: bValue }
+
+    console.log(data)
+    res.send(data)
+})
+
+// POST /winpc32/changeBit
+router.post('/winpc32/changeBit', cors(corsOptions), function (req, res) {
+    console.log('req.body:%o', req.body)
+    winpc32.MySetBit({
+        address: req.body.tagname,
+        value: req.body.state ? 1 : 0
+    })
+    let bValue = winpc32.MyGetBit({
+        address: req.body.tagname
+    })
+    let data = { bValue: bValue }
+    console.log(data)
+    res.send(data)
+})
+
+// POST /winpc32/changeBit_A
+router.post('/winpc32/changeBit_A', cors(corsOptions), function (req, res) {
+    console.log('req.body:%o', req.body)
+    winpc32.MySetBit_A({
+        address: req.body.tagname,
+        value: req.body.state ? 1 : 0
+    })
+    let bValue = winpc32.MyGetBit_A({
+        address: req.body.tagname
+    })
+    let data = { bValue: bValue }
+    console.log(data)
+    res.send(data)
+})
 
 module.exports = router

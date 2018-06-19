@@ -12,23 +12,35 @@ fs.readFile(readFilePath, (err, data) => {
 })
 
 // 單獨測試此檔案時須注意路徑
+var MyInitial = edge.func({
+    assemblyFile: './HALNodeServer/Winpc32.dll',
+    typeName: 'Winpc32.Startup',
+    methodName: 'MyInitial'
+})
+
 var MyGetBit = edge.func({
     assemblyFile: './HALNodeServer/Winpc32.dll',
     typeName: 'Winpc32.Startup',
     methodName: 'MyGetBit'
-});
+})
 
 var MySetBit = edge.func({
     assemblyFile: './HALNodeServer/Winpc32.dll',
     typeName: 'Winpc32.Startup',
     methodName: 'MySetBit'
-});
+})
 
-var MyInitial = edge.func({
+var MyGetBit_A = edge.func({
     assemblyFile: './HALNodeServer/Winpc32.dll',
     typeName: 'Winpc32.Startup',
-    methodName: 'MyInitial'
-});
+    methodName: 'MyGetBit_A'
+})
+
+var MySetBit_A = edge.func({
+    assemblyFile: './HALNodeServer/Winpc32.dll',
+    typeName: 'Winpc32.Startup',
+    methodName: 'MySetBit_A'
+})
 
 var winpc32 = {
     MyInitial: function () {
@@ -37,19 +49,19 @@ var winpc32 = {
                 console.log('MyInitial Error:')
                 throw err
             }
-            // console.log("MyInitial Invoke:");
-            // console.log(result);
+            // console.log("MyInitial Invoke:")
+            // console.log(result)
         });
     },
     MyGetBit: function (getbitInput) {
         var jsResult;
         MyGetBit(getbitInput, function (err, result) {
             if (err) {
-                console.log('MyInitial Error:')
+                console.log('MyGetBit Error:')
                 throw err
             }
             // console.log("MyGetBit Invoke:")
-            // console.log(result);
+            // console.log(result)
             jsResult = result
         });
         return jsResult
@@ -57,10 +69,33 @@ var winpc32 = {
     MySetBit: function (setbitInput) {
         MySetBit(setbitInput, function (err, result) {
             if (err) {
-                console.log('MyInitial Error:')
+                console.log('MySetBit Error:')
                 throw err
             }
             // console.log("MySetBit Invoke:")
+            // console.log(result)
+        });
+    },
+    MyGetBit_A: function (getbitInput) {
+        var jsResult;
+        MyGetBit_A(getbitInput, function (err, result) {
+            if (err) {
+                console.log('MyGetBit_A Error:')
+                throw err
+            }
+            // console.log("MyGetBit_A Invoke:")
+            // console.log(result)
+            jsResult = result
+        });
+        return jsResult
+    },
+    MySetBit_A: function (setbitInput) {
+        MySetBit_A(setbitInput, function (err, result) {
+            if (err) {
+                console.log('MySetBit_A Error:')
+                throw err
+            }
+            // console.log("MySetBit_A Invoke:")
             // console.log(result);
         });
     }

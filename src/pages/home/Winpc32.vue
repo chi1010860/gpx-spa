@@ -21,7 +21,7 @@
                     <gpx-switch id="5" port-number="2052"></gpx-switch>
                     <gpx-switch id="6" port-number="2053"></gpx-switch>
                     <gpx-switch id="7" port-number="2054"></gpx-switch>
-                    <gpx-switch id="8" port-number="2055"></gpx-switch>
+                    <gpx-switch id="8" port-number="A0024"></gpx-switch>
                 </div>
             </fieldset>
         </div>

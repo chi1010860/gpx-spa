@@ -26,6 +26,10 @@ export default {
             isSidebarOpen: true
         }
     },
+    components: {
+        NavBar,
+        MiscSideBar
+    },
     computed: {
         classList: function() {
             this.isMobile = window.innerWidth < 500
@@ -63,13 +67,6 @@ export default {
             vm.isSidebarOpen = false
         }
         console.log(vm.isSidebarOpen)
-    },
-    updated() {
-        this.sidebarWidth()
-    },
-    components: {
-        NavBar,
-        MiscSideBar
     }
 }
 </script>
