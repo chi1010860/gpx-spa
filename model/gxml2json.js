@@ -13,6 +13,7 @@ fs.readFile(filePath, function (err, data) {
 	gpx.keyText = getKeyText(gxml)
 	gpx.pageFrame = getPageFrame(gxml)
 	gpx.button = getButton(gxml)
+	gpx.title = getTitle(gxml)
 
 	// debug
 	// console.log(gpx.pageFrame)
@@ -301,4 +302,8 @@ function getButton(_gxml) {
 		_button.push(item)
 	}
 	return _button
+}
+
+function getTitle(_gxml) {
+
 }

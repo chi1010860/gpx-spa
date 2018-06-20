@@ -17,8 +17,7 @@ export default {
     },
     data() {
         return {
-            eventName: 'eventBy_' + this.controlLink.tagname,
-            bValue: 0
+            eventName: 'eventBy_' + this.controlLink.tagname
         }
     },
     computed: {
@@ -107,10 +106,9 @@ export default {
             }
         }
     },
-    created() {
+    beforeMount() {
         this.changeBit_A()
-    },
-    mounted() {}
+    }
 }
 </script>
 

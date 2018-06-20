@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>User Input</div>
+        <gpx-title :title-name="sonTitleName"></gpx-title>
         <gpx-button :control-link="controlLink1"></gpx-button>
         <gpx-display :control-link="controlLink1"></gpx-display><br>
         <gpx-button :control-link="controlLink2"></gpx-button>
@@ -15,15 +15,22 @@
 
 <script>
 import gURL from '@/router/url'
+import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxDisplay from '@/components/gpx_ui/GpxDisplay'
 
 export default {
-    name: 'UserInput',
+    props: {
+        titleName: {
+            type: String,
+            default: 'User Input', // TODO: Use AJAX to get the title name
+            required: false
+        }
+    },
     data() {
         return {
-            demo: 'demo',
             // TODO: Use AJAX to get the controlLink
+            sonTitleName: this.titleName,
             controlLink1: {
                 state: false,
                 msg: 'Direct',
@@ -62,6 +69,7 @@ export default {
         }
     },
     components: {
+        GpxTitle,
         GpxButton,
         GpxDisplay
     },
@@ -81,7 +89,7 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
         this.winpc32Init()
     }
 }

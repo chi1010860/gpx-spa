@@ -15,12 +15,13 @@ import ProductTester from '@/pages/Others/ProductTester'
 import Chatroom from '@/pages/Others/Chatroom'
 
 /* GPX pages */
-import Gpx from "@/pages/home/Gpx"
-import UserControl from "@/components/gpx_window/UserControl"
-import Void2 from "@/components/gpx_window/Void2"
-import Void3 from "@/components/gpx_window/Void3"
-import Void4 from "@/components/gpx_window/Void4"
-import Void5 from "@/components/gpx_window/Void5"
+import Gpx from '@/pages/home/Gpx'
+import Void from '@/components/gpx_window/Void'
+import window1 from '@/components/gpx_window/window1'
+import window2 from '@/components/gpx_window/window2'
+import window3 from '@/components/gpx_window/window3'
+import window4 from '@/components/gpx_window/window4'
+import window5 from '@/components/gpx_window/window5'
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -31,13 +32,9 @@ export default new Router({
 	routes: [
 		{
 			path: '/Home',
+			redirect: '/Home/Gpx',
 			component: Home,
 			children: [
-				{
-					path: '/',
-					name: 'Home',
-					component: SampleControl
-				},
 				{
 					path: 'SampleControl',
 					name: 'SampleControl',
@@ -50,33 +47,37 @@ export default new Router({
 				},
 				{
 					path: 'Gpx',
-					name: 'Gpx',
 					component: Gpx,
 					children: [
 						{
-							path: 'UserInput',
-							name: 'UserInput',
-							component: UserControl,
+							path: '',
+							name: 'Gpx',
+							component: Void,
 						},
 						{
-							path: 'ColorControl',
-							name: 'ColorControl',
-							component: Void2,
+							path: 'window1',
+							name: 'window1',
+							component: window1,
 						},
 						{
-							path: 'Output',
-							name: 'Output',
-							component: Void3,
+							path: 'window2',
+							name: 'window2',
+							component: window2,
 						},
 						{
-							path: 'FigureControl',
-							name: 'FigureControl',
-							component: Void4,
+							path: 'window3',
+							name: 'window3',
+							component: window3,
 						},
 						{
-							path: 'Miscellaneous',
-							name: 'Miscellaneous',
-							component: Void5,
+							path: 'window4',
+							name: 'window4',
+							component: window4,
+						},
+						{
+							path: 'window5',
+							name: 'window5',
+							component: window5,
 						},
 					]
 				},
@@ -121,7 +122,7 @@ export default new Router({
 		{
 			// 其他路徑一律導回首頁
 			path: '/*',
-			redirect: '/Home'
+			redirect: '/Home/Gpx'
 		}
 	]
 })

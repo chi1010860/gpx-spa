@@ -5,11 +5,11 @@
                 <router-view></router-view>
             </div>
             <div class="button-navbar">
-                <router-link class="gpx-button" :to="{name: 'UserInput'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'ColorControl'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'Output'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'FigureControl'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'Miscellaneous'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'window1'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'window2'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'window3'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'window4'}" exact></router-link>
+                <router-link class="gpx-button" :to="{name: 'window5'}" exact></router-link>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         getGpxDocument: async function() {
-            let URL = gURL + '/api/gpxDocument'
+            let URL = gURL + '/gpxdata/gpxDocument'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -35,7 +35,7 @@ export default {
             }
         },
         getPageFrame: async function() {
-            let URL = gURL + '/api/pageframe'
+            let URL = gURL + '/gpxdata/pageframe'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -46,7 +46,7 @@ export default {
             }
         },
         getButton: async function() {
-            let URL = gURL + '/api/button'
+            let URL = gURL + '/gpxdata/button'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -57,7 +57,7 @@ export default {
             }
         },
         getKeyText: async function(btns, pData) {
-            let URL = gURL + '/api/keytext'
+            let URL = gURL + '/gpxdata/keytext'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
