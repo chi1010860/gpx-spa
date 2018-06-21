@@ -116,5 +116,15 @@ export default {
 button {
     width: 100px;
     height: 50px;
+    box-shadow: 1px 2px 0px 0px #899599;
+    -moz-box-shadow: 1px 2px 0px 0px #899599;
+    -webkit-box-shadow: 1px 2px 0px 0px #899599;
+}
+button:active {
+    position: relative;
+    top: 1px;
+    box-shadow: 0px 0px 0px 0px #899599;
+    -moz-box-shadow: 0px 0px 0px 0px #899599;
+    -webkit-box-shadow: 0px 0px 0px 0px #899599;
 }
 </style>

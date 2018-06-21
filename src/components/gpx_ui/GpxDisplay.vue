@@ -43,7 +43,8 @@ export default {
     display: inline-block;
     vertical-align: middle;
     width: 100px;
-    height: 48px;
+    height: 50px;
+    margin: 3px 0px 3px 0px;
     background-color: #c0c0c0;
 }
 </style>

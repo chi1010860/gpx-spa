@@ -304,6 +304,10 @@ function getButton(_gxml) {
 	return _button
 }
 
+function getHVLine(_gxml) {
+
+}
+
 function getTitle(_gxml) {
 
 }

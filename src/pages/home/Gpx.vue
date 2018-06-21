@@ -11,16 +11,26 @@
                 <router-link class="gpx-button" :to="{name: 'window4'}" exact></router-link>
                 <router-link class="gpx-button" :to="{name: 'window5'}" exact></router-link>
             </div>
+            <gpx-hvline :rect="rect1"></gpx-hvline>
+            <gpx-hvline :rect="rect2"></gpx-hvline>
         </div>
     </div>
 </template>
 
 <script>
 import gURL from '@/router/url.js'
+import GpxHvline from '@/components/gpx_ui/GpxHVLine'
+
 export default {
     name: 'PageFrame',
     data() {
-        return {}
+        return {
+            rect1: [[0, 75, 801, 77], [-1, 78, 800, 80]],
+            rect2: [[0, 492, 800, 494], [-1, 495, 800, 497]]
+        }
+    },
+    components: {
+        GpxHvline
     },
     methods: {
         getGpxDocument: async function() {
@@ -130,11 +140,12 @@ export default {
     background-color: #ffffff;
 }
 .page-frame {
+    position: relative;
     width: 100px;
     height: 100px;
 }
 .window {
-    border: 1px solid SEAGREEN;
+    width: 100%;
 }
 .button-navbar {
     display: flex;
