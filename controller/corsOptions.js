@@ -3,7 +3,7 @@ var corsOptions = {
     origin: [
         'http://localhost',
         'http://localhost:8081',
-        'http://192.168.2.177',
+        'http://192.168.0.117',
         'http://172.20.10.9'
     ],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],

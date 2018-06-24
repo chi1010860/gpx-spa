@@ -1,24 +1,24 @@
 <template>
-	<div class="container">
-		<img type="images/png" src="/static/NCTU.png">
-		<div class="vm-loading">
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-			<div class="rect"></div>
-		</div>
-	</div>
+    <div class="container">
+        <img type="images/png" src="/static/NCTU.png">
+        <div class="vm-loading">
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+            <div class="rect"></div>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
-    name: 'VmLoading',
+    name: 'Loading',
     data: function() {
         return {
             username: '',

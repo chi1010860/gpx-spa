@@ -40,7 +40,6 @@ Control-link mapping
 | set                 | ?                             |
 | reset               | ?                             |
 
-direct, reverse, toggle, reset, set
 
 ## Mapping to JSON
 

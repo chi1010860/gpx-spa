@@ -7,6 +7,7 @@
             <side-bar></side-bar>
         </nav>
         <main>
+            <vm-loading v-if="isLoading"></vm-loading>
             <router-view></router-view>
         </main>
         <footer>2018 IMLAB</footer>
@@ -14,13 +15,15 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
-import SideBar from '../components/SideBar'
+import NavBar from '@/components/NavBar'
+import SideBar from '@/components/SideBar'
+import VmLoading from '@/pages/Loading'
 
 export default {
     name: 'Layout',
     data() {
         return {
+            isLoading: true,
             isPage: true,
             isMobile: false,
             isSidebarOpen: true
@@ -28,7 +31,8 @@ export default {
     },
     components: {
         NavBar,
-        SideBar
+        SideBar,
+        VmLoading
     },
     computed: {
         classList: function() {
@@ -67,6 +71,9 @@ export default {
         } else {
             vm.isSidebarOpen = false
         }
+    },
+    mounted() {
+        this.isLoading = false
     }
 }
 </script>

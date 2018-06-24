@@ -22,6 +22,7 @@ app.get('/gpxjson', (req, res) => {
 
 // Parse request body as JSON
 app.use(express.json())
+// 给app配置bodyParser中间件
 
 // Handle http options method
 app.options('/*', cors(corsOptions))
