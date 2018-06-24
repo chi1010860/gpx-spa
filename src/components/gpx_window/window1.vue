@@ -83,11 +83,19 @@ export default {
             if (res.ok) {
                 let result = await res.text()
                 console.log(result)
+                this.$bus.$emit('winpc32Init', {
+                    isLoading: false
+                })
             } else {
                 let text = await res.text()
                 console.warn(text)
             }
         }
+    },
+    beforeCreate() {
+        this.$bus.$emit('winpc32Init', {
+            isLoading: true
+        })
     },
     created() {
         this.winpc32Init()

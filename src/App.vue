@@ -1,12 +1,27 @@
 <template>
     <div id="app">
+        <vm-loading v-if="isLoading"></vm-loading>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
+import VmLoading from '@/pages/Loading'
 export default {
-    name: 'App'
+    name: 'App',
+    data() {
+        return {
+            isLoading: true
+        }
+    },
+    components: {
+        VmLoading
+    },
+    created() {
+        this.$bus.$on('appLoadingFinished', event => {
+            this.isLoading = event.isLoading
+        })
+    }
 }
 </script>
 

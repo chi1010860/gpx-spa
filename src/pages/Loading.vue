@@ -42,6 +42,7 @@ export default {
     }
 }
 .vm-loading {
+    z-index: 100;
     height: 200px;
     display: flex;
     align-items: center;

@@ -6,7 +6,19 @@
 
 <script>
 export default {
-    name: 'Void'
+    name: 'Void',
+    methods: {},
+    mounted() {
+        // This timeout must be remove in production version
+        setTimeout(() => {
+            this.$bus.$emit('appLoadingFinished', {
+                isLoading: false
+            })
+            this.$bus.$emit('winpc32Init', {
+                isLoading: false
+            })
+        }, 2000)
+    }
 }
 </script>
 

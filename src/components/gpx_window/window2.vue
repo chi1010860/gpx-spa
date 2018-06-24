@@ -16,6 +16,20 @@ export default {
     },
     components: {
         GpxTitle
+    },
+    beforeCreate() {
+        this.$bus.$emit('winpc32Init', {
+            isLoading: true
+        })
+    },
+    mounted() {
+        // This timeout must be remove in production version
+        setTimeout(() => {
+            console.log('wow')
+            this.$bus.$emit('winpc32Init', {
+                isLoading: false
+            })
+        }, 1000)
     }
 }
 </script>

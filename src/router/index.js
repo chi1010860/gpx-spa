@@ -115,11 +115,6 @@ export default new Router({
 			]
 		},
 		{
-			path: '/loading',
-			name: 'Loading',
-			component: Loading
-		},
-		{
 			// 其他路徑一律導回首頁
 			path: '/*',
 			redirect: '/Home/Gpx'

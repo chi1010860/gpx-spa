@@ -61,6 +61,11 @@ export default {
             vm.isSidebarOpen = newSidebarStatus
         }
     },
+    created() {
+        this.$bus.$on('winpc32Init', event => {
+            this.isLoading = event.isLoading
+        })
+    },
     beforeMount() {
         var vm = this
         vm.isMobile = window.innerWidth < 500
@@ -72,9 +77,7 @@ export default {
             vm.isSidebarOpen = false
         }
     },
-    mounted() {
-        this.isLoading = false
-    }
+    mounted() {}
 }
 </script>
 

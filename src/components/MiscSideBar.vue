@@ -1,11 +1,11 @@
 <template>
-	<div class="side-bar">
-		<router-link class="link" :to="{name: 'Home'}" exact>Home</router-link>
-		<router-link class="link" :to="{path: 'Todo'}" exact>Todo List</router-link>
-		<router-link class="link" :to="{name: 'ProductTester'}" exact>ProductTester</router-link>
-		<router-link class="link" :to="{name: 'Markdown'}" exact>Markdown</router-link>
-		<router-link class="link" :to="{name: 'Chatroom'}" exact>Chatroom</router-link>
-	</div>
+    <div class="side-bar">
+        <router-link class="link" :to="{path: 'Home'}" exact>Home</router-link>
+        <router-link class="link" :to="{path: 'Todo'}" exact>Todo List</router-link>
+        <router-link class="link" :to="{name: 'ProductTester'}" exact>ProductTester</router-link>
+        <router-link class="link" :to="{name: 'Markdown'}" exact>Markdown</router-link>
+        <router-link class="link" :to="{name: 'Chatroom'}" exact>Chatroom</router-link>
+    </div>
 </template>
 
 <script>
