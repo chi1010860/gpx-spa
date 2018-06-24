@@ -27,11 +27,11 @@ import window5 from '@/components/gpx_window/window5'
 Vue.use(Router)
 
 export default new Router({
-	mode: 'history', // 讓URL不要有#符號
+	// mode: 'history', // 讓URL不要有#符號, 但會影響SSR
 	routes: [
 		{
 			path: '/Home',
-			redirect: '/Home/Gpx',
+			redirect: '/Home',
 			component: Home,
 			children: [
 				{

@@ -1,4 +1,4 @@
-{
+var gpx = {
     "gpx:document": {
         "version": "",
         "data-type": "",
@@ -372,3 +372,5 @@
         ]
     }
 }
+
+module.exports = gpx

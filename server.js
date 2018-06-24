@@ -22,7 +22,6 @@ app.get('/gpxjson', (req, res) => {
 
 // Parse request body as JSON
 app.use(express.json())
-// 给app配置bodyParser中间件
 
 // Handle http options method
 app.options('/*', cors(corsOptions))
@@ -39,5 +38,5 @@ app.use(gpxApi)
 app.listen(PORT, function (err) {
     if (err) throw err
     console.log('Server has been built on http://localhost:%d/', PORT)
-    console.log('Get GPX object by API: http://localhost:%d/api/gpx', PORT)
+    console.log('Get GPX object by API: http://localhost:%d/gpxdata/gpx', PORT)
 })

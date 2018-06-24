@@ -104,7 +104,7 @@ export default {
             let bn = document.getElementsByClassName('button-navbar')[0]
             bn.style.width = bnWidth.toString() + 'px'
             bn.style.height = bnHeight.toString() + 'px'
-            bn.style.backgroundColor = data[0].brushColor
+            bn.style.backgroundColor = data[0]['brush-color']
         },
         drawButton(data) {
             // define the buttons
@@ -112,8 +112,8 @@ export default {
             for (let i in data) {
                 btns[i].style.width = data[i].width.toString() + 'px'
                 btns[i].style.height = data[i].height.toString() + 'px'
-                btns[i].style.backgroundColor = data[i].brushColor
-                btns[i].style.border = '1px solid' + data[i].penColor
+                btns[i].style.backgroundColor = data[i]['brush-color']
+                btns[i].style.border = '1px solid' + data[i]['penColor']
             }
             this.getKeyText(btns, data)
         },

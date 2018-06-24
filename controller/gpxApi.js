@@ -9,19 +9,19 @@ router.get('/gpxdata/gpx', cors(corsOptions), function (req, res) {
     res.send(gpx)
 })
 router.get('/gpxdata/gpxDocument', cors(corsOptions), function (req, res) {
-    res.send(gpx.gpxDocument)
+    res.send(gpx["gpx:document"])
 })
 router.get('/gpxdata/languagetable', cors(corsOptions), function (req, res) {
-    res.send(gpx.languageTable)
+    res.send(gpx["style-sheet"]["language-table"])
 })
 router.get('/gpxdata/keyText', cors(corsOptions), function (req, res) {
-    res.send(gpx.keyText)
+    res.send(gpx["style-sheet"]["key-text"])
 })
 router.get('/gpxdata/pageFrame', cors(corsOptions), function (req, res) {
-    res.send(gpx.pageFrame)
+    res.send(gpx["gpx:object"].PageFrame)
 })
 router.get('/gpxdata/button', cors(corsOptions), function (req, res) {
-    res.send(gpx.button)
+    res.send(gpx["gpx:object"]._Button)
 })
 
 module.exports = router
