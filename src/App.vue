@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import VmLoading from '@/pages/Loading'
+import VmLoading from '@/components/ui/Loading'
 export default {
     name: 'App',
     data() {

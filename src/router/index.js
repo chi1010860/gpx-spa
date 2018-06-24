@@ -4,7 +4,6 @@ import Router from 'vue-router'
 /* Pages */
 import Home from '@/pages/Home'
 import Others from '@/pages/Others'
-import Loading from '@/pages/Loading'
 
 /* Sub pages */
 import SampleControl from '@/pages/home/SampleControl'

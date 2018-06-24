@@ -17,7 +17,7 @@
 <script>
 import NavBar from '@/components/NavBar'
 import SideBar from '@/components/SideBar'
-import VmLoading from '@/pages/Loading'
+import VmLoading from '@/components/ui/Loading'
 
 export default {
     name: 'Layout',
