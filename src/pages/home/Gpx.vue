@@ -11,8 +11,7 @@
                 <router-link class="gpx-button" :to="{name: 'window4'}" exact></router-link>
                 <router-link class="gpx-button" :to="{name: 'window5'}" exact></router-link>
             </div>
-            <gpx-hvline :rect="rect1"></gpx-hvline>
-            <gpx-hvline :rect="rect2"></gpx-hvline>
+            <gpx-hvline :rect="hvline"></gpx-hvline>
         </div>
     </div>
 </template>
@@ -25,68 +24,45 @@ export default {
     name: 'PageFrame',
     data() {
         return {
-            rect1: [[0, 75, 801, 77], [-1, 78, 800, 80]],
-            rect2: [[0, 492, 800, 494], [-1, 495, 800, 497]]
+            keytext: [],
+            language: 'original',
+            hvline: [[0, 492, 800, 494], [-1, 495, 800, 497]]
         }
     },
     components: {
         GpxHvline
     },
     methods: {
-        getGpxDocument: async function() {
-            let URL = gURL + '/gpxdata/gpxDocument'
+        getGpxInit: async function() {
+            let URL = gURL + '/gpxdata/gpx'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
-                this.drawWindow(result)
+                this.drawWindow(result['gpx:document'])
+                this.drawButtonNavbar(result['gpx:object'].PageFrame)
+                this.drawButton(result['gpx:object']._Button)
+                this.getKeyText(result['style-sheet']['key-text'])
+                this.drawMSG(result['gpx:object'].MSG)
             } else {
                 let text = await res.text()
                 console.log(text)
             }
         },
-        getPageFrame: async function() {
-            let URL = gURL + '/gpxdata/pageframe'
-            let res = await fetch(URL)
-            if (res.ok) {
-                let result = await res.json()
-                this.drawButtonNavbar(result)
-            } else {
-                let text = await res.text()
-                console.log(text)
-            }
-        },
-        getButton: async function() {
-            let URL = gURL + '/gpxdata/button'
-            let res = await fetch(URL)
-            if (res.ok) {
-                let result = await res.json()
-                this.drawButton(result)
-            } else {
-                let text = await res.text()
-                console.log(text)
-            }
-        },
-        getKeyText: async function(btns, pData) {
-            let URL = gURL + '/gpxdata/keytext'
-            let res = await fetch(URL)
-            if (res.ok) {
-                let result = await res.json()
-                this.drawKeyText(result, btns, pData)
-            } else {
-                let text = await res.text()
-                console.log(text)
+        getKeyText(data) {
+            for (let i in data) {
+                this.keytext.push(data[i])
             }
         },
         drawWindow(data) {
             // define the color of main
             let main = document.getElementsByClassName('gpx')[0]
-            main.style.backgroundColor = data.colorVoid
+            main.style.backgroundColor = '#' + data['color-void']
 
             // define the dimentions of PageFrame
             let pf = document.getElementsByClassName('page-frame')[0]
             pf.style.width = data.rect[2].toString() + 'px'
             pf.style.height = data.rect[3].toString() + 'px'
-            pf.style.backgroundColor = data.colorPaper
+            pf.style.backgroundColor = '#' + data['color-paper']
         },
         drawButtonNavbar(data) {
             // computed the size of ButtonNavbar and window
@@ -104,31 +80,32 @@ export default {
             let bn = document.getElementsByClassName('button-navbar')[0]
             bn.style.width = bnWidth.toString() + 'px'
             bn.style.height = bnHeight.toString() + 'px'
-            bn.style.backgroundColor = data[0]['brush-color']
+            console.log(data)
+            bn.style.backgroundColor = '#' + data[0]['brush-color']
         },
         drawButton(data) {
             // define the buttons
             let btns = document.getElementsByClassName('gpx-button')
-            for (let i in data) {
-                btns[i].style.width = data[i].width.toString() + 'px'
-                btns[i].style.height = data[i].height.toString() + 'px'
-                btns[i].style.backgroundColor = data[i]['brush-color']
-                btns[i].style.border = '1px solid' + data[i]['penColor']
+            for (let i = 0; i < btns.length; i++) {
+                let width = data[i].rect[2] - data[i].rect[0]
+                let height = data[i].rect[3] - data[i].rect[1]
+                btns[i].style.width = width.toString() + 'px'
+                btns[i].style.height = height.toString() + 'px'
+                btns[i].style.backgroundColor = '#' + data[i]['brush-color']
+                btns[i].style.border = '1px solid ' + '#' + data[i]['pen-color']
             }
-            this.getKeyText(btns, data)
         },
-        drawKeyText(data, arrTarget, pData) {
-            for (let i = 0; i < arrTarget.length; i++) {
-                let mi = pData[i].messageIndex
-                let objKeyText = data.find(item => item.id === mi)
-                arrTarget[i].innerHTML = objKeyText.original
+        drawMSG(data) {
+            let btns = document.getElementsByClassName('gpx-button')
+            for (let i = 0; i < btns.length; i++) {
+                let mi = data[i].MessageIndex[0].message
+                let text = this.keytext.find(item => item.id === mi)
+                btns[i].innerHTML = text[this.language]
             }
         }
     },
     created() {
-        this.getGpxDocument()
-        this.getPageFrame()
-        this.getButton()
+        this.getGpxInit()
     }
 }
 </script>

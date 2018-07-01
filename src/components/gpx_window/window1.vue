@@ -10,6 +10,7 @@
         <gpx-button :control-link="controlLink4"></gpx-button>
         <gpx-button :control-link="controlLink5"></gpx-button><br>
         <gpx-display :control-link="controlLink4"></gpx-display>
+        <gpx-hvline :rect="hvline"></gpx-hvline>
     </div>
 </template>
 
@@ -18,6 +19,7 @@ import gURL from '@/router/url'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxDisplay from '@/components/gpx_ui/GpxDisplay'
+import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 
 export default {
     props: {
@@ -65,13 +67,15 @@ export default {
                 type: 'discrete',
                 discrete: 'reset',
                 tagname: 'bA0024'
-            }
+            },
+            hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]]
         }
     },
     components: {
         GpxTitle,
         GpxButton,
-        GpxDisplay
+        GpxDisplay,
+        'gpx-hvline': GpxHVLine
     },
     methods: {
         winpc32Init: async function() {

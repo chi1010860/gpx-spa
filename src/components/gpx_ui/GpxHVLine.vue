@@ -11,7 +11,7 @@ export default {
     props: {
         rect: {
             type: Array,
-            default: [[0, 60, 801, 77], [-1, 59, 800, 80]],
+            default: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             required: true
         }
     },

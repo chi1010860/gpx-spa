@@ -7,6 +7,7 @@
 
 <script>
 import VmLoading from '@/components/ui/Loading'
+
 export default {
     name: 'App',
     data() {
