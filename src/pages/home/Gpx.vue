@@ -38,11 +38,14 @@ export default {
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
-                this.drawWindow(result['gpx:document'])
-                this.drawButtonNavbar(result['gpx:object'].PageFrame)
-                this.drawButton(result['gpx:object']._Button)
                 this.getKeyText(result['style-sheet']['key-text'])
-                this.drawMSG(result['gpx:object'].MSG)
+                this.drawWindow(result['gpx:document'])
+                let pf = result.PageFrame.find(
+                    item => item['page-title'] == 'Button'
+                )
+                this.drawButtonNavbar(pf)
+                this.drawButton(pf['gpx:object']._Button)
+                this.drawMSG(pf['gpx:object'].MSG)
             } else {
                 let text = await res.text()
                 console.log(text)
@@ -66,10 +69,10 @@ export default {
         },
         drawButtonNavbar(data) {
             // computed the size of ButtonNavbar and window
-            let winWidth = data[0].rect[2]
-            let winHeight = data[0].rect[1]
-            let bnWidth = data[0].rect[2] - data[0].rect[0]
-            let bnHeight = data[0].rect[3] - data[0].rect[1]
+            let winWidth = data.rect[2]
+            let winHeight = data.rect[1]
+            let bnWidth = data.rect[2] - data.rect[0]
+            let bnHeight = data.rect[3] - data.rect[1]
 
             // define the window
             let win = document.getElementsByClassName('window')[0]
@@ -80,8 +83,7 @@ export default {
             let bn = document.getElementsByClassName('button-navbar')[0]
             bn.style.width = bnWidth.toString() + 'px'
             bn.style.height = bnHeight.toString() + 'px'
-            console.log(data)
-            bn.style.backgroundColor = '#' + data[0]['brush-color']
+            bn.style.backgroundColor = '#' + data['brush-color']
         },
         drawButton(data) {
             // define the buttons

@@ -1,38 +1,31 @@
 <template>
     <div>
-        <gpx-title :title-name="sonTitleName"></gpx-title>
+        <gpx-title></gpx-title>
+        <gpx-clock></gpx-clock>
         <gpx-button :control-link="controlLink1"></gpx-button>
-        <gpx-display :control-link="controlLink1"></gpx-display><br>
+        <gpx-text :control-link="controlLink1"></gpx-text><br>
         <gpx-button :control-link="controlLink2"></gpx-button>
-        <gpx-display :control-link="controlLink2"></gpx-display><br>
+        <gpx-text :control-link="controlLink2"></gpx-text><br>
         <gpx-button :control-link="controlLink3"></gpx-button>
-        <gpx-display :control-link="controlLink3"></gpx-display><br>
+        <gpx-text :control-link="controlLink3"></gpx-text><br>
         <gpx-button :control-link="controlLink4"></gpx-button>
         <gpx-button :control-link="controlLink5"></gpx-button><br>
-        <gpx-display :control-link="controlLink4"></gpx-display>
+        <gpx-text :control-link="controlLink4"></gpx-text><br>
         <gpx-hvline :rect="hvline"></gpx-hvline>
     </div>
 </template>
 
 <script>
-import gURL from '@/router/url'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
+import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
-import GpxDisplay from '@/components/gpx_ui/GpxDisplay'
+import GpxText from '@/components/gpx_ui/GpxText'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 
 export default {
-    props: {
-        titleName: {
-            type: String,
-            default: 'User Input', // TODO: Use AJAX to get the title name
-            required: false
-        }
-    },
     data() {
         return {
             // TODO: Use AJAX to get the controlLink
-            sonTitleName: this.titleName,
             controlLink1: {
                 state: false,
                 msg: 'Direct',
@@ -73,36 +66,26 @@ export default {
     },
     components: {
         GpxTitle,
+        GpxClock,
         GpxButton,
-        GpxDisplay,
+        GpxText,
         'gpx-hvline': GpxHVLine
-    },
-    methods: {
-        winpc32Init: async function() {
-            let URL = gURL + '/winpc32/init'
-
-            // AJAX
-            let res = await fetch(URL)
-
-            if (res.ok) {
-                let result = await res.text()
-                console.log(result)
-                this.$bus.$emit('winpc32Init', {
-                    isLoading: false
-                })
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
-        }
     },
     beforeCreate() {
         this.$bus.$emit('winpc32Init', {
             isLoading: true
         })
     },
-    created() {
-        this.winpc32Init()
+    mounted() {
+        // This timeout must be remove in production version
+        setTimeout(() => {
+            this.$bus.$emit('appLoadingFinished', {
+                isLoading: false
+            })
+            this.$bus.$emit('winpc32Init', {
+                isLoading: false
+            })
+        }, 500)
     }
 }
 </script>

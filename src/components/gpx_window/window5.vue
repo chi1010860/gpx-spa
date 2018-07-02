@@ -1,6 +1,6 @@
 <template>
     <div>
-        <gpx-title :title-name="titleName"></gpx-title>
+        <gpx-title></gpx-title>
         <gpx-hvline :rect="hvline"></gpx-hvline>
     </div>
 </template>
@@ -10,13 +10,6 @@ import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 
 export default {
-    props: {
-        titleName: {
-            type: String,
-            default: 'Miscellaneous', // TODO: Use AJAX to get the title name
-            required: false
-        }
-    },
     data() {
         return {
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]]

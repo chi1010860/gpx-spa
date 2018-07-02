@@ -1,5 +1,5 @@
 <template>
-    <div class="gpx-display" :style="{backgroundColor: bgColor}"></div>
+    <input class="gpx-text" type="text" :value="textValue" disabled>
 </template>
 
 <script>
@@ -19,8 +19,8 @@ export default {
         }
     },
     computed: {
-        bgColor() {
-            return this.controlLink.state ? 'green' : 'red'
+        textValue() {
+            return this.controlLink.state ? 'ON' : 'OFF'
         }
     },
     methods: {},
@@ -37,12 +37,13 @@ export default {
 </script>
 
 <style scoped>
-.gpx-display {
-    display: inline-block;
-    vertical-align: middle;
+.gpx-text {
     width: 100px;
     height: 50px;
     margin: 3px 0px 3px 0px;
-    background-color: #c0c0c0;
+    text-align: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <button @mousedown="fnMousedown()" @mouseup="fnMouseup()">{{ controlLink.msg }}</button>
+    <button @mousedown="fnMousedown" @mouseup="fnMouseup">{{ controlLink.msg }}</button>
 </template>
 
 <script>
@@ -26,45 +26,59 @@ export default {
         }
     },
     methods: {
-        fnMousedown() {
-            if (this.controlLink.type == 'discrete') {
-                if (
-                    this.controlLink.discrete == 'direct' ||
-                    this.controlLink.discrete == 'reverse'
-                ) {
-                    this.controlLink.state = !this.controlLink.state
-                    this.$bus.$emit(this.eventName, {
-                        state: this.controlLink.state
-                    })
-                    this.changeBit_A()
+        fnMousedown(e) {
+            this.PB_discrete(this.controlLink, e.type)
+        },
+        fnMouseup(e) {
+            this.PB_discrete(this.controlLink, e.type)
+        },
+        PB_discrete(controlLink, eventType) {
+            if (eventType == 'mousedown') {
+                if (controlLink.type == 'discrete') {
+                    if (
+                        controlLink.discrete == 'direct' ||
+                        controlLink.discrete == 'reverse'
+                    ) {
+                        controlLink.state = !controlLink.state
+                        this.$bus.$emit(this.eventName, {
+                            state: controlLink.state
+                        })
+                        this.changeBit_A()
+                    }
+                }
+            } else if (eventType == 'mouseup') {
+                if (controlLink.type == 'discrete') {
+                    if (
+                        controlLink.discrete == 'direct' ||
+                        controlLink.discrete == 'reverse' ||
+                        controlLink.discrete == 'toggle'
+                    ) {
+                        controlLink.state = !controlLink.state
+                        this.$bus.$emit(this.eventName, {
+                            state: controlLink.state
+                        })
+                        this.changeBit_A()
+                    } else if (controlLink.discrete == 'set') {
+                        controlLink.state = true
+                        this.$bus.$emit(this.eventName, {
+                            state: controlLink.state
+                        })
+                        this.changeBit_A()
+                    } else if (controlLink.discrete == 'reset') {
+                        controlLink.state = false
+                        this.$bus.$emit(this.eventName, {
+                            state: controlLink.state
+                        })
+                        this.changeBit_A()
+                    }
                 }
             }
         },
-        fnMouseup() {
-            if (this.controlLink.type == 'discrete') {
-                if (
-                    this.controlLink.discrete == 'direct' ||
-                    this.controlLink.discrete == 'reverse' ||
-                    this.controlLink.discrete == 'toggle'
-                ) {
-                    this.controlLink.state = !this.controlLink.state
-                    this.$bus.$emit(this.eventName, {
-                        state: this.controlLink.state
-                    })
-                    this.changeBit_A()
-                } else if (this.controlLink.discrete == 'set') {
-                    this.controlLink.state = true
-                    this.$bus.$emit(this.eventName, {
-                        state: this.controlLink.state
-                    })
-                    this.changeBit_A()
-                } else if (this.controlLink.discrete == 'reset') {
-                    this.controlLink.state = false
-                    this.$bus.$emit(this.eventName, {
-                        state: this.controlLink.state
-                    })
-                    this.changeBit_A()
-                }
+        PB_action(controlLink, eventType) {
+            if (eventType == 'mousedown') {
+                console.log(eventType)
+            } else if (eventType == 'mousedown') {
+                console.log(eventType)
             }
         },
         changeBit_A: async function() {

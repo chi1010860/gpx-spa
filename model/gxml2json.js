@@ -13,7 +13,6 @@ fs.readFile(filePath, function (err, data) {
 	gpx["style-sheet"]["language-table"] = getLanguageTable(gxml)
 	gpx["style-sheet"]["key-text"] = getKeyText(gxml)
 	gpx["style-sheet"]["ss:font"] = get_ss(gxml)
-	gpx["gpx:object"].PageFrame = getPageFrame(gxml)
 	gpx["gpx:object"].FRAME = getFRAME(gxml)
 	gpx["gpx:object"].GROUPHEAD = getGROUPHEAD(gxml)
 	gpx["gpx:object"].CLOCK = getCLOCK(gxml)
@@ -28,7 +27,10 @@ fs.readFile(filePath, function (err, data) {
 	gpx["gpx:object"]._Rectangle = getRectangle(gxml)
 	gpx["gpx:object"]._Ellipse = getEllipse(gxml)
 
+	gpx.PageFrame = getPageFrame(gxml, gpx["gpx:object"])
 	gpx.DLLVersion = getDLLVersion(gpx)
+
+	delete gpx["gpx:object"]
 
 	// // write out if necessary
 	// gpx_json = JSON.stringify(gpx)
@@ -98,19 +100,42 @@ function getDLLVersion(_gpx) {
 	_DLLVersion.FRAME = _gpx["gpx:object"].FRAME.length
 	_DLLVersion.HSCROLL = _gpx["gpx:object"].HSCROLL.length
 	_DLLVersion.MSG = _gpx["gpx:object"].MSG.length
-	_DLLVersion.PageFrame = _gpx["gpx:object"].PageFrame.length
+	_DLLVersion.PageFrame = _gpx.PageFrame.length
 	_DLLVersion.SWITCHRK = _gpx["gpx:object"].SWITCHRK.length
 	_DLLVersion.VSCROLL = _gpx["gpx:object"].VSCROLL.length
 
 	return _DLLVersion
 }
 
-function getPageFrame(_gxml) {
+function getPageFrame(_gxml, _gpxObjects) {
+	var tags = ["FRAME", "GROUPHEAD", "CLOCK", "BUTTON", "MSG", "HSCROLL", "VSCROLL",
+		"SWITCHRK", "_HVLine", "_Button", "_Text", "_Rectangle", "_Ellipse"]
+	var gpxClone = JSON.parse(JSON.stringify(_gpxObjects))
 	var _pageFrame = []
 	var targetTag = _gxml.match(/<gpx:object.*?object-name="PageFrame"[\s\S]*?<gpx:object/g)
 	for (let i in targetTag) {
 		let item = getItem(targetTag[i])
 		_pageFrame.push(item)
+	}
+	targetTag = _gxml.match(/object-name="PageFrame"[\s\S]*?page-title|object-name="PageFrame"[\s\S]*/g)
+	let tagsCount = new Array(13).fill(0)
+	for (let i in targetTag) {
+		let obj = {}
+		let tagsArray = []
+		for (let index in tags) {
+			let re = new RegExp('object-name="' + tags[index] + '"', 'g')
+			tagsArray[index] = targetTag[i].match(re)
+			if (tagsArray[index] == null) {
+				tagsCount[index] = 0
+			} else {
+				tagsCount[index] = tagsArray[index].length
+				obj[tags[index]] = gpxClone[tags[index]].slice(0, tagsCount[index])
+				for (let count = 0; count < tagsCount[index]; count++) {
+					gpxClone[tags[index]].shift()
+				}
+			}
+		}
+		_pageFrame[i]["gpx:object"] = obj
 	}
 	return _pageFrame
 }
@@ -360,8 +385,18 @@ function getControlLink(_controlLinkTag) {
 			}
 		}
 		else if (tempLinkName == 'PB-action') {
-			// TODO: PB-action
-			// console.log(_controlLinkTag)
+			lines = _controlLinkTag.match(/<[^Array].*?>/)[0]
+			item = getItem(lines)
+			item["link-name"] = tempLinkName
+			lines = _controlLinkTag.match(/<Array[\s\S]*?(<\/>){2}/g)
+			for (let j in lines) {
+				let arrayName = lines[j].match(/name=".*?"/)[0].match(/".*"/)[0].match(/[^"]+/)[0]
+				let elements = lines[j].match(/<\d.*<\/>/g)
+				for (let k in elements) {
+					elements[k] = elements[k].match(/>.*</)[0].match(/[^>^<]+/)[0]
+				}
+				item[arrayName] = elements
+			}
 		}
 		else {
 			lines = _controlLinkTag.match(/<[^Array][a-zA-Z-*_*a-zA-Z]+.*?<\/>/g)

@@ -1,8 +1,8 @@
 <template>
-	<div class="nav-bar">
-		<div class="btn-sidebar-open" @click="sidebarToggle">&#9776;</div>
-		<div>{{ projectName }}</div>
-	</div>
+    <div class="nav-bar">
+        <div class="btn-sidebar-open" @click="sidebarToggle">&#9776;</div>
+        <div>{{ projectName }}</div>
+    </div>
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
     data: function() {
         return {
             _isSidebarOpen: true,
-            projectName: 'Sample Project'
+            projectName: 'Web GPX'
         }
     },
     methods: {
