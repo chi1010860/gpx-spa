@@ -4,16 +4,18 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import eventBus from './assets/js/eventBus'
+import store from './store'
 
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',
+	template: '<App/>',
+	components: { App },
 	data() {
 		return {
 			bus: eventBus
 		}
 	},
 	router,
-	template: '<App/>',
-	components: { App }
+	store
 })

@@ -12,6 +12,7 @@ import Todo from '@/pages/Others/Todo'
 import Markdown from '@/pages/Others/Markdown'
 import ProductTester from '@/pages/Others/ProductTester'
 import Chatroom from '@/pages/Others/Chatroom'
+import ToolPage from '@/pages/Others/ToolPage'
 
 /* GPX pages */
 import Gpx from '@/pages/home/Gpx'
@@ -110,6 +111,11 @@ export default new Router({
 					path: 'Chatroom',
 					name: 'Chatroom',
 					component: Chatroom
+				},
+				{
+					path: 'ToolPage',
+					name: 'ToolPage',
+					component: ToolPage
 				}
 			]
 		},

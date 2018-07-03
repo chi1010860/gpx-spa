@@ -8,7 +8,7 @@
         </nav>
         <main>
             <vm-loading v-if="isLoading"></vm-loading>
-            <router-view></router-view>
+            <router-view v-show="!isLoading"></router-view>
         </main>
         <footer>2018 IMLAB</footer>
     </section>
@@ -196,4 +196,3 @@ export default {
     -webkit-box-sizing: border-box;
 }
 </style>
-

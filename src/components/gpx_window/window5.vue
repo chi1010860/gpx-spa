@@ -1,12 +1,14 @@
 <template>
     <div>
         <gpx-title></gpx-title>
+        <gpx-clock></gpx-clock>
         <gpx-hvline :rect="hvline"></gpx-hvline>
     </div>
 </template>
 
 <script>
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
+import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 
 export default {
@@ -17,6 +19,7 @@ export default {
     },
     components: {
         GpxTitle,
+        GpxClock,
         'gpx-hvline': GpxHVLine
     },
     beforeCreate() {

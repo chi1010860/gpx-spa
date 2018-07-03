@@ -1,6 +1,7 @@
 <template>
     <div>
         <gpx-title></gpx-title>
+        <gpx-clock></gpx-clock>
         <gpx-button :control-link="controlLink1"></gpx-button>
         <gpx-display :control-link="controlLink1"></gpx-display><br>
         <gpx-button :control-link="controlLink2"></gpx-button>
@@ -17,6 +18,7 @@
 <script>
 import gURL from '@/router/url'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
+import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxDisplay from '@/components/gpx_ui/GpxDisplay'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
@@ -65,6 +67,7 @@ export default {
     },
     components: {
         GpxTitle,
+        GpxClock,
         GpxButton,
         GpxDisplay,
         'gpx-hvline': GpxHVLine
@@ -72,10 +75,8 @@ export default {
     methods: {
         winpc32Init: async function() {
             let URL = gURL + '/winpc32/init'
-
             // AJAX
             let res = await fetch(URL)
-
             if (res.ok) {
                 let result = await res.text()
                 console.log(result)

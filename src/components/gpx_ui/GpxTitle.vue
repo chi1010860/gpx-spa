@@ -33,7 +33,6 @@ export default {
                     item => item['page-title'] == 'Title'
                 )
                 this.getMessage(pf['gpx:object'].MSG)
-                console.log(this.keyText)
             } else {
                 let text = await res.text()
                 console.log(text)

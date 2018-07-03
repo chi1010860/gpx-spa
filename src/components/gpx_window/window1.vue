@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import gURL from '@/router/url'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
@@ -61,6 +62,8 @@ export default {
                 discrete: 'reset',
                 tagname: 'bA0024'
             },
+            keytext: [],
+            language: 'original',
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]]
         }
     },
@@ -71,21 +74,53 @@ export default {
         GpxText,
         'gpx-hvline': GpxHVLine
     },
+    methods: {
+        winpc32Init: async function() {
+            let URL = gURL + '/winpc32/init'
+            // AJAX
+            let res = await fetch(URL)
+            if (res.ok) {
+                let result = await res.text()
+                console.log(result)
+                this.$bus.$emit('winpc32Init', {
+                    isLoading: false
+                })
+            } else {
+                let text = await res.text()
+                console.warn(text)
+            }
+        },
+        getGpxWindow1: async function() {
+            let URL = gURL + '/gpxdata/gpx'
+            let res = await fetch(URL)
+            if (res.ok) {
+                let result = await res.json()
+                this.getKeyText(result['style-sheet']['key-text'])
+                let pf = result.PageFrame.find(
+                    item => item['page-title'] == 'Window1'
+                )
+                this.getMessage(pf['gpx:object'].MSG)
+            } else {
+                let text = await res.text()
+                console.log(text)
+            }
+        },
+        getKeyText(data) {
+            for (let i in data) {
+                this.keytext.push(data[i])
+            }
+        }
+    },
     beforeCreate() {
+        this.$bus.$emit('appLoadingFinished', {
+            isLoading: false
+        })
         this.$bus.$emit('winpc32Init', {
             isLoading: true
         })
     },
-    mounted() {
-        // This timeout must be remove in production version
-        setTimeout(() => {
-            this.$bus.$emit('appLoadingFinished', {
-                isLoading: false
-            })
-            this.$bus.$emit('winpc32Init', {
-                isLoading: false
-            })
-        }, 500)
+    created() {
+        this.winpc32Init()
     }
 }
 </script>

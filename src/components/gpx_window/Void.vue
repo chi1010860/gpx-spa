@@ -17,7 +17,7 @@ export default {
             this.$bus.$emit('winpc32Init', {
                 isLoading: false
             })
-        }, 2000)
+        }, 500)
     }
 }
 </script>
@@ -29,5 +29,6 @@ export default {
     justify-content: center;
     font-size: 55px;
     height: 100%;
+    background-color: white;
 }
 </style>
