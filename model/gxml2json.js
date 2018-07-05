@@ -30,7 +30,7 @@ fs.readFile(filePath, function (err, data) {
 	gpx.PageFrame = getPageFrame(gxml, gpx["gpx:object"])
 	gpx.DLLVersion = getDLLVersion(gpx)
 
-	delete gpx["gpx:object"]
+	// delete gpx["gpx:object"]
 
 	// // write out if necessary
 	// gpx_json = JSON.stringify(gpx)

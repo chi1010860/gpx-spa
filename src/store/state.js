@@ -1,4 +1,6 @@
 // state
 export const state = {
-    count: 0
+    count: 0,
+    keytext: [],
+    language: 'original'
 }

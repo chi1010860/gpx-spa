@@ -22,6 +22,7 @@ import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxDisplay from '@/components/gpx_ui/GpxDisplay'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data() {
@@ -64,6 +65,12 @@ export default {
             },
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]]
         }
+    },
+    computed: {
+        ...mapGetters({
+            keytext: 'getKeytext',
+            language: 'getLanguage'
+        })
     },
     components: {
         GpxTitle,

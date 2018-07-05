@@ -13,10 +13,20 @@ export default {
             type: Array,
             default: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             required: true
-        }
+        },
+        componentProperties: {}
     },
-    methods: {},
-    mounted() {}
+    computed: {
+        styleObject() {
+            let rect = this.componentProperties.rect
+            return {
+                left: rect[0] + 'px',
+                top: rect[1] + 'px',
+                width: rect[2] - rect[0] + 'px',
+                height: rect[3] - rect[1] + 'px'
+            }
+        }
+    }
 }
 </script>
 

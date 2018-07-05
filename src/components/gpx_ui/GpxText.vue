@@ -1,47 +1,62 @@
 <template>
-    <input class="gpx-text" type="text" :value="textValue" disabled>
+    <div class="gpx-text" :style="styleObject">{{msg}}</div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
     props: {
-        controlLink: {
-            state: false,
-            msg: '',
-            type: '',
-            discrete: '',
-            tagname: ''
-        }
+        componentProperties: {}
     },
     data() {
         return {
-            eventName: 'eventBy_' + this.controlLink.tagname
+            controlLonk: {}
         }
     },
     computed: {
-        textValue() {
-            return this.controlLink.state ? 'ON' : 'OFF'
+        ...mapGetters({
+            keytext: 'getKeytext',
+            language: 'getLanguage'
+        }),
+        msg() {
+            return this.keytext.find(
+                item => item.id == this.componentProperties.message
+            )[this.language]
+        },
+        styleObject() {
+            let rect = this.componentProperties.rect
+            let color = ''
+            if (this.componentProperties['text-color'] != null) {
+                let buffer = this.componentProperties['text-color'].split('')
+                buffer.push(buffer.shift())
+                buffer.push(buffer.shift())
+                for (let c in buffer) {
+                    color += buffer[c]
+                }
+            }
+            let backgroundColor = this.componentProperties['brush-color']
+            return {
+                left: rect[0] + 'px',
+                top: rect[1] + 'px',
+                width: rect[2] - rect[0] + 'px',
+                height: rect[3] - rect[1] + 'px',
+                color: '#' + color,
+                'background-color': '#' + backgroundColor
+            }
         }
-    },
-    methods: {},
-    created() {
-        this.$bus.$on(this.eventName, event => {
-            console.log(event.state)
-            this.controlLink.state = event.state
-        })
-    },
-    beforeDestroy() {
-        this.$bus.$off(this.eventName)
     }
 }
 </script>
 
 <style scoped>
 .gpx-text {
-    width: 100px;
-    height: 50px;
-    margin: 3px 0px 3px 0px;
-    text-align: center;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    vertical-align: middle;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

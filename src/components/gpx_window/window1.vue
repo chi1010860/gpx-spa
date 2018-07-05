@@ -2,16 +2,28 @@
     <div>
         <gpx-title></gpx-title>
         <gpx-clock></gpx-clock>
-        <gpx-button :control-link="controlLink1"></gpx-button>
-        <gpx-text :control-link="controlLink1"></gpx-text><br>
-        <gpx-button :control-link="controlLink2"></gpx-button>
-        <gpx-text :control-link="controlLink2"></gpx-text><br>
-        <gpx-button :control-link="controlLink3"></gpx-button>
-        <gpx-text :control-link="controlLink3"></gpx-text><br>
-        <gpx-button :control-link="controlLink4"></gpx-button>
-        <gpx-button :control-link="controlLink5"></gpx-button><br>
-        <gpx-text :control-link="controlLink4"></gpx-text><br>
+        <div class="container">
+            <div class="row-1">
+                <fieldset class="fieldset-0"></fieldset>
+            </div>
+            <gpx-button v-for="(item, index) in gpxObject._Button" :componentProperties="item" :key="'button'+index"></gpx-button>
+            <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
+            <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
+
+            <!-- <button id="show-modal" style="height:30px;" @click="showModal = true">互動視窗</button> -->
+            <div class="group-fieldset">
+                <fieldset class="fieldset-1"></fieldset>
+                <fieldset class="fieldset-2"></fieldset>
+                <fieldset class="fieldset-3"></fieldset>
+            </div>
+        </div>
         <gpx-hvline :rect="hvline"></gpx-hvline>
+
+        <!-- use the modal component, pass in the prop -->
+        <gpx-modal v-if="showModal" @close="showModal = false">
+            <h3 slot="header">父元件嵌入標題</h3>
+            <span slot="footer">請輸入(0-100)間的整數</span>
+        </gpx-modal>
     </div>
 </template>
 
@@ -20,61 +32,39 @@ import gURL from '@/router/url'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
+import GpxValue from '@/components/gpx_ui/GpxValue'
 import GpxText from '@/components/gpx_ui/GpxText'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
+import GpxModal from '@/components/gpx_ui/GpxModal'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data() {
         return {
-            // TODO: Use AJAX to get the controlLink
-            controlLink1: {
-                state: false,
-                msg: 'Direct',
-                type: 'discrete',
-                discrete: 'direct',
-                tagname: 'bA0021'
-            },
-            controlLink2: {
-                state: true,
-                msg: 'Reverse',
-                type: 'discrete',
-                discrete: 'reverse',
-                tagname: 'bA0022'
-            },
-            controlLink3: {
-                state: false,
-                msg: 'Toggle',
-                type: 'discrete',
-                discrete: 'toggle',
-                tagname: 'bA0023'
-            },
-            controlLink4: {
-                state: false,
-                msg: 'Set',
-                type: 'discrete',
-                discrete: 'set',
-                tagname: 'bA0024'
-            },
-            controlLink5: {
-                state: false,
-                msg: 'Reset',
-                type: 'discrete',
-                discrete: 'reset',
-                tagname: 'bA0024'
-            },
-            keytext: [],
-            language: 'original',
-            hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]]
+            showModal: false,
+            hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
+            gpxObject: {},
+            gpxValue: [],
+            gpxText: []
         }
     },
+    computed: {
+        ...mapGetters({
+            keytext: 'getKeytext',
+            language: 'getLanguage'
+        })
+    },
     components: {
-        GpxTitle,
-        GpxClock,
-        GpxButton,
-        GpxText,
-        'gpx-hvline': GpxHVLine
+        'gpx-title': GpxTitle,
+        'gpx-clock': GpxClock,
+        'gpx-button': GpxButton,
+        'gpx-value': GpxValue,
+        'gpx-text': GpxText,
+        'gpx-hvline': GpxHVLine,
+        'gpx-modal': GpxModal
     },
     methods: {
+        ...mapActions(['actionLanguageChange']),
         winpc32Init: async function() {
             let URL = gURL + '/winpc32/init'
             // AJAX
@@ -95,19 +85,19 @@ export default {
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
-                this.getKeyText(result['style-sheet']['key-text'])
                 let pf = result.PageFrame.find(
                     item => item['page-title'] == 'Window1'
                 )
-                this.getMessage(pf['gpx:object'].MSG)
+                this.gpxObject = pf['gpx:object']
+                this.gpxValue = this.gpxObject._Text
+                    .filter(item => item['control-link'].length != 0)
+                    .filter(item => item['control-link'][0].expression != null)
+                this.gpxText = this.gpxObject._Text.filter(
+                    item => item['control-link'].length == 0
+                )
             } else {
                 let text = await res.text()
                 console.log(text)
-            }
-        },
-        getKeyText(data) {
-            for (let i in data) {
-                this.keytext.push(data[i])
             }
         }
     },
@@ -120,10 +110,48 @@ export default {
         })
     },
     created() {
+        this.getGpxWindow1()
         this.winpc32Init()
     }
 }
 </script>
 
-<style>
+<style scoped>
+.container {
+    display: block;
+    position: relative;
+    background-color: #c0c0c0;
+    width: 100%;
+    height: 412px;
+}
+.group-button {
+    width: 100px;
+}
+.group-text {
+    width: 150px;
+}
+.row-1 {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 12px;
+}
+.fieldset-0 {
+    width: 95px;
+    height: 10px;
+    background-color: #ccc;
+    border: inset;
+}
+.group-fieldset {
+    display: flex;
+    height: 90%;
+}
+.fieldset-1 {
+    flex: 1;
+}
+.fieldset-2 {
+    flex: 1;
+}
+.fieldset-3 {
+    flex: 1;
+}
 </style>

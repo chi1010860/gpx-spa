@@ -21,4 +21,12 @@ export const mutations = {
         state.count = 0;
         console.log('COUNT_RESET - state?', state.count)
     },
+    [types.KEYTEXT_INIT](state, _keytext) {
+        state.keytext = _keytext
+        console.log(state.keytext)
+    },
+    [types.LANGUAGE_CHANGE](state, _language) {
+        state.language = _language
+        console.log(state.language)
+    }
 }

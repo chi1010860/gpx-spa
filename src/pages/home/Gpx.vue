@@ -19,26 +19,35 @@
 <script>
 import gURL from '@/router/url.js'
 import GpxHvline from '@/components/gpx_ui/GpxHVLine'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'PageFrame',
     data() {
         return {
-            keytext: [],
-            language: 'original',
             hvline: [[0, 492, 800, 494], [-1, 495, 800, 497]]
         }
+    },
+    computed: {
+        ...mapGetters({
+            keytext: 'getKeytext',
+            language: 'getLanguage'
+        })
     },
     components: {
         GpxHvline
     },
     methods: {
+        ...mapActions(['actionKeytextInit', 'actionLanguageChange']),
         getGpxInit: async function() {
             let URL = gURL + '/gpxdata/gpx'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
-                this.getKeyText(result['style-sheet']['key-text'])
+                this.actionKeytextInit(result['style-sheet']['key-text'])
+                this.actionLanguageChange(
+                    result['style-sheet']['language-table'][0]
+                )
                 this.drawWindow(result['gpx:document'])
                 let pf = result.PageFrame.find(
                     item => item['page-title'] == 'Button'
@@ -49,11 +58,6 @@ export default {
             } else {
                 let text = await res.text()
                 console.log(text)
-            }
-        },
-        getKeyText(data) {
-            for (let i in data) {
-                this.keytext.push(data[i])
             }
         },
         drawWindow(data) {
