@@ -34,7 +34,7 @@ export default {
 .HVLine-1 {
     position: absolute;
     top: 60px;
-    width: 798px;
+    width: 800px;
     height: 0px;
     border: 1px solid #888888;
 }
@@ -42,7 +42,7 @@ export default {
 .HVLine-2 {
     position: absolute;
     top: 59px;
-    width: 798px;
+    width: 800px;
     height: 0px;
     border: 1px solid #ffffff;
 }

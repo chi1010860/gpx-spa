@@ -70,9 +70,6 @@ export default {
     font-size: 32px;
     padding: 20px;
     background-color: #c0c0c0;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
 .font-h1-primary {
     position: absolute;

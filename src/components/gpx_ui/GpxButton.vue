@@ -84,7 +84,6 @@ export default {
                         console.log(
                             `keypad: ${controlLink.keypad} ${eventType}`
                         )
-                        console.log(this.eventName)
                         this.isTurnOn = !this.isTurnOn
                         this.$bus.$emit(this.eventName, {
                             state: this.isTurnOn
@@ -193,14 +192,10 @@ button {
     width: 100px;
     height: 50px;
     padding: 1px;
-    box-shadow: 1px 2px 0px 0px #899599;
-    -moz-box-shadow: 1px 2px 0px 0px #899599;
-    -webkit-box-shadow: 1px 2px 0px 0px #899599;
+    border: 2px outset #ddd;
 }
 button:active {
     top: 1px;
-    box-shadow: 0px 0px 0px 0px #899599;
-    -moz-box-shadow: 0px 0px 0px 0px #899599;
-    -webkit-box-shadow: 0px 0px 0px 0px #899599;
+    border: 2px solid #ddd;
 }
 </style>

@@ -17,11 +17,11 @@ import ToolPage from '@/pages/Others/ToolPage'
 /* GPX pages */
 import Gpx from '@/pages/home/Gpx'
 import Void from '@/components/gpx_window/Void'
-import window1 from '@/components/gpx_window/window1'
-import window2 from '@/components/gpx_window/window2'
-import window3 from '@/components/gpx_window/window3'
-import window4 from '@/components/gpx_window/window4'
-import window5 from '@/components/gpx_window/window5'
+import Window1 from '@/components/gpx_window/window1'
+import Window2 from '@/components/gpx_window/window2'
+import Window3 from '@/components/gpx_window/window3'
+import Window4 from '@/components/gpx_window/window4'
+import Window5 from '@/components/gpx_window/window5'
 
 // add global-level functionality to Vue
 // call VueRouter.install(Vue)
@@ -55,29 +55,29 @@ export default new Router({
 							component: Void,
 						},
 						{
-							path: 'window1',
-							name: 'window1',
-							component: window1,
+							path: 'Window1',
+							name: 'Window1',
+							component: Window1,
 						},
 						{
-							path: 'window2',
-							name: 'window2',
-							component: window2,
+							path: 'Window2',
+							name: 'Window2',
+							component: Window2,
 						},
 						{
-							path: 'window3',
-							name: 'window3',
-							component: window3,
+							path: 'Window3',
+							name: 'Window3',
+							component: Window3,
 						},
 						{
-							path: 'window4',
-							name: 'window4',
-							component: window4,
+							path: 'Window4',
+							name: 'Window4',
+							component: Window4,
 						},
 						{
-							path: 'window5',
-							name: 'window5',
-							component: window5,
+							path: 'Window5',
+							name: 'Window5',
+							component: Window5,
 						},
 					]
 				},

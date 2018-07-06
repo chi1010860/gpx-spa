@@ -5,11 +5,7 @@
                 <router-view></router-view>
             </div>
             <div class="button-navbar">
-                <router-link class="gpx-button" :to="{name: 'window1'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'window2'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'window3'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'window4'}" exact></router-link>
-                <router-link class="gpx-button" :to="{name: 'window5'}" exact></router-link>
+                <gpx-page-button v-for="(item, index) in pageButton" :componentProperties="item" :key="'pageButton' + index"></gpx-page-button>
             </div>
             <gpx-hvline :rect="hvline"></gpx-hvline>
         </div>
@@ -18,13 +14,14 @@
 
 <script>
 import gURL from '@/router/url.js'
+import GpxPageButton from '@/components/gpx_ui/GpxPageButton'
 import GpxHvline from '@/components/gpx_ui/GpxHVLine'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    name: 'PageFrame',
     data() {
         return {
+            pageButton: [],
             hvline: [[0, 492, 800, 494], [-1, 495, 800, 497]]
         }
     },
@@ -35,7 +32,8 @@ export default {
         })
     },
     components: {
-        GpxHvline
+        'gpx-page-button': GpxPageButton,
+        'gpx-hvline': GpxHvline
     },
     methods: {
         ...mapActions(['actionKeytextInit', 'actionLanguageChange']),
@@ -53,8 +51,12 @@ export default {
                     item => item['page-title'] == 'Button'
                 )
                 this.drawButtonNavbar(pf)
-                this.drawButton(pf['gpx:object']._Button)
-                this.drawMSG(pf['gpx:object'].MSG)
+                this.pageButton = pf['gpx:object']._Button
+                for (let p in this.pageButton) {
+                    this.pageButton[p].message =
+                        pf['gpx:object'].MSG[p].MessageIndex[0].message
+                    this.pageButton[p].window = 'Window' + (parseInt(p) + 1)
+                }
             } else {
                 let text = await res.text()
                 console.log(text)
@@ -88,26 +90,6 @@ export default {
             bn.style.width = bnWidth.toString() + 'px'
             bn.style.height = bnHeight.toString() + 'px'
             bn.style.backgroundColor = '#' + data['brush-color']
-        },
-        drawButton(data) {
-            // define the buttons
-            let btns = document.getElementsByClassName('gpx-button')
-            for (let i = 0; i < btns.length; i++) {
-                let width = data[i].rect[2] - data[i].rect[0]
-                let height = data[i].rect[3] - data[i].rect[1]
-                btns[i].style.width = width.toString() + 'px'
-                btns[i].style.height = height.toString() + 'px'
-                btns[i].style.backgroundColor = '#' + data[i]['brush-color']
-                btns[i].style.border = '1px solid ' + '#' + data[i]['pen-color']
-            }
-        },
-        drawMSG(data) {
-            let btns = document.getElementsByClassName('gpx-button')
-            for (let i = 0; i < btns.length; i++) {
-                let mi = data[i].MessageIndex[0].message
-                let text = this.keytext.find(item => item.id === mi)
-                btns[i].innerHTML = text[this.language]
-            }
         }
     },
     created() {
@@ -135,19 +117,22 @@ export default {
     text-align: left;
     padding-left: 10px;
     padding-top: 10px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
-.gpx-button {
+.test-button {
+    width: 100px;
+    height: 50px;
     margin-right: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     text-align: center;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    border: 2px outset #ddd;
+}
+.test-button:active {
+    border: none;
+}
+a {
+    text-decoration: none;
 }
 </style>

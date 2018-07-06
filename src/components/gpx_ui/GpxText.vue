@@ -56,9 +56,7 @@ export default {
     align-items: center;
     justify-content: center;
     margin: 0px;
-    vertical-align: middle;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    background-color: transparent;
+    color: black;
 }
 </style>

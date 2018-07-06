@@ -132,18 +132,18 @@ export default {
 }
 .row-1 {
     width: 100%;
-    padding-top: 5px;
-    padding-bottom: 12px;
+    padding-top: 6px;
+    padding-bottom: 15px;
 }
 .fieldset-0 {
-    width: 95px;
-    height: 10px;
+    width: 124px;
+    height: 30px;
     background-color: #ccc;
     border: inset;
 }
 .group-fieldset {
     display: flex;
-    height: 90%;
+    height: 86%;
 }
 .fieldset-1 {
     flex: 1;

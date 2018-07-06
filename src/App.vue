@@ -37,4 +37,9 @@ export default {
 body {
     margin: auto;
 }
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 </style>
