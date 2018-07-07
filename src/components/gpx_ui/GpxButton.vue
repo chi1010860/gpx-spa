@@ -167,7 +167,7 @@ export default {
 
             if (res.ok) {
                 let result = await res.json()
-                console.log(`tagname: ${this.uTagname} value: ${result.bValue}`)
+                // console.log(`tagname: ${this.uTagname} value: ${result.bValue}`)
             } else {
                 let text = await res.text()
                 console.warn(text)
@@ -188,6 +188,7 @@ export default {
 
 <style scoped>
 button {
+    cursor: pointer;
     position: absolute;
     width: 100px;
     height: 50px;

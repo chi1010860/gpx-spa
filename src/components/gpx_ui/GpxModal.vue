@@ -11,7 +11,7 @@
 
                 <div class="modal-body">
                     <slot name="body">
-                        <input type="text" name="analog" id="" v-model="analogValue">
+                        <input class="modal-default-input" type="text">
                     </slot>
                 </div>
 
@@ -19,23 +19,21 @@
                     <slot name="footer">
                         default header
                     </slot>
-                    <button class="modal-default-button" @click="$emit('close', analogValue)">
-                        OK
-                    </button>
+                    <slot name="warning"></slot>
+                    <slot name="default-button">
+                        <button class="modal-default-button" @click="$emit('ok')">
+                            OK
+                        </button>
+                    </slot>
                 </div>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            analogValue: 0
-        }
-    }
-}
+export default {}
 </script>
 
 <style scoped>
@@ -50,16 +48,15 @@ export default {
     display: table;
     transition: opacity 0.3s ease;
 }
-
 .modal-wrapper {
     display: table-cell;
     vertical-align: middle;
 }
-
 .modal-container {
+    position: relative;
     width: 300px;
     margin: 0px auto;
-    padding: 20px 30px;
+    padding: 15px 15px 50px 15px;
     text-align: left;
     background-color: #fff;
     border-radius: 2px;
@@ -67,18 +64,24 @@ export default {
     transition: all 0.3s ease;
     font-family: Helvetica, Arial, sans-serif;
 }
-
 .modal-header h3 {
     margin-top: 0;
-    color: #42b983;
+    color: #003344;
 }
-
 .modal-body {
     margin: 20px 0;
+    text-align: center;
 }
-
+.modal-default-input {
+    font-size: 20px;
+    height: 30px;
+}
 .modal-default-button {
-    float: right;
+    position: absolute;
+    display: block;
+    right: 10px;
+    width: 50px;
+    height: 25px;
 }
 
 /*
@@ -93,11 +96,9 @@ export default {
 .modal-enter {
     opacity: 0;
 }
-
 .modal-leave-active {
     opacity: 0;
 }
-
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);

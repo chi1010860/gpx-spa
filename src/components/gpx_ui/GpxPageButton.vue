@@ -33,11 +33,9 @@ export default {
     methods: {
         componentInit() {
             let rect = this.componentProperties.rect
-            let width = rect[2] - rect[0]
-            let height = rect[3] - rect[1]
             this.styleObject = {
-                width: width.toString() + 'px',
-                height: height.toString() + 'px',
+                width: rect[2] - rect[0] + 'px',
+                height: rect[3] - rect[1] + 'px',
                 backgroundColor: '#' + this.componentProperties['brush-color'],
                 border: '2px outset #ddd'
             }
@@ -57,6 +55,7 @@ export default {
 
 <style scoped>
 .page-button {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;

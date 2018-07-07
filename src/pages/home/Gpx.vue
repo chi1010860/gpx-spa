@@ -118,20 +118,6 @@ export default {
     padding-left: 10px;
     padding-top: 10px;
 }
-.test-button {
-    width: 100px;
-    height: 50px;
-    margin-right: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    text-align: center;
-    border: 2px outset #ddd;
-}
-.test-button:active {
-    border: none;
-}
 a {
     text-decoration: none;
 }

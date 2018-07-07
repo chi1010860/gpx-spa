@@ -6,7 +6,8 @@
             <div class="row-1">
                 <fieldset class="fieldset-0"></fieldset>
             </div>
-            <gpx-button v-for="(item, index) in gpxObject._Button" :componentProperties="item" :key="'button'+index"></gpx-button>
+            <gpx-button v-for="(item, index) in gpxObject._Button" :componentProperties="item" :key="'button' + index"></gpx-button>
+            <gpx-input v-for="(item, index) in gpxInput" :componentProperties="item" :key="'input' + index"></gpx-input>
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
 
@@ -32,6 +33,7 @@ import gURL from '@/router/url'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
+import GpxInput from '@/components/gpx_ui/GpxInput'
 import GpxValue from '@/components/gpx_ui/GpxValue'
 import GpxText from '@/components/gpx_ui/GpxText'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
@@ -44,6 +46,7 @@ export default {
             showModal: false,
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             gpxObject: {},
+            gpxInput: [],
             gpxValue: [],
             gpxText: []
         }
@@ -58,6 +61,7 @@ export default {
         'gpx-title': GpxTitle,
         'gpx-clock': GpxClock,
         'gpx-button': GpxButton,
+        'gpx-input': GpxInput,
         'gpx-value': GpxValue,
         'gpx-text': GpxText,
         'gpx-hvline': GpxHVLine,
@@ -89,6 +93,9 @@ export default {
                     item => item['page-title'] == 'Window1'
                 )
                 this.gpxObject = pf['gpx:object']
+                this.gpxInput = this.gpxObject._Text
+                    .filter(item => item['control-link'].length != 0)
+                    .filter(item => item['control-link'][0]['to-user'] != null)
                 this.gpxValue = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
                     .filter(item => item['control-link'][0].expression != null)
