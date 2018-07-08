@@ -10,8 +10,8 @@
             <gpx-input v-for="(item, index) in gpxInput" :componentProperties="item" :key="'input' + index"></gpx-input>
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
+            <gpx-slider v-for="(item, index) in gpxSlider" :componentProperties="item" :key="'slider' + index"></gpx-slider>
 
-            <!-- <button id="show-modal" style="height:30px;" @click="showModal = true">互動視窗</button> -->
             <div class="group-fieldset">
                 <fieldset class="fieldset-1"></fieldset>
                 <fieldset class="fieldset-2"></fieldset>
@@ -19,12 +19,6 @@
             </div>
         </div>
         <gpx-hvline :rect="hvline"></gpx-hvline>
-
-        <!-- use the modal component, pass in the prop -->
-        <gpx-modal v-if="showModal" @close="showModal = false">
-            <h3 slot="header">父元件嵌入標題</h3>
-            <span slot="footer">請輸入(0-100)間的整數</span>
-        </gpx-modal>
     </div>
 </template>
 
@@ -36,6 +30,7 @@ import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxInput from '@/components/gpx_ui/GpxInput'
 import GpxValue from '@/components/gpx_ui/GpxValue'
 import GpxText from '@/components/gpx_ui/GpxText'
+import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 import GpxModal from '@/components/gpx_ui/GpxModal'
 import { mapGetters, mapActions } from 'vuex'
@@ -43,12 +38,12 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data() {
         return {
-            showModal: false,
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             gpxObject: {},
             gpxInput: [],
             gpxValue: [],
-            gpxText: []
+            gpxText: [],
+            gpxSlider: []
         }
     },
     computed: {
@@ -64,6 +59,7 @@ export default {
         'gpx-input': GpxInput,
         'gpx-value': GpxValue,
         'gpx-text': GpxText,
+        'gpx-slider': GpxSlider,
         'gpx-hvline': GpxHVLine,
         'gpx-modal': GpxModal
     },
@@ -102,6 +98,9 @@ export default {
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )
+                this.gpxSlider = this.gpxObject._Rectangle
+                    .filter(item => item['control-link'] != null)
+                    .filter(item => item['control-link'].length == 1)
             } else {
                 let text = await res.text()
                 console.log(text)

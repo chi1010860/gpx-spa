@@ -22,6 +22,7 @@ export default {
         return {
             controlLink: {},
             isTurnOn: false,
+            analogValue: 0,
             eventName: ''
         }
     },
@@ -45,9 +46,6 @@ export default {
         discreteValue() {
             return this.isTurnOn ? 'ON' : 'OFF'
         },
-        analogValue() {
-            return this.pNumberValue
-        },
         styleObject() {
             let rect = this.componentProperties.rect
             return {
@@ -68,7 +66,9 @@ export default {
     created() {
         this.componentInit()
         this.$bus.$on(this.eventName, event => {
-            this.isTurnOn = event.state
+            if (event.state != null) this.isTurnOn = event.state
+
+            if (event.analogValue != null) this.analogValue = event.analogValue
         })
     },
     beforeDestroy() {

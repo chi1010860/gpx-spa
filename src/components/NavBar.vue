@@ -26,7 +26,9 @@ export default {
             let vm = this
             vm._isSidebarOpen = !vm._isSidebarOpen
             vm.$emit('onSidebarToggle', vm._isSidebarOpen)
-            console.log(vm._isSidebarOpen)
+            console.log(
+                vm._isSidebarOpen ? 'sidebar is open' : 'sidebar is closed'
+            )
         }
     },
     mounted() {
