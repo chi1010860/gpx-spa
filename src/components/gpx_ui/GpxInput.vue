@@ -6,6 +6,7 @@
             <button class="button-discrete" v-if="isDiscrete" slot='body' @click="setOn">{{promptSet}}</button>
             <button class="button-discrete" v-if="isDiscrete" slot='body' @click="setOff">{{promptReset}}</button>
             <input class="parent-input" v-if="!isDiscrete" slot="body" ref="input" type="text" v-model="modalInputValue" @keyup="detectKeycode">
+            <gpx-keyboard v-if="!isDiscrete" slot="body" :keyboardType="keyboardType" @keying="onKeying"></gpx-keyboard>
             <span slot="footer">{{parentFooter}}</span>
             <p style="color:red" v-if="showWarning" slot="warning">{{parentWarning}}</p>
             <span v-if="isDiscrete" slot="default-button"></span>
@@ -15,6 +16,7 @@
 
 <script>
 import GpxModal from '@/components/gpx_ui/GpxModal'
+import GpxKeyboard from '@/components/gpx_ui/GpxKeyboard'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -55,6 +57,14 @@ export default {
         controlLinkName() {
             return this.componentProperties['control-link'][0]['link-name']
         },
+        keyboardType() {
+            return {
+                typeNumber:
+                    this.controlLinkName == 'userinput-analog' ? true : false,
+                typeString:
+                    this.controlLinkName == 'userinput-string' ? true : false
+            }
+        },
         showValue() {
             if (this.controlLinkName == 'userinput-discrete') {
                 return this.discreteValue
@@ -66,7 +76,8 @@ export default {
         }
     },
     components: {
-        'gpx-modal': GpxModal
+        'gpx-modal': GpxModal,
+        'gpx-keyboard': GpxKeyboard
     },
     methods: {
         componentInit() {
@@ -147,6 +158,15 @@ export default {
             } else if (this.controlLinkName == 'userinput-string') {
                 this.stringValue = this.modalInputValue
                 this.isModalShown = false
+            }
+        },
+        onKeying(unit) {
+            if (unit == '⬅') {
+                let tempString = this.modalInputValue.split('')
+                tempString.pop()
+                this.modalInputValue = tempString.join('')
+            } else {
+                this.modalInputValue += unit
             }
         }
     },

@@ -54,9 +54,9 @@ export default {}
 }
 .modal-container {
     position: relative;
-    width: 300px;
+    width: 350px;
     margin: 0px auto;
-    padding: 15px 15px 50px 15px;
+    padding: 15px 5px 50px 5px;
     text-align: left;
     background-color: #fff;
     border-radius: 2px;
