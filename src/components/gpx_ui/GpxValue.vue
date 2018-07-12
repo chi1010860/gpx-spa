@@ -15,8 +15,7 @@ var enumDiscreteType = new Map([
 
 export default {
     props: {
-        componentProperties: {},
-        pNumberValue: 0
+        componentProperties: {}
     },
     data() {
         return {
@@ -66,9 +65,21 @@ export default {
     created() {
         this.componentInit()
         this.$bus.$on(this.eventName, event => {
-            if (event.state != null) this.isTurnOn = event.state
+            if (event.state != null) {
+                this.isTurnOn = event.state
+            }
 
-            if (event.analogValue != null) this.analogValue = event.analogValue
+            if (event.analogValue != null) {
+                if (event.linkName != null) {
+                    let vm = this
+                    for (let i in event.vsEval) {
+                        var fn = eval(event.vsEval[0])
+                        fn()
+                    }
+                } else {
+                    this.analogValue = event.analogValue
+                }
+            }
         })
     },
     beforeDestroy() {

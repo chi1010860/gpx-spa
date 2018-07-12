@@ -24,7 +24,12 @@ export default {
         return {
             controlLink: {},
             isTurnOn: false,
-            eventName: ''
+            timer: null,
+            // event emit
+            isMousedown: false,
+            eventName: '',
+            vsEval: [],
+            analogValue: 0
         }
     },
     computed: {
@@ -58,14 +63,14 @@ export default {
             if (this.linkName == 'PB-discrete') {
                 this.PB_discrete(this.controlLink, e.type)
             } else if (this.linkName == 'PB-action') {
-                this.PB_action(controlLink, e.type)
+                this.PB_action(this.controlLink, e.type)
             }
         },
         fnMouseup(e) {
             if (this.linkName == 'PB-discrete') {
                 this.PB_discrete(this.controlLink, e.type)
             } else if (this.linkName == 'PB-action') {
-                this.PB_action(controlLink, e.type)
+                this.PB_action(this.controlLink, e.type)
             }
         },
         componentInit() {
@@ -132,12 +137,62 @@ export default {
             }
         },
         PB_action(controlLink, eventType) {
+            let vm = this
+            vincentScriptParser(controlLink['vincent-script'])
             if (eventType == 'mousedown') {
-                if (this.controlLink['on-down']) {
-                    console.log(eventType)
+                if (controlLink['on-down'] != null) {
+                    this.$bus.$emit(this.eventName, {
+                        analogValue: this.analogValue,
+                        linkName: this.linkName,
+                        vsEval: this.vsEval
+                    })
+                } else if (controlLink['while-down'] != null) {
+                    vm.timer = setInterval(function() {
+                        vm.$bus.$emit(vm.eventName, {
+                            analogValue: vm.analogValue,
+                            linkName: vm.linkName,
+                            vsEval: vm.vsEval
+                        })
+                    }, 50)
                 }
-            } else if (eventType == 'mousedown') {
-                console.log(eventType)
+            } else if (eventType == 'mouseup') {
+                if (controlLink['while-down'] != null) {
+                    clearInterval(this.timer)
+                } else if (controlLink['on-up']) {
+                    this.$bus.$emit(this.eventName, {
+                        analogValue: this.analogValue,
+                        linkName: this.linkName,
+                        vsEval: this.vsEval
+                    })
+                }
+            }
+            function vincentScriptParser(vincentScripts) {
+                let tempValue = {}
+                for (let i in vincentScripts) {
+                    let varAddress = vincentScripts[i]
+                        .match(/.+=/g)[0]
+                        .match(/\w+/)[0]
+                    let varAssiments = vincentScripts[i]
+                        .match(/=.+/)[0]
+                        .match(/\w+/g)
+                    let varOperators = vincentScripts[i]
+                        .match(/=.+/)[0]
+                        .match(/[*/;+-]/g)
+
+                    vm.eventName = 'eventBy_' + varAddress
+                    if (varAssiments[0] == varAddress) {
+                        varAssiments.shift()
+                        if (varOperators[varOperators.length - 1] == ';')
+                            varOperators.pop()
+                        for (let j in varAssiments) {
+                            vm.vsEval[j] =
+                                '(function() { vm.analogValue = vm.analogValue ' +
+                                varOperators[j] +
+                                varAssiments[j] +
+                                ' })'
+                        }
+                    }
+                }
             }
         },
         changeBit_A: async function() {
