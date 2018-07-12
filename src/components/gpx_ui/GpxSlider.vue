@@ -34,7 +34,7 @@ export default {
             let rect = this.componentProperties.rect
             this.styleObject = {
                 left: rect[0] + 'px',
-                top: rect[1] + 10 + 'px',
+                top: rect[1] + 10 + 'px'
             }
         }
     },

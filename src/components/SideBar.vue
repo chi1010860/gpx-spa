@@ -2,10 +2,12 @@
     <div class="side-bar">
         <router-link class="link" :to="{path: 'Home'}" exact>Home</router-link>
         <router-link class="link" :to="{name: 'Winpc32'}" exact>Winpc32</router-link>
-        <router-link class="link" :to="{name: 'SampleControl'}" exact>SampleControl</router-link>
+        <router-link class="link" :to="{name: 'Gauges'}" exact>Gauges</router-link>
         <router-link class="link" :to="{name: 'Gpx'}" exact>GPX</router-link>
         <a class="link" href="#">-------------------</a>
         <router-link class="link" :to="{name: 'Others'}" exact>Others</router-link>
+        <a class="link" href="#">-------------------</a>
+        <a class="link" href="http://localhost/api/gpx">GPX data</a>
     </div>
 </template>
 

@@ -14,6 +14,8 @@ var enumDiscreteType = new Map([
     ['set', 4]
 ])
 
+var enumAnalog
+
 export default {
     props: {
         componentProperties: {}
@@ -35,9 +37,6 @@ export default {
                 item => item.id == this.componentProperties.message
             )[this.language]
         },
-        uTagname() {
-            return parseInt(this.controlLink.tagname.match(/\d+/)[0])
-        },
         styleObject() {
             let rect = this.componentProperties.rect
             return {
@@ -46,19 +45,33 @@ export default {
                 width: rect[2] - rect[0] + 'px',
                 height: rect[3] - rect[1] + 'px'
             }
+        },
+        linkName() {
+            return this.controlLink['link-name']
+        },
+        uTagname() {
+            return parseInt(this.controlLink.tagname.match(/\d+/)[0])
         }
     },
     methods: {
         fnMousedown(e) {
-            this.PB_discrete(this.controlLink, e.type)
+            if (this.linkName == 'PB-discrete') {
+                this.PB_discrete(this.controlLink, e.type)
+            } else if (this.linkName == 'PB-action') {
+                this.PB_action(controlLink, e.type)
+            }
         },
         fnMouseup(e) {
-            this.PB_discrete(this.controlLink, e.type)
+            if (this.linkName == 'PB-discrete') {
+                this.PB_discrete(this.controlLink, e.type)
+            } else if (this.linkName == 'PB-action') {
+                this.PB_action(controlLink, e.type)
+            }
         },
         componentInit() {
             this.controlLink = this.componentProperties['control-link'][0]
             this.eventName = 'eventBy_' + this.controlLink.tagname
-            if (this.controlLink['link-name'] == 'PB-discrete') {
+            if (this.linkName == 'PB-discrete') {
                 if (
                     this.controlLink.keypad == enumDiscreteType.get('reverse')
                 ) {
@@ -76,61 +89,53 @@ export default {
         },
         PB_discrete(controlLink, eventType) {
             if (eventType == 'mousedown') {
-                if (controlLink['link-name'] == 'PB-discrete') {
-                    if (
-                        controlLink.keypad == enumDiscreteType.get('direct') ||
-                        controlLink.keypad == enumDiscreteType.get('reverse')
-                    ) {
-                        console.log(
-                            `keypad: ${controlLink.keypad} ${eventType}`
-                        )
-                        this.isTurnOn = !this.isTurnOn
-                        this.$bus.$emit(this.eventName, {
-                            state: this.isTurnOn
-                        })
-                        this.changeBit_A()
-                    }
+                if (
+                    controlLink.keypad == enumDiscreteType.get('direct') ||
+                    controlLink.keypad == enumDiscreteType.get('reverse')
+                ) {
+                    console.log(`keypad: ${controlLink.keypad} ${eventType}`)
+                    this.isTurnOn = !this.isTurnOn
+                    this.$bus.$emit(this.eventName, {
+                        state: this.isTurnOn
+                    })
+                    this.changeBit_A()
                 }
             } else if (eventType == 'mouseup') {
-                if (controlLink['link-name'] == 'PB-discrete') {
-                    if (
-                        controlLink.keypad == enumDiscreteType.get('direct') ||
-                        controlLink.keypad == enumDiscreteType.get('reverse') ||
-                        controlLink.keypad == enumDiscreteType.get('toggle')
-                    ) {
-                        console.log(
-                            `keypad: ${controlLink.keypad} ${eventType}`
-                        )
-                        this.isTurnOn = !this.isTurnOn
-                        this.$bus.$emit(this.eventName, {
-                            state: this.isTurnOn
-                        })
-                        this.changeBit_A()
-                    } else if (
-                        controlLink.keypad == enumDiscreteType.get('set')
-                    ) {
-                        console.log(`keypad: ${controlLink.keypad}`)
-                        this.isTurnOn = true
-                        this.$bus.$emit(this.eventName, {
-                            state: this.isTurnOn
-                        })
-                        this.changeBit_A()
-                    } else if (
-                        controlLink.keypad == enumDiscreteType.get('reset')
-                    ) {
-                        console.log(`keypad: ${controlLink.keypad}`)
-                        this.isTurnOn = false
-                        this.$bus.$emit(this.eventName, {
-                            state: this.isTurnOn
-                        })
-                        this.changeBit_A()
-                    }
+                if (
+                    controlLink.keypad == enumDiscreteType.get('direct') ||
+                    controlLink.keypad == enumDiscreteType.get('reverse') ||
+                    controlLink.keypad == enumDiscreteType.get('toggle')
+                ) {
+                    console.log(`keypad: ${controlLink.keypad} ${eventType}`)
+                    this.isTurnOn = !this.isTurnOn
+                    this.$bus.$emit(this.eventName, {
+                        state: this.isTurnOn
+                    })
+                    this.changeBit_A()
+                } else if (controlLink.keypad == enumDiscreteType.get('set')) {
+                    console.log(`keypad: ${controlLink.keypad}`)
+                    this.isTurnOn = true
+                    this.$bus.$emit(this.eventName, {
+                        state: this.isTurnOn
+                    })
+                    this.changeBit_A()
+                } else if (
+                    controlLink.keypad == enumDiscreteType.get('reset')
+                ) {
+                    console.log(`keypad: ${controlLink.keypad}`)
+                    this.isTurnOn = false
+                    this.$bus.$emit(this.eventName, {
+                        state: this.isTurnOn
+                    })
+                    this.changeBit_A()
                 }
             }
         },
         PB_action(controlLink, eventType) {
             if (eventType == 'mousedown') {
-                console.log(eventType)
+                if (this.controlLink['on-down']) {
+                    console.log(eventType)
+                }
             } else if (eventType == 'mousedown') {
                 console.log(eventType)
             }

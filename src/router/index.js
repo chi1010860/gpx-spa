@@ -6,7 +6,7 @@ import Home from '@/pages/Home'
 import Others from '@/pages/Others'
 
 /* Sub pages */
-import SampleControl from '@/pages/home/SampleControl'
+import Gauges from '@/pages/home/Gauges'
 import Winpc32 from "@/pages/home/Winpc32"
 import Todo from '@/pages/Others/Todo'
 import Markdown from '@/pages/Others/Markdown'
@@ -36,9 +36,9 @@ export default new Router({
 			component: Home,
 			children: [
 				{
-					path: 'SampleControl',
-					name: 'SampleControl',
-					component: SampleControl
+					path: 'Gauges',
+					name: 'Gauges',
+					component: Gauges
 				},
 				{
 					path: 'Winpc32',

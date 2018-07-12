@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         getGpxTitle: async function() {
-            let URL = gURL + '/gpxdata/gpx'
+            let URL = gURL + '/api/gpx'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()

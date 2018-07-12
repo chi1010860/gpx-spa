@@ -11,6 +11,7 @@
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
             <gpx-slider v-for="(item, index) in gpxSlider" :componentProperties="item" :key="'slider' + index"></gpx-slider>
+            <gpx-planar v-for="(item, index) in gpxPlanar" :componentProperties="item" :key="'planar' + index"></gpx-planar>
 
             <div class="group-fieldset">
                 <fieldset class="fieldset-1"></fieldset>
@@ -31,6 +32,7 @@ import GpxInput from '@/components/gpx_ui/GpxInput'
 import GpxValue from '@/components/gpx_ui/GpxValue'
 import GpxText from '@/components/gpx_ui/GpxText'
 import GpxSlider from '@/components/gpx_ui/GpxSlider'
+import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 import GpxModal from '@/components/gpx_ui/GpxModal'
 import { mapGetters, mapActions } from 'vuex'
@@ -43,7 +45,8 @@ export default {
             gpxInput: [],
             gpxValue: [],
             gpxText: [],
-            gpxSlider: []
+            gpxSlider: [],
+            gpxPlanar: []
         }
     },
     computed: {
@@ -60,6 +63,7 @@ export default {
         'gpx-value': GpxValue,
         'gpx-text': GpxText,
         'gpx-slider': GpxSlider,
+        'gpx-planar': GpxPlanar,
         'gpx-hvline': GpxHVLine,
         'gpx-modal': GpxModal
     },
@@ -81,7 +85,7 @@ export default {
             }
         },
         getGpxWindow1: async function() {
-            let URL = gURL + '/gpxdata/gpx'
+            let URL = gURL + '/api/gpx'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
@@ -101,6 +105,9 @@ export default {
                 this.gpxSlider = this.gpxObject._Rectangle
                     .filter(item => item['control-link'] != null)
                     .filter(item => item['control-link'].length == 1)
+                this.gpxPlanar = this.gpxObject._Rectangle
+                    .filter(item => item['control-link'] != null)
+                    .filter(item => item['control-link'].length == 2)
             } else {
                 let text = await res.text()
                 console.log(text)
