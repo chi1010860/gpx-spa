@@ -37,6 +37,21 @@ export default {
     },
     methods: {
         ...mapActions(['actionKeytextInit', 'actionLanguageChange']),
+        winpc32Init: async function() {
+            let URL = gURL + '/winpc32/init'
+            // AJAX
+            let res = await fetch(URL)
+            if (res.ok) {
+                let result = await res.text()
+                console.log(result)
+                this.$bus.$emit('winpc32Init', {
+                    isLoading: false
+                })
+            } else {
+                let text = await res.text()
+                console.warn(text)
+            }
+        },
         getGpxInit: async function() {
             let URL = gURL + '/api/gpx'
             let res = await fetch(URL)
@@ -93,6 +108,7 @@ export default {
         }
     },
     created() {
+        this.winpc32Init()
         this.getGpxInit()
     }
 }

@@ -41,14 +41,16 @@ export default {
             this.controlLink = this.componentProperties['control-link'] // X:0, Y:1
             this.eventName[0] = 'eventBy_' + this.controlLink[0].tagname
             this.eventName[1] = 'eventBy_' + this.controlLink[1].tagname
-            let rect = this.componentProperties.rect
+            let rect = this.componentProperties.planar.rect
             this.wrapper.wrapperStyle = {
                 left: rect[0] + 'px',
                 top: rect[1] + 'px'
             }
+            this.planar.planarWidth = rect[2] - rect[0]
+            this.planar.planarHeight = rect[3] - rect[1]
             this.planar.planarStyle = {
-                width: rect[2] - rect[0] + 'px',
-                height: rect[3] - rect[1] + 'px'
+                width: this.planar.planarWidth + 'px',
+                height: this.planar.planarWidth + 'px'
             }
             this.square.squareStyle = {
                 width: this.square.squareWidth + 'px',

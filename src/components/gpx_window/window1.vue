@@ -71,21 +71,6 @@ export default {
     },
     methods: {
         ...mapActions(['actionLanguageChange']),
-        winpc32Init: async function() {
-            let URL = gURL + '/winpc32/init'
-            // AJAX
-            let res = await fetch(URL)
-            if (res.ok) {
-                let result = await res.text()
-                console.log(result)
-                this.$bus.$emit('winpc32Init', {
-                    isLoading: false
-                })
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
-        },
         getGpxWindow: async function(index) {
             let URL = gURL + '/api/gpx'
             let res = await fetch(URL)
@@ -111,6 +96,12 @@ export default {
                 this.gpxPlanar = this.gpxObject._Rectangle
                     .filter(item => item['control-link'] != null)
                     .filter(item => item['control-link'].length == 2)
+                let planar = this.gpxObject._Rectangle.filter(
+                    item => item.planar != null
+                )
+                for (let i in this.gpxPlanar) {
+                    this.gpxPlanar[i].planar = planar[i]
+                }
             } else {
                 let text = await res.text()
                 console.log(text)
@@ -127,7 +118,6 @@ export default {
     },
     created() {
         this.getGpxWindow(1)
-        this.winpc32Init()
     }
 }
 </script>

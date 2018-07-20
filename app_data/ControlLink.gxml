@@ -371,7 +371,7 @@
 			<gpx:cgbject text-color="FFFFFF" pen-color="FFFFFF" brush-color="C4C4C4" title-size="8" y-grid="0" drawing-OP="8800C6"></></>
 		<gpx:object rect="338 285 448 395" object-name="_Rectangle">
 			<gpx:sg>
-				<gpx:cgbject brush-color="C0C0C0"></></></>
+				<gpx:cgbject brush-color="C0C0C0" planar="1"></></></>
 		<gpx:object rect="413 120 415 131" object-name="_HVLine">
 			<gpx:sg translate="1 0">
 				<gpx:cgbject pen-color="FFFFFF">
