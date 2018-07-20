@@ -935,11 +935,11 @@
 		<gpx:object rect="14 11 140 34" object-name="GROUPHEAD">
 			<gpx:sg>
 				<gpx:cgbject></></>
-			<gpx:object rect="14.500 92.500 139.500 114.500" object-name="_Text">
+			<gpx:object rect="14.500 12.500 114.500 34.500" object-name="_Text">
 				<gpx:sg translate="0 1" message="150">
 					<gpx:cgbject Transparent="1" text-color="FFFFFF" text-align="1"></>
 					<font original="1"></></></>
-			<gpx:object rect="13.500 91.500 138.500 113.500" object-name="_Text">
+			<gpx:object rect="13.500 11.500 113.500 33.500" object-name="_Text">
 				<gpx:sg translate="-1 0" message="150">
 					<gpx:cgbject Transparent="1" text-color="800000" text-align="1"></>
 					<font original="1"></></></></>
@@ -1588,11 +1588,11 @@
 		<gpx:object rect="15 11 150 34" object-name="GROUPHEAD">
 			<gpx:sg>
 				<gpx:cgbject></></>
-			<gpx:object rect="16.500 92.500 150.500 114.500" object-name="_Text">
+			<gpx:object rect="16.500 12.500 118.500 34.500" object-name="_Text">
 				<gpx:sg translate="1 1" message="128">
 					<gpx:cgbject Transparent="1" text-color="FFFFFF" text-align="1"></>
 					<font original="1"></></></>
-			<gpx:object rect="15.500 91.500 149.500 113.500" object-name="_Text">
+			<gpx:object rect="15.500 11.500 117.500 33.500" object-name="_Text">
 				<gpx:sg message="128">
 					<gpx:cgbject Transparent="1" text-color="800000" text-align="1"></>
 					<font original="1"></></></></>
@@ -2087,11 +2087,11 @@
 		<gpx:object rect="16 11 151 34" object-name="GROUPHEAD">
 			<gpx:sg>
 				<gpx:cgbject></></>
-			<gpx:object rect="17.500 92.500 151.500 114.500" object-name="_Text">
+			<gpx:object rect="17.500 12.500 117.500 34.500" object-name="_Text">
 				<gpx:sg translate="1 1" message="110">
 					<gpx:cgbject Transparent="1" text-color="FFFFFF" text-align="1"></>
 					<font original="1"></></></>
-			<gpx:object rect="16.500 91.500 150.500 113.500" object-name="_Text">
+			<gpx:object rect="16.500 11.500 116.500 33.500" object-name="_Text">
 				<gpx:sg message="110">
 					<gpx:cgbject Transparent="1" text-color="800000" text-align="1"></>
 					<font original="1"></></></></>

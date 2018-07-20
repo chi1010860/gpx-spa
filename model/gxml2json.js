@@ -358,9 +358,9 @@ function getItem(_targetTag) {
 	}
 	// Parse rect to number
 	if (item.rect != undefined) {
-		item.rect = item.rect.match(/[0-9]+/g)
+		item.rect = item.rect.match(/[\.0-9]+/g)
 		for (let key in item.rect) {
-			item.rect[key] = parseInt(item.rect[key])
+			item.rect[key] = parseFloat(item.rect[key])
 		}
 	}
 	return item

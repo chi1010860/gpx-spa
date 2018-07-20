@@ -47,8 +47,8 @@ export default {
                 top: rect[1] + 'px'
             }
             this.planar.planarStyle = {
-                width: this.planar.planarWidth + 'px',
-                height: this.planar.planarHeight + 'px'
+                width: rect[2] - rect[0] + 'px',
+                height: rect[3] - rect[1] + 'px'
             }
             this.square.squareStyle = {
                 width: this.square.squareWidth + 'px',

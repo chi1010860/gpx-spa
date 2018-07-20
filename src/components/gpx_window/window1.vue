@@ -42,6 +42,7 @@ export default {
         return {
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             gpxObject: {},
+            gpxRectangle: [],
             gpxButton: [],
             gpxInput: [],
             gpxValue: [],

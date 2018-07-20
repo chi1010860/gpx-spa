@@ -43,7 +43,7 @@ export default {
                     item => item.id == this.componentProperties.message
                 )[this.language]
             } else {
-                return '???'
+                return ''
             }
         },
         styleObject() {
