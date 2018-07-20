@@ -9,7 +9,6 @@ import Others from '@/pages/Others'
 import Gauges from '@/pages/home/Gauges'
 import Winpc32 from "@/pages/home/Winpc32"
 import Todo from '@/pages/Others/Todo'
-import Markdown from '@/pages/Others/Markdown'
 import ProductTester from '@/pages/Others/ProductTester'
 import Chatroom from '@/pages/Others/Chatroom'
 import ToolPage from '@/pages/Others/ToolPage'
@@ -96,11 +95,6 @@ export default new Router({
 					path: 'Todo',
 					name: 'Todo',
 					component: Todo
-				},
-				{
-					path: 'Markdown',
-					name: 'Markdown',
-					component: Markdown
 				},
 				{
 					path: 'ProductTester',

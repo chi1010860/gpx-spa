@@ -1,3 +1,4 @@
+// import modules
 var edge = require('edge-js')
 var fs = require('fs')
 
@@ -12,6 +13,7 @@ fs.readFile(readFilePath, (err, data) => {
 })
 
 // 單獨測試此檔案時須注意路徑
+// Functions invoke
 var MyInitial = edge.func({
     assemblyFile: './HALNodeServer/Winpc32.dll',
     typeName: 'Winpc32.Startup',
@@ -30,16 +32,16 @@ var MySetBit = edge.func({
     methodName: 'MySetBit'
 })
 
-var MyGetBit_A = edge.func({
+var Get_A_Bit = edge.func({
     assemblyFile: './HALNodeServer/Winpc32.dll',
     typeName: 'Winpc32.Startup',
-    methodName: 'MyGetBit_A'
+    methodName: 'Get_A_Bit'
 })
 
-var MySetBit_A = edge.func({
+var Set_A_Bit = edge.func({
     assemblyFile: './HALNodeServer/Winpc32.dll',
     typeName: 'Winpc32.Startup',
-    methodName: 'MySetBit_A'
+    methodName: 'Set_A_Bit'
 })
 
 var winpc32 = {
@@ -76,30 +78,29 @@ var winpc32 = {
             // console.log(result)
         });
     },
-    MyGetBit_A: function (getbitInput) {
+    Get_A_Bit: function (getbitInput) {
         var jsResult;
-        MyGetBit_A(getbitInput, function (err, result) {
+        Get_A_Bit(getbitInput, function (err, result) {
             if (err) {
-                console.log('MyGetBit_A Error:')
+                console.log('Get_A_Bit Error:')
                 throw err
             }
-            // console.log("MyGetBit_A Invoke:")
+            // console.log("Get_A_Bit Invoke:")
             // console.log(result)
             jsResult = result
         });
         return jsResult
     },
-    MySetBit_A: function (setbitInput) {
-        MySetBit_A(setbitInput, function (err, result) {
+    Set_A_Bit: function (setbitInput) {
+        Set_A_Bit(setbitInput, function (err, result) {
             if (err) {
-                console.log('MySetBit_A Error:')
+                console.log('Set_A_Bit Error:')
                 throw err
             }
-            // console.log("MySetBit_A Invoke:")
-            // console.log(result);
+            // console.log("Set_A_Bit Invoke:")
+            // console.log(result)
         });
     }
 }
 
 module.exports = winpc32
-

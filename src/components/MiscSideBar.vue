@@ -3,7 +3,6 @@
         <router-link class="link" :to="{path: 'Home'}" exact>Home</router-link>
         <router-link class="link" :to="{path: 'Todo'}" exact>Todo List</router-link>
         <router-link class="link" :to="{name: 'ProductTester'}" exact>ProductTester</router-link>
-        <router-link class="link" :to="{name: 'Markdown'}" exact>Markdown</router-link>
         <router-link class="link" :to="{name: 'Chatroom'}" exact>Chatroom</router-link>
         <router-link class="link" :to="{name: 'ToolPage'}" exact>ToolPage</router-link>
     </div>

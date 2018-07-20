@@ -6,7 +6,7 @@
             <div class="row-1">
                 <fieldset class="fieldset-0"></fieldset>
             </div>
-            <gpx-button v-for="(item, index) in gpxObject._Button" :componentProperties="item" :key="'button' + index"></gpx-button>
+            <gpx-button v-for="(item, index) in gpxButton" :componentProperties="item" :key="'button' + index"></gpx-button>
             <gpx-input v-for="(item, index) in gpxInput" :componentProperties="item" :key="'input' + index"></gpx-input>
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
@@ -42,6 +42,7 @@ export default {
         return {
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             gpxObject: {},
+            gpxButton: [],
             gpxInput: [],
             gpxValue: [],
             gpxText: [],
@@ -84,15 +85,16 @@ export default {
                 console.warn(text)
             }
         },
-        getGpxWindow1: async function() {
+        getGpxWindow: async function(index) {
             let URL = gURL + '/api/gpx'
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
                 let pf = result.PageFrame.find(
-                    item => item['page-title'] == 'Window1'
+                    item => item['page-title'] == 'Window' + index
                 )
                 this.gpxObject = pf['gpx:object']
+                this.gpxButton = this.gpxObject._Button
                 this.gpxInput = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
                     .filter(item => item['control-link'][0]['to-user'] != null)
@@ -118,12 +120,12 @@ export default {
         this.$bus.$emit('appLoadingFinished', {
             isLoading: false
         })
-        this.$bus.$emit('winpc32Init', {
-            isLoading: true
-        })
+        // this.$bus.$emit('winpc32Init', {
+        //     isLoading: true
+        // })
     },
     created() {
-        this.getGpxWindow1()
+        this.getGpxWindow(1)
         this.winpc32Init()
     }
 }

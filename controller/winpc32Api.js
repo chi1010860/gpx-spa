@@ -1,3 +1,4 @@
+// import modules
 var express = require('express')
 var cors = require('cors')
 var corsOptions = require('./corsOptions')
@@ -162,34 +163,41 @@ router.post('/winpc32/button-state', cors(corsOptions), function (req, res) {
     res.send(data)
 })
 
-// POST /winpc32/changeBit
-router.post('/winpc32/changeBit', cors(corsOptions), function (req, res) {
+// POST /winpc32/update_R_Bit
+router.post('/winpc32/update_R_Bit', cors(corsOptions), function (req, res) {
     console.log('req.body:%o', req.body)
     winpc32.MySetBit({
         address: req.body.tagname,
-        value: req.body.state ? 1 : 0
+        value: req.body.value
     })
-    let bValue = winpc32.MyGetBit({
+    let bitValue = winpc32.MyGetBit({
         address: req.body.tagname
     })
-    let data = { bValue: bValue }
+    let data = {
+        logicName: 'R' + req.body.tagname,
+        bitValue: bitValue
+    }
     console.log(data)
     res.send(data)
 })
 
-// POST /winpc32/changeBit_A
-router.post('/winpc32/changeBit_A', cors(corsOptions), function (req, res) {
+// POST /winpc32/update_A_Bit
+router.post('/winpc32/update_A_Bit', cors(corsOptions), function (req, res) {
     console.log('req.body:%o', req.body)
-    winpc32.MySetBit_A({
+    winpc32.Set_A_Bit({
         address: req.body.tagname,
         value: req.body.state ? 1 : 0
     })
-    let bValue = winpc32.MyGetBit_A({
+    let bitValue = winpc32.Get_A_Bit({
         address: req.body.tagname
     })
-    let data = { bValue: bValue }
+    let data = {
+        logicNmae: 'A' + req.body.tagname,
+        bitValue: bitValue
+    }
     console.log(data)
     res.send(data)
 })
 
+// export module
 module.exports = router

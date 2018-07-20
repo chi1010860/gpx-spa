@@ -38,9 +38,13 @@ export default {
             language: 'getLanguage'
         }),
         msg() {
-            return this.keytext.find(
-                item => item.id == this.componentProperties.message
-            )[this.language]
+            if (this.componentProperties.message != undefined) {
+                return this.keytext.find(
+                    item => item.id == this.componentProperties.message
+                )[this.language]
+            } else {
+                return '???'
+            }
         },
         styleObject() {
             let rect = this.componentProperties.rect
@@ -103,7 +107,7 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.changeBit_A()
+                    this.update_A_Bit()
                 }
             } else if (eventType == 'mouseup') {
                 if (
@@ -116,14 +120,14 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.changeBit_A()
+                    this.update_A_Bit()
                 } else if (controlLink.keypad == enumDiscreteType.get('set')) {
                     console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = true
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.changeBit_A()
+                    this.update_A_Bit()
                 } else if (
                     controlLink.keypad == enumDiscreteType.get('reset')
                 ) {
@@ -132,7 +136,7 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.changeBit_A()
+                    this.update_A_Bit()
                 }
             }
         },
@@ -195,9 +199,9 @@ export default {
                 }
             }
         },
-        changeBit_A: async function() {
+        update_A_Bit: async function() {
             // API
-            let URL = gURL + '/winpc32/changeBit_A'
+            let URL = gURL + '/winpc32/update_A_Bit'
 
             // 實例表頭
             let m_headers = new Headers()
@@ -238,7 +242,7 @@ export default {
         this.componentInit()
     },
     beforeMount() {
-        this.changeBit_A()
+        this.update_A_Bit()
     },
     mounted() {
         this.componentInit()

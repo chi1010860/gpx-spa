@@ -1,3 +1,4 @@
+// import modules
 var gpx = require('../model/gxml2json')
 var express = require('express')
 var cors = require('cors')
@@ -9,4 +10,5 @@ router.get('/api/gpx', cors(corsOptions), function (req, res) {
     res.send(gpx)
 })
 
+// export module
 module.exports = router

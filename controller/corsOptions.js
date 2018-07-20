@@ -3,6 +3,7 @@ var corsOptions = {
     origin: [
         'http://localhost',
         'http://localhost:8081',
+        'http://140.113.156.16',
         'http://192.168.0.117',
         'http://172.20.10.9'
     ],

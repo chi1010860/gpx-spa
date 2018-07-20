@@ -38,8 +38,14 @@ body {
     margin: auto;
 }
 * {
+    /* border-box */
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    /* unselectable */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 </style>

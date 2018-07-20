@@ -7,10 +7,10 @@ var PORT = process.env.PORT || 80
 var fs = require('fs')
 
 // Import API
-var usersApi = require('./controller/usersApi.js')
+var gpxApi = require('./controller/gpxApi.js')
 var winpc32Api = require('./controller/winpc32Api.js')
 var lightswitchApi = require('./controller/lightswitchApi.js')
-var gpxApi = require('./controller/gpxApi.js')
+var usersApi = require('./controller/usersApi.js')
 
 // TODO: move this session to a module
 app.get('/gpxjson', (req, res) => {
@@ -20,7 +20,7 @@ app.get('/gpxjson', (req, res) => {
     })
 })
 
-// Parse request body as JSON
+// Parse POST request body as JSON
 app.use(express.json())
 
 // Handle http options method
@@ -30,13 +30,13 @@ app.options('/*', cors(corsOptions))
 app.use(express.static(__dirname + '/dist/'))
 
 // Use all API
-app.use(usersApi)
+app.use(gpxApi)
 app.use(winpc32Api)
 app.use(lightswitchApi)
-app.use(gpxApi)
+app.use(usersApi)
 
 app.listen(PORT, function (err) {
     if (err) throw err
     console.log('Server has been built on http://localhost:%d/', PORT)
-    console.log('Get GPX object by API: http://localhost:%d/gpxdata/gpx', PORT)
+    console.log('Get GPX object by API: http://localhost:%d/api/gpx', PORT)
 })
