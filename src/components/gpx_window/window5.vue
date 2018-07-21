@@ -1,6 +1,5 @@
 <template>
     <div>
-        <gpx-title></gpx-title>
         <gpx-clock></gpx-clock>
         <div class="container">
             <div class="row-1">
@@ -19,7 +18,6 @@
 
 <script>
 import gURL from '@/router/url'
-import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxInput from '@/components/gpx_ui/GpxInput'
@@ -51,7 +49,6 @@ export default {
         })
     },
     components: {
-        'gpx-title': GpxTitle,
         'gpx-clock': GpxClock,
         'gpx-button': GpxButton,
         'gpx-input': GpxInput,

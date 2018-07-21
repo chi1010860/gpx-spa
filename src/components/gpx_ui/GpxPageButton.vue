@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{name: linkName}" exact>
+    <router-link :to="{name: routerlinkName}" exact>
         <button class="page-button" :style="styleObject" v-html="msg" @mousedown="fnActive" @mouseup="fnInactive"></button>
     </router-link>
 </template>
@@ -21,7 +21,7 @@ export default {
             keytext: 'getKeytext',
             language: 'getLanguage'
         }),
-        linkName() {
+        routerlinkName() {
             return this.componentProperties.window
         },
         msg() {

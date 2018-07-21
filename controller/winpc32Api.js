@@ -192,7 +192,7 @@ router.post('/winpc32/update_A_Bit', cors(corsOptions), function (req, res) {
         address: req.body.tagname
     })
     let data = {
-        logicNmae: 'A' + req.body.tagname,
+        logicName: 'A' + req.body.tagname,
         bitValue: bitValue
     }
     console.log(data)

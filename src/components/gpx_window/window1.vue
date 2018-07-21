@@ -1,6 +1,6 @@
 <template>
     <div>
-        <gpx-title></gpx-title>
+        <!-- <gpx-title></gpx-title> -->
         <gpx-clock></gpx-clock>
         <div class="container">
             <div class="row-1">

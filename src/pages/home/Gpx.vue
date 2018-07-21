@@ -1,12 +1,11 @@
 <template>
     <div class="gpx">
         <div class="page-frame">
+            <gpx-title></gpx-title>
             <div class="window">
                 <router-view></router-view>
             </div>
-            <div class="button-navbar">
-                <gpx-page-button v-for="(item, index) in pageButton" :componentProperties="item" :key="'pageButton' + index"></gpx-page-button>
-            </div>
+            <gpx-button-navbar></gpx-button-navbar>
             <gpx-hvline :rect="hvline"></gpx-hvline>
         </div>
     </div>
@@ -14,6 +13,8 @@
 
 <script>
 import gURL from '@/router/url.js'
+import GpxTitle from '@/components/gpx_ui/GpxTitle'
+import GpxButtonNavbar from '@/components/gpx_ui/GpxButtonNavbar'
 import GpxPageButton from '@/components/gpx_ui/GpxPageButton'
 import GpxHvline from '@/components/gpx_ui/GpxHVLine'
 import { mapGetters, mapActions } from 'vuex'
@@ -32,6 +33,8 @@ export default {
         })
     },
     components: {
+        'gpx-title': GpxTitle,
+        'gpx-button-navbar': GpxButtonNavbar,
         'gpx-page-button': GpxPageButton,
         'gpx-hvline': GpxHvline
     },
@@ -61,23 +64,17 @@ export default {
                 this.actionLanguageChange(
                     result['style-sheet']['language-table'][0]
                 )
-                this.drawWindow(result['gpx:document'])
-                let pf = result.PageFrame.find(
-                    item => item['page-title'] == 'Button'
+                this.drawPageFrame(result['gpx:document'])
+                let win = result.PageFrame.find(
+                    item => item['page-title'] == 'Window1'
                 )
-                this.drawButtonNavbar(pf)
-                this.pageButton = pf['gpx:object']._Button
-                for (let p in this.pageButton) {
-                    this.pageButton[p].message =
-                        pf['gpx:object'].MSG[p].MessageIndex[0].message
-                    this.pageButton[p].window = 'Window' + (parseInt(p) + 1)
-                }
+                this.drawWindow(win)
             } else {
                 let text = await res.text()
                 console.log(text)
             }
         },
-        drawWindow(data) {
+        drawPageFrame(data) {
             // define the color of main
             let main = document.getElementsByClassName('gpx')[0]
             main.style.backgroundColor = '#' + data['color-void']
@@ -88,23 +85,15 @@ export default {
             pf.style.height = data.rect[3].toString() + 'px'
             pf.style.backgroundColor = '#' + data['color-paper']
         },
-        drawButtonNavbar(data) {
+        drawWindow(data) {
             // computed the size of ButtonNavbar and window
-            let winWidth = data.rect[2]
-            let winHeight = data.rect[1]
-            let bnWidth = data.rect[2] - data.rect[0]
-            let bnHeight = data.rect[3] - data.rect[1]
+            let winWidth = data.rect[2] - data.rect[0]
+            let winHeight = data.rect[3] - data.rect[1]
 
             // define the window
             let win = document.getElementsByClassName('window')[0]
             win.style.width = winWidth.toString() + 'px'
             win.style.height = winHeight.toString() + 'px'
-
-            // define the ButtonNavbar
-            let bn = document.getElementsByClassName('button-navbar')[0]
-            bn.style.width = bnWidth.toString() + 'px'
-            bn.style.height = bnHeight.toString() + 'px'
-            bn.style.backgroundColor = '#' + data['brush-color']
         }
     },
     created() {
@@ -127,14 +116,5 @@ export default {
 }
 .window {
     width: 100%;
-}
-.button-navbar {
-    display: flex;
-    text-align: left;
-    padding-left: 10px;
-    padding-top: 10px;
-}
-a {
-    text-decoration: none;
 }
 </style>

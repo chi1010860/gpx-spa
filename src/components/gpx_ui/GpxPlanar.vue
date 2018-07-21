@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import gURL from '@/router/url'
 export default {
     props: {
         componentProperties: {}
@@ -16,10 +17,11 @@ export default {
         return {
             controlLink: [],
             eventName: [],
+            tagname: [],
             output: {
                 maxValue: 100,
                 minValue: 0,
-                outputValue: []
+                outputValue: [0, 0]
             },
             wrapper: {
                 wrapperStyle: {}
@@ -41,6 +43,12 @@ export default {
             this.controlLink = this.componentProperties['control-link'] // X:0, Y:1
             this.eventName[0] = 'eventBy_' + this.controlLink[0].tagname
             this.eventName[1] = 'eventBy_' + this.controlLink[1].tagname
+            this.tagname[0] = parseInt(
+                this.controlLink[0].tagname.match(/\d+/)[0]
+            )
+            this.tagname[1] = parseInt(
+                this.controlLink[1].tagname.match(/\d+/)[0]
+            )
             let rect = this.componentProperties.planar.rect
             this.wrapper.wrapperStyle = {
                 left: rect[0] + 'px',
@@ -55,6 +63,44 @@ export default {
             this.square.squareStyle = {
                 width: this.square.squareWidth + 'px',
                 height: this.square.squareHeight + 'px'
+            }
+        },
+        update_R_Bit: async function(_value, _tagname) {
+            // API
+            let URL = gURL + '/winpc32/update_R_Bit'
+
+            // Headers
+            let m_headers = new Headers()
+            m_headers.append('Accept', 'application/json')
+            m_headers.append('Content-Type', 'application/json')
+
+            // Payload
+            let data = {
+                value: _value,
+                tagname: _tagname
+            }
+            let encodedData = JSON.stringify(data)
+
+            // Request
+            let reqInit = {
+                method: 'POST',
+                headers: m_headers,
+                body: encodedData
+            }
+
+            let m_request = new Request(URL, reqInit)
+
+            // AJAX
+            let res = await fetch(m_request)
+
+            if (res.ok) {
+                let result = await res.json()
+                console.log(
+                    `tagname: ${result.logicName} value: ${result.bitValue}`
+                )
+            } else {
+                let text = await res.text()
+                console.warn(text)
             }
         },
         // Draggagle Element
@@ -131,6 +177,7 @@ export default {
                     vm.$bus.$emit(vm.eventName[i], {
                         analogValue: vm.output.outputValue[i]
                     })
+                    vm.update_R_Bit(vm.output.outputValue[i], vm.tagname[i])
                 }
             }
 
@@ -153,6 +200,12 @@ export default {
     },
     created() {
         this.componentInit()
+        for (let i in this.eventName) {
+            this.$bus.$emit(this.eventName[i], {
+                analogValue: this.output.outputValue[i]
+            })
+            this.update_R_Bit(this.output.outputValue[i], this.tagname[i])
+        }
     },
     mounted() {
         let squares = document.getElementsByClassName('square')

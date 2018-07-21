@@ -44,7 +44,7 @@ export default {
             analogValue: 0,
             beAutofocus: true,
             // string
-            stringValue: 'string'
+            stringValue: ' '
         }
     },
     computed: {
@@ -165,7 +165,6 @@ export default {
                 this.stringValue = this.modalInputValue
                 this.isModalShown = false
             }
-            console.log(typeof this.showValue)
             this.update_R_Bit()
         },
         onKeying(unit) {
@@ -236,7 +235,6 @@ export default {
             m_headers.append('Accept', 'application/json')
             // This one sends body
             m_headers.append('Content-Type', 'application/json')
-
             // 資料酬載 (Payload)
             let data = {
                 state: this.discreteValue == 'ON' ? true : false,
@@ -269,6 +267,8 @@ export default {
     },
     created() {
         this.componentInit()
+        this.update_A_Bit()
+        if (this.controlLinkName != 'userinput-discrete') this.update_R_Bit()
     }
 }
 </script>

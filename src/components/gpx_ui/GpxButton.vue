@@ -102,7 +102,7 @@ export default {
                     controlLink.keypad == enumDiscreteType.get('direct') ||
                     controlLink.keypad == enumDiscreteType.get('reverse')
                 ) {
-                    console.log(`keypad: ${controlLink.keypad} ${eventType}`)
+                    // console.log(`keypad: ${controlLink.keypad} ${eventType}`)
                     this.isTurnOn = !this.isTurnOn
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
@@ -115,14 +115,14 @@ export default {
                     controlLink.keypad == enumDiscreteType.get('reverse') ||
                     controlLink.keypad == enumDiscreteType.get('toggle')
                 ) {
-                    console.log(`keypad: ${controlLink.keypad} ${eventType}`)
+                    // console.log(`keypad: ${controlLink.keypad} ${eventType}`)
                     this.isTurnOn = !this.isTurnOn
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
                     this.update_A_Bit()
                 } else if (controlLink.keypad == enumDiscreteType.get('set')) {
-                    console.log(`keypad: ${controlLink.keypad}`)
+                    // console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = true
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
@@ -131,7 +131,7 @@ export default {
                 } else if (
                     controlLink.keypad == enumDiscreteType.get('reset')
                 ) {
-                    console.log(`keypad: ${controlLink.keypad}`)
+                    // console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = false
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
@@ -231,7 +231,9 @@ export default {
 
             if (res.ok) {
                 let result = await res.json()
-                // console.log(`tagname: ${this.uTagname} value: ${result.bValue}`)
+                console.log(
+                    `tagname: ${result.logicName} value: ${result.bitValue}`
+                )
             } else {
                 let text = await res.text()
                 console.warn(text)
