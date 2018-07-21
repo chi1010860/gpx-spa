@@ -55,7 +55,7 @@ export default {
                 height: rect[3] - rect[1] + 'px'
             }
         },
-        linkName() {
+        controlLinkName() {
             return this.controlLink['link-name']
         },
         uTagname() {
@@ -64,23 +64,23 @@ export default {
     },
     methods: {
         fnMousedown(e) {
-            if (this.linkName == 'PB-discrete') {
+            if (this.controlLinkName == 'PB-discrete') {
                 this.PB_discrete(this.controlLink, e.type)
-            } else if (this.linkName == 'PB-action') {
+            } else if (this.controlLinkName == 'PB-action') {
                 this.PB_action(this.controlLink, e.type)
             }
         },
         fnMouseup(e) {
-            if (this.linkName == 'PB-discrete') {
+            if (this.controlLinkName == 'PB-discrete') {
                 this.PB_discrete(this.controlLink, e.type)
-            } else if (this.linkName == 'PB-action') {
+            } else if (this.controlLinkName == 'PB-action') {
                 this.PB_action(this.controlLink, e.type)
             }
         },
         componentInit() {
             this.controlLink = this.componentProperties['control-link'][0]
             this.eventName = 'eventBy_' + this.controlLink.tagname
-            if (this.linkName == 'PB-discrete') {
+            if (this.controlLinkName == 'PB-discrete') {
                 if (
                     this.controlLink.keypad == enumDiscreteType.get('reverse')
                 ) {
@@ -145,29 +145,15 @@ export default {
             vincentScriptParser(controlLink['vincent-script'])
             if (eventType == 'mousedown') {
                 if (controlLink['on-down'] != null) {
-                    this.$bus.$emit(this.eventName, {
-                        analogValue: this.analogValue,
-                        linkName: this.linkName,
-                        vsEval: this.vsEval
-                    })
+                    updateValue()
                 } else if (controlLink['while-down'] != null) {
-                    vm.timer = setInterval(function() {
-                        vm.$bus.$emit(vm.eventName, {
-                            analogValue: vm.analogValue,
-                            linkName: vm.linkName,
-                            vsEval: vm.vsEval
-                        })
-                    }, 50)
+                    vm.timer = setInterval(updateValue, 50)
                 }
             } else if (eventType == 'mouseup') {
                 if (controlLink['while-down'] != null) {
                     clearInterval(this.timer)
                 } else if (controlLink['on-up']) {
-                    this.$bus.$emit(this.eventName, {
-                        analogValue: this.analogValue,
-                        linkName: this.linkName,
-                        vsEval: this.vsEval
-                    })
+                    updateValue()
                 }
             }
             function vincentScriptParser(vincentScripts) {
@@ -198,33 +184,37 @@ export default {
                     }
                 }
             }
+            function updateValue() {
+                vm.$bus.$emit(vm.eventName, {
+                    analogValue: vm.analogValue,
+                    controlLinkName: vm.controlLinkName,
+                    vsEval: vm.vsEval
+                })
+            }
         },
         update_A_Bit: async function() {
             // API
             let URL = gURL + '/winpc32/update_A_Bit'
 
-            // 實例表頭
+            // Headers
             let m_headers = new Headers()
-            // This one is enough for GET requests
             m_headers.append('Accept', 'application/json')
-            // This one sends body
             m_headers.append('Content-Type', 'application/json')
 
-            // 資料酬載 (Payload)
+            // Payload
             let data = {
                 state: this.isTurnOn,
                 tagname: this.uTagname
             }
             let encodedData = JSON.stringify(data)
-
-            let m_Init = {
+            let reqInit = {
                 method: 'POST',
                 headers: m_headers,
                 body: encodedData
             }
 
-            // 實例請求
-            let m_request = new Request(URL, m_Init)
+            // Request
+            let m_request = new Request(URL, reqInit)
 
             // AJAX
             let res = await fetch(m_request)
@@ -242,12 +232,7 @@ export default {
     },
     created() {
         this.componentInit()
-    },
-    beforeMount() {
         this.update_A_Bit()
-    },
-    mounted() {
-        this.componentInit()
     }
 }
 </script>

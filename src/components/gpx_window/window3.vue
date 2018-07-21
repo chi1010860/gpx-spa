@@ -1,10 +1,10 @@
 <template>
     <div>
-        <gpx-clock></gpx-clock>
         <div class="container">
             <div class="row-1">
                 <fieldset class="fieldset-0"></fieldset>
             </div>
+            <gpx-switch-rk v-for="(item, index) in gpxSwitchRk" :componentProperties="item" :key="'switchrk' + index"></gpx-switch-rk>
             <gpx-button v-for="(item, index) in gpxButton" :componentProperties="item" :key="'button' + index"></gpx-button>
             <gpx-input v-for="(item, index) in gpxInput" :componentProperties="item" :key="'input' + index"></gpx-input>
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
@@ -18,7 +18,7 @@
 
 <script>
 import gURL from '@/router/url'
-import GpxClock from '@/components/gpx_ui/GpxClock'
+import GpxSwitchRk from '@/components/gpx_ui/GpxSwitchRk'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxInput from '@/components/gpx_ui/GpxInput'
 import GpxValue from '@/components/gpx_ui/GpxValue'
@@ -33,7 +33,9 @@ export default {
     data() {
         return {
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
+            uTagname: 0,
             gpxObject: {},
+            gpxSwitchRk: [],
             gpxButton: [],
             gpxInput: [],
             gpxValue: [],
@@ -49,7 +51,7 @@ export default {
         })
     },
     components: {
-        'gpx-clock': GpxClock,
+        'gpx-switch-rk': GpxSwitchRk,
         'gpx-button': GpxButton,
         'gpx-input': GpxInput,
         'gpx-value': GpxValue,
@@ -69,7 +71,12 @@ export default {
                 let pf = result.PageFrame.find(
                     item => item['page-title'] == 'Window' + index
                 )
+                this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
+                this.update_A_Bit(this.uTagname, true)
+
+                // Get Objects
                 this.gpxObject = pf['gpx:object']
+                this.gpxSwitchRk = this.gpxObject.SWITCHRK
                 this.gpxButton = this.gpxObject._Button
                 this.gpxInput = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
@@ -90,6 +97,43 @@ export default {
                 let text = await res.text()
                 console.log(text)
             }
+        },
+        update_A_Bit: async function(_tagname, _state) {
+            // API
+            let URL = gURL + '/winpc32/update_A_Bit'
+
+            // Headers
+            let m_headers = new Headers()
+            m_headers.append('Accept', 'application/json')
+            m_headers.append('Content-Type', 'application/json')
+
+            // Payload
+            let data = {
+                state: _state,
+                tagname: _tagname
+            }
+            let encodedData = JSON.stringify(data)
+            let reqInit = {
+                method: 'POST',
+                headers: m_headers,
+                body: encodedData
+            }
+
+            // Request
+            let m_request = new Request(URL, reqInit)
+
+            // AJAX
+            let res = await fetch(m_request)
+
+            if (res.ok) {
+                let result = await res.json()
+                console.log(
+                    `tagname: ${result.logicName} value: ${result.bitValue}`
+                )
+            } else {
+                let text = await res.text()
+                console.warn(text)
+            }
         }
     },
     beforeCreate() {
@@ -99,6 +143,9 @@ export default {
     },
     created() {
         this.getGpxWindow(3)
+    },
+    beforeDestroy() {
+        this.update_A_Bit(this.uTagname, false)
     }
 }
 </script>

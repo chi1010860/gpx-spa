@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {

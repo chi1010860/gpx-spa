@@ -36,7 +36,7 @@ export default {
                     this.pageButton[p].message =
                         pf['gpx:object'].MSG[p].MessageIndex[0].message
                     this.pageButton[p].window = 'Window' + (parseInt(p) + 1)
-                    this.pageButton[p].tagname = 2 + p
+                    this.pageButton[p].tagname = 2 + Number(p)
                 }
                 // update_A_bit
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
@@ -60,26 +60,25 @@ export default {
             // API
             let URL = gURL + '/winpc32/update_A_Bit'
 
-            // 實例表頭
+            // Headers
             let m_headers = new Headers()
-            // This one is enough for GET requests
             m_headers.append('Accept', 'application/json')
-            // This one sends body
             m_headers.append('Content-Type', 'application/json')
-            // 資料酬載 (Payload)
+
+            // Payload
             let data = {
                 state: _state,
                 tagname: _tagname
             }
             let encodedData = JSON.stringify(data)
-            let m_Init = {
+            let reqInit = {
                 method: 'POST',
                 headers: m_headers,
                 body: encodedData
             }
 
-            // 實例請求
-            let m_request = new Request(URL, m_Init)
+            // Request
+            let m_request = new Request(URL, reqInit)
 
             // AJAX
             let res = await fetch(m_request)

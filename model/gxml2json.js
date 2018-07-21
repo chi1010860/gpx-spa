@@ -229,7 +229,7 @@ function getVSCROLL(_gxml) {
 
 function getSWITCHRK(_gxml) {
 	var _SWITCHRK = []
-	var targetTag = _gxml.match(/<gpx:object.*?object-name="SWITCHRK"[\s\S]*?(<\/>){3}/g)
+	var targetTag = _gxml.match(/<gpx:object.*?object-name="SWITCHRK"[\s\S]*?(<\/>){2}/g)
 	for (let i in targetTag) {
 		let item = getItem(targetTag[i])
 		_SWITCHRK.push(item)

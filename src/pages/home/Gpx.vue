@@ -2,6 +2,7 @@
     <div class="gpx">
         <div class="page-frame">
             <gpx-title></gpx-title>
+            <gpx-clock></gpx-clock>
             <div class="window">
                 <router-view></router-view>
             </div>
@@ -14,6 +15,7 @@
 <script>
 import gURL from '@/router/url.js'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
+import GpxClock from '@/components/gpx_ui/GpxClock'
 import GpxButtonNavbar from '@/components/gpx_ui/GpxButtonNavbar'
 import GpxPageButton from '@/components/gpx_ui/GpxPageButton'
 import GpxHvline from '@/components/gpx_ui/GpxHVLine'
@@ -34,6 +36,7 @@ export default {
     },
     components: {
         'gpx-title': GpxTitle,
+        'gpx-clock': GpxClock,
         'gpx-button-navbar': GpxButtonNavbar,
         'gpx-page-button': GpxPageButton,
         'gpx-hvline': GpxHvline
@@ -74,21 +77,21 @@ export default {
                 console.log(text)
             }
         },
-        drawPageFrame(data) {
+        drawPageFrame(_pf) {
             // define the color of main
             let main = document.getElementsByClassName('gpx')[0]
-            main.style.backgroundColor = '#' + data['color-void']
+            main.style.backgroundColor = '#' + _pf['color-void']
 
             // define the dimentions of PageFrame
             let pf = document.getElementsByClassName('page-frame')[0]
-            pf.style.width = data.rect[2].toString() + 'px'
-            pf.style.height = data.rect[3].toString() + 'px'
-            pf.style.backgroundColor = '#' + data['color-paper']
+            pf.style.width = _pf.rect[2].toString() + 'px'
+            pf.style.height = _pf.rect[3].toString() + 'px'
+            pf.style.backgroundColor = '#' + _pf['color-paper']
         },
-        drawWindow(data) {
+        drawWindow(_win) {
             // computed the size of ButtonNavbar and window
-            let winWidth = data.rect[2] - data.rect[0]
-            let winHeight = data.rect[3] - data.rect[1]
+            let winWidth = _win.rect[2] - _win.rect[0]
+            let winHeight = _win.rect[3] - _win.rect[1]
 
             // define the window
             let win = document.getElementsByClassName('window')[0]

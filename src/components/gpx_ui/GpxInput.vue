@@ -43,8 +43,11 @@ export default {
             // analog
             analogValue: 0,
             beAutofocus: true,
+            minValue: 0,
+            maxValue: 100,
             // string
-            stringValue: ' '
+            stringValue: ' ',
+            eventName: ''
         }
     },
     computed: {
@@ -85,6 +88,8 @@ export default {
     },
     methods: {
         componentInit() {
+            this.eventName =
+                'eventBy_' + this.controlLink.tagname.match(/\w+/)[0]
             let rect = this.componentProperties.rect
             this.styleObject = {
                 left: rect[0] + 'px',
@@ -143,8 +148,15 @@ export default {
                     let i_num = parseInt(this.modalInputValue)
                     if (isNaN(i_num)) {
                         this.showWarning = true
+                    } else if (i_num < this.minValue || i_num > this.maxValue) {
+                        this.showWarning = true
                     } else {
                         this.analogValue = i_num
+                        this.showWarning = false
+                        this.isModalShown = false
+                    }
+                    if (this.modalInputValue == '') {
+                        this.analogValue = 0
                         this.showWarning = false
                         this.isModalShown = false
                     }
@@ -155,15 +167,31 @@ export default {
                     let f_num = parseFloat(this.modalInputValue)
                     if (isNaN(f_num)) {
                         this.showWarning = true
+                    } else if (f_num < this.minValue || f_num > this.maxValue) {
+                        this.showWarning = true
                     } else {
                         this.analogValue = parseFloat(f_num.toFixed(p))
                         this.showWarning = false
                         this.isModalShown = false
                     }
+                    if (this.modalInputValue == '') {
+                        this.analogValue = 0
+                        this.showWarning = false
+                        this.isModalShown = false
+                    }
                 }
+                this.$bus.$emit(this.eventName, {
+                    analogValue: this.analogValue,
+                    controlLinkName: this.controlLinkName
+                })
             } else if (this.controlLinkName == 'userinput-string') {
                 this.stringValue = this.modalInputValue
                 this.isModalShown = false
+
+                this.$bus.$emit(this.eventName, {
+                    stringValue: this.stringValue,
+                    controlLinkName: this.controlLinkName
+                })
             }
             this.update_R_Bit()
         },

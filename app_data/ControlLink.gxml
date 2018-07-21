@@ -1548,7 +1548,7 @@
 			<gpx:sg>
 				<gpx:cgbject text-color="FFFFFF" brush-color="808080" text-align="1"></>
 				<control-link>
-					<value-string expression="GetStringInTag(wR0600,4);" iopoint1="[S4000 4000 257">
+					<value-string expression="wR0600;" iopoint1="[S4000 4000 257">
 						<font original="1"></></></></></>
 		<gpx:object rect="28 366 130 385" object-name="_Text">
 			<gpx:sg message="15">
