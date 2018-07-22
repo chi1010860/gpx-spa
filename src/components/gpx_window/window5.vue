@@ -8,8 +8,16 @@
             <gpx-input v-for="(item, index) in gpxInput" :componentProperties="item" :key="'input' + index"></gpx-input>
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
-            <gpx-slider v-for="(item, index) in gpxSlider" :componentProperties="item" :key="'slider' + index"></gpx-slider>
             <gpx-planar v-for="(item, index) in gpxPlanar" :componentProperties="item" :key="'planar' + index"></gpx-planar>
+            <gpx-rectangle v-for="(item, index) in gpxRectangle" :componentProperties="item" :key="'rectangle' + index"></gpx-rectangle>
+            <gpx-ellipse v-for="(item, index) in gpxEllipse" :componentProperties="item" :key="'ellipse' + index"></gpx-ellipse>
+            <gpx-slider v-for="(item, index) in gpxSlider" :componentProperties="item" :key="'slider' + index"></gpx-slider>
+
+            <div class="group-fieldset">
+                <fieldset class="fieldset-1"></fieldset>
+                <fieldset class="fieldset-2"></fieldset>
+                <fieldset class="fieldset-3"></fieldset>
+            </div>
         </div>
         <gpx-hvline :rect="hvline"></gpx-hvline>
     </div>
@@ -23,8 +31,9 @@ import GpxValue from '@/components/gpx_ui/GpxValue'
 import GpxText from '@/components/gpx_ui/GpxText'
 import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
+import GpxRectangle from '@/components/gpx_ui/GpxRectangle'
+import GpxEllipse from '@/components/gpx_ui/GpxEllipse'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
-import GpxModal from '@/components/gpx_ui/GpxModal'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -38,7 +47,9 @@ export default {
             gpxValue: [],
             gpxText: [],
             gpxSlider: [],
-            gpxPlanar: []
+            gpxPlanar: [],
+            gpxRectangle: [],
+            gpxEllipse: []
         }
     },
     computed: {
@@ -54,8 +65,9 @@ export default {
         'gpx-text': GpxText,
         'gpx-slider': GpxSlider,
         'gpx-planar': GpxPlanar,
-        'gpx-hvline': GpxHVLine,
-        'gpx-modal': GpxModal
+        'gpx-rectangle': GpxRectangle,
+        'gpx-ellipse': GpxEllipse,
+        'gpx-hvline': GpxHVLine
     },
     methods: {
         ...mapActions(['actionLanguageChange']),
@@ -76,9 +88,18 @@ export default {
                 this.gpxInput = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
                     .filter(item => item['control-link'][0]['to-user'] != null)
+                // Get Value
                 this.gpxValue = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
-                    .filter(item => item['control-link'][0].expression != null)
+                    .filter(
+                        item =>
+                            item['control-link'][0]['link-name'] ==
+                                'value-discrete' ||
+                            item['control-link'][0]['link-name'] ==
+                                'value-analog' ||
+                            item['control-link'][0]['link-name'] ==
+                                'value-string'
+                    )
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )
@@ -106,6 +127,19 @@ export default {
                                     'slider-vertical'
                         )
                 }
+                // Get Rectangle
+                this.gpxRectangle = this.gpxObject._Rectangle
+                    .filter(item => item['control-link'] != null)
+                    .filter(item => item['control-link'].length == 1)
+                // Get Ellipse
+                this.gpxEllipse.push(this.gpxObject._Ellipse[0])
+                this.gpxEllipse[0].controlLink = this.gpxObject._HVLine
+                    .filter(item => item['control-link'] != null)
+                    .find(
+                        item =>
+                            item['control-link'][0]['link-name'] ==
+                            'orientation'
+                    )['control-link'][0]
             } else {
                 let text = await res.text()
                 console.log(text)

@@ -1,5 +1,5 @@
 <template>
-    <div class="gpx-text" :style="styleObject">{{msg}}</div>
+    <div class="gpx-text" :style="textStyle">{{msg}}</div>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     },
     data() {
         return {
-            controlLonk: {}
+            textStyle: {}
         }
     },
     computed: {
@@ -24,19 +24,48 @@ export default {
                 item => item.id == this.componentProperties.message
             )[this.language]
         },
-        styleObject() {
+        controlLink() {
+            let temp =
+                this.componentProperties['control-link'] != null
+                    ? this.componentProperties['control-link'][0]
+                    : null
+            return temp
+        },
+        controlLinkName() {
+            let temp =
+                this.controlLink != null
+                    ? this.controlLink['link-name']
+                    : 'normal'
+            return temp
+        },
+        eventName() {
+            let temp =
+                this.controlLink != null
+                    ? this.controlLink.expression.match(/\w+/)[0]
+                    : null
+            return temp
+        }
+    },
+    methods: {
+        componentInit() {
             let rect = this.componentProperties.rect
             let color = ''
-            if (this.componentProperties['text-color'] != null) {
-                let buffer = this.componentProperties['text-color'].split('')
-                buffer.push(buffer.shift())
-                buffer.push(buffer.shift())
-                for (let c in buffer) {
-                    color += buffer[c]
+            let backgroundColor = ''
+            if (this.controlLinkName == 'normal') {
+                if (this.componentProperties['text-color'] != null) {
+                    let buffer = this.componentProperties['text-color'].split(
+                        ''
+                    )
+                    buffer.push(buffer.shift())
+                    buffer.push(buffer.shift())
+                    for (let c in buffer) {
+                        color += buffer[c]
+                    }
                 }
+                backgroundColor = this.componentProperties['brush-color']
             }
-            let backgroundColor = this.componentProperties['brush-color']
-            return {
+
+            this.textStyle = {
                 left: rect[0] + 'px',
                 top: rect[1] + 'px',
                 width: rect[2] - rect[0] + 'px',
@@ -45,6 +74,9 @@ export default {
                 'background-color': '#' + backgroundColor
             }
         }
+    },
+    created() {
+        this.componentInit()
     }
 }
 </script>

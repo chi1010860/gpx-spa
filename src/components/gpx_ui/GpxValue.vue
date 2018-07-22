@@ -59,7 +59,8 @@ export default {
                 width: rect[2] - rect[0] + 'px',
                 height: rect[3] - rect[1] + 'px',
                 border: Transparent == '1' ? 'none' : '',
-                'background-color': Transparent == '1' ? 'buttonface' : ''
+                'background-color': Transparent == '1' ? 'buttonface' : '',
+                cursor: Transparent == '1' ? 'pointer' : ''
             }
         }
     },

@@ -135,11 +135,13 @@ export default {
     padding: 0;
 }
 .slider-horizontal {
+    cursor: pointer;
     width: 100px;
     height: 20px;
     margin: 0;
 }
 .slider-vertical {
+    cursor: pointer;
     width: 100px;
     height: 20px;
     margin: 0;

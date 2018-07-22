@@ -1,5 +1,5 @@
 <template>
-    <button @mousedown="fnMousedown" @mouseup="fnMouseup" :style="styleObject">{{ msg }}</button>
+    <button @mousedown="fnMousedown" :style="styleObject">{{ msg }}</button>
 </template>
 
 <script>
@@ -64,17 +64,23 @@ export default {
     },
     methods: {
         fnMousedown(e) {
+            var vm = this
             if (this.controlLinkName == 'PB-discrete') {
                 this.PB_discrete(this.controlLink, e.type)
             } else if (this.controlLinkName == 'PB-action') {
                 this.PB_action(this.controlLink, e.type)
             }
-        },
-        fnMouseup(e) {
-            if (this.controlLinkName == 'PB-discrete') {
-                this.PB_discrete(this.controlLink, e.type)
-            } else if (this.controlLinkName == 'PB-action') {
-                this.PB_action(this.controlLink, e.type)
+            document.onmouseup = fnMouseup
+
+            function fnMouseup(e) {
+                if (vm.controlLinkName == 'PB-discrete') {
+                    vm.PB_discrete(vm.controlLink, e.type)
+                } else if (vm.controlLinkName == 'PB-action') {
+                    vm.PB_action(vm.controlLink, e.type)
+                }
+                // clear events
+                document.onmouseup = null
+                document.onmousemove = null
             }
         },
         componentInit() {

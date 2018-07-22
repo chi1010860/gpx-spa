@@ -11,6 +11,12 @@
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
             <gpx-slider v-for="(item, index) in gpxSlider" :componentProperties="item" :key="'slider' + index"></gpx-slider>
             <gpx-planar v-for="(item, index) in gpxPlanar" :componentProperties="item" :key="'planar' + index"></gpx-planar>
+
+            <div class="group-fieldset">
+                <fieldset class="fieldset-1"></fieldset>
+                <fieldset class="fieldset-2"></fieldset>
+                <fieldset class="fieldset-3"></fieldset>
+            </div>
         </div>
         <gpx-hvline :rect="hvline"></gpx-hvline>
         <gpx-line v-for="(item, index) in gpxLine" :componentProperties="item" :key="'line' + index"></gpx-line>
@@ -28,7 +34,6 @@ import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 import GpxLine from '@/components/gpx_ui/GpxLine'
-import GpxModal from '@/components/gpx_ui/GpxModal'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -42,9 +47,9 @@ export default {
             gpxInput: [],
             gpxValue: [],
             gpxText: [],
-            gpxLine: [],
             gpxSlider: [],
-            gpxPlanar: []
+            gpxPlanar: [],
+            gpxLine: []
         }
     },
     computed: {
@@ -62,8 +67,7 @@ export default {
         'gpx-slider': GpxSlider,
         'gpx-planar': GpxPlanar,
         'gpx-hvline': GpxHVLine,
-        'gpx-line': GpxLine,
-        'gpx-modal': GpxModal
+        'gpx-line': GpxLine
     },
     methods: {
         ...mapActions(['actionLanguageChange']),
@@ -85,9 +89,18 @@ export default {
                 this.gpxInput = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
                     .filter(item => item['control-link'][0]['to-user'] != null)
+                // Get Value
                 this.gpxValue = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
-                    .filter(item => item['control-link'][0].expression != null)
+                    .filter(
+                        item =>
+                            item['control-link'][0]['link-name'] ==
+                                'value-discrete' ||
+                            item['control-link'][0]['link-name'] ==
+                                'value-analog' ||
+                            item['control-link'][0]['link-name'] ==
+                                'value-string'
+                    )
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )

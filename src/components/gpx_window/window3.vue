@@ -26,7 +26,6 @@ import GpxText from '@/components/gpx_ui/GpxText'
 import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
-import GpxModal from '@/components/gpx_ui/GpxModal'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -58,8 +57,7 @@ export default {
         'gpx-text': GpxText,
         'gpx-slider': GpxSlider,
         'gpx-planar': GpxPlanar,
-        'gpx-hvline': GpxHVLine,
-        'gpx-modal': GpxModal
+        'gpx-hvline': GpxHVLine
     },
     methods: {
         ...mapActions(['actionLanguageChange']),
@@ -81,9 +79,18 @@ export default {
                 this.gpxInput = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
                     .filter(item => item['control-link'][0]['to-user'] != null)
+                // Get Value
                 this.gpxValue = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
-                    .filter(item => item['control-link'][0].expression != null)
+                    .filter(
+                        item =>
+                            item['control-link'][0]['link-name'] ==
+                                'value-discrete' ||
+                            item['control-link'][0]['link-name'] ==
+                                'value-analog' ||
+                            item['control-link'][0]['link-name'] ==
+                                'value-string'
+                    )
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )

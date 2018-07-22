@@ -2,7 +2,7 @@
 <template>
     <div class="planar-wrapper" :style="wrapper.wrapperStyle">
         <div class="planar" :style="planar.planarStyle">
-            <div class="square" :style="square.squareStyle"></div>
+            <div class="square" :style="square.squareStyle" @mousedown="dragElement"></div>
         </div>
     </div>
 </template>
@@ -34,13 +34,7 @@ export default {
             square: {
                 squareStyle: {},
                 squareWidth: 10,
-                squareHeight: 10,
-                posOffsetX: 0,
-                posOffsetY: 0,
-                lastPosX: 0,
-                lastPosY: 0,
-                originX: 0,
-                originY: 0
+                squareHeight: 10
             }
         }
     },
@@ -110,11 +104,9 @@ export default {
             }
         },
         // Draggagle Element
-        dragElement(_square) {
+        dragElement(e) {
+            let _square = e.target
             let vm = this
-            console.log(vm.eventName)
-
-            let rect = this.componentProperties.rect
             let posOffsetX = 0,
                 posOffsetY = 0,
                 lastPosX = 0,
@@ -136,7 +128,6 @@ export default {
             }
 
             function dragMouseDown(e) {
-                e = e || window.event
                 // get the mouse cursor position at startup:
                 lastPosX = e.clientX
                 lastPosY = e.clientY
@@ -146,7 +137,6 @@ export default {
             }
 
             function elementDrag(e) {
-                e = e || window.event
                 // calculate the new cursor position:
                 posOffsetX = lastPosX - e.clientX
                 posOffsetY = lastPosY - e.clientY
@@ -213,12 +203,6 @@ export default {
                 analogValue: this.output.outputValue[i]
             })
             this.update_R_Bit(this.uTagname[i], this.output.outputValue[i])
-        }
-    },
-    mounted() {
-        let squares = document.getElementsByClassName('square')
-        for (let i = 0; i < squares.length; i++) {
-            this.dragElement(squares[i])
         }
     }
 }
