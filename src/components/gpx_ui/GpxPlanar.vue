@@ -17,7 +17,7 @@ export default {
         return {
             controlLink: [],
             eventName: [],
-            tagname: [],
+            uTagname: [],
             output: {
                 maxValue: 100,
                 minValue: 0,
@@ -34,7 +34,13 @@ export default {
             square: {
                 squareStyle: {},
                 squareWidth: 10,
-                squareHeight: 10
+                squareHeight: 10,
+                posOffsetX: 0,
+                posOffsetY: 0,
+                lastPosX: 0,
+                lastPosY: 0,
+                originX: 0,
+                originY: 0
             }
         }
     },
@@ -43,10 +49,10 @@ export default {
             this.controlLink = this.componentProperties['control-link'] // X:0, Y:1
             this.eventName[0] = 'eventBy_' + this.controlLink[0].tagname
             this.eventName[1] = 'eventBy_' + this.controlLink[1].tagname
-            this.tagname[0] = parseInt(
+            this.uTagname[0] = parseInt(
                 this.controlLink[0].tagname.match(/\d+/)[0]
             )
-            this.tagname[1] = parseInt(
+            this.uTagname[1] = parseInt(
                 this.controlLink[1].tagname.match(/\d+/)[0]
             )
             let rect = this.componentProperties.planar.rect
@@ -65,7 +71,7 @@ export default {
                 height: this.square.squareHeight + 'px'
             }
         },
-        update_R_Bit: async function(_value, _tagname) {
+        update_R_Bit: async function(_tagname, _value) {
             // API
             let URL = gURL + '/winpc32/update_R_Bit'
 
@@ -76,8 +82,8 @@ export default {
 
             // Payload
             let data = {
-                value: _value,
-                tagname: _tagname
+                tagname: _tagname,
+                value: _value
             }
             let encodedData = JSON.stringify(data)
 
@@ -106,6 +112,8 @@ export default {
         // Draggagle Element
         dragElement(_square) {
             let vm = this
+            console.log(vm.eventName)
+
             let rect = this.componentProperties.rect
             let posOffsetX = 0,
                 posOffsetY = 0,
@@ -177,7 +185,7 @@ export default {
                     vm.$bus.$emit(vm.eventName[i], {
                         analogValue: vm.output.outputValue[i]
                     })
-                    vm.update_R_Bit(vm.output.outputValue[i], vm.tagname[i])
+                    vm.update_R_Bit(vm.uTagname[i], vm.output.outputValue[i])
                 }
             }
 
@@ -204,7 +212,7 @@ export default {
             this.$bus.$emit(this.eventName[i], {
                 analogValue: this.output.outputValue[i]
             })
-            this.update_R_Bit(this.output.outputValue[i], this.tagname[i])
+            this.update_R_Bit(this.uTagname[i], this.output.outputValue[i])
         }
     },
     mounted() {
@@ -240,6 +248,7 @@ export default {
     position: relative;
     width: 100px;
     height: 100px;
+    margin: 3px;
     background-color: #cccccc;
     border: 1px solid gray;
 }

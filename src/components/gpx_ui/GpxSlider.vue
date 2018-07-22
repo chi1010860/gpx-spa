@@ -1,6 +1,6 @@
 <template>
-    <div class="slider-wrapper" :style="styleObject">
-        <input :class="classObject" type="range" min="0" max="100" v-model="sliderValue">
+    <div class="slider-wrapper" :style="wrapperStyle">
+        <input :class="classObject" type="range" :style="sliderStyle" :min="minValue" :max="maxValue" v-model="sliderValue">
     </div>
 </template>
 
@@ -13,34 +13,65 @@ export default {
     data() {
         return {
             // wrapper
-            styleObject: {},
+            wrapperStyle: {},
             // slider
             sliderValue: 0,
-            eventName: ''
+            isRotated: false,
+            sliderStyle: {}
         }
     },
     computed: {
         controlLink() {
-            return this.componentProperties['control-link'][0]
-        },
-        isRotated() {
-            return this.componentProperties.rotate != null ? true : false
+            let temp = this.componentProperties['control-link']
+                ? this.componentProperties['control-link'][0]
+                : null
+            return temp || this.componentProperties
         },
         // slider
+        minValue() {
+            let tempMin = this.controlLink.range
+                ? this.controlLink.range.match(/\d+/g)[0]
+                : null
+            return tempMin || 0
+        },
+        maxValue() {
+            let tempMax = this.controlLink.range
+                ? this.controlLink.range.match(/\d+/g)[1]
+                : null
+            return tempMax || 100
+        },
         classObject() {
             return this.isRotated ? 'slider-vertical' : 'slider-horizontal'
         },
         uTagname() {
-            return parseInt(this.controlLink.tagname.match(/\d+/)[0])
+            let temp = this.controlLink.tagname
+                ? parseInt(this.controlLink.tagname.match(/\d+/)[0])
+                : parseInt(this.controlLink.tagname0.match(/\d+/)[0])
+            return temp
+        },
+        eventName() {
+            let temp = this.controlLink.tagname || this.controlLink.tagname0
+            return 'eventBy_' + temp
         }
     },
     methods: {
         componentInit() {
-            this.eventName = 'eventBy_' + this.controlLink.tagname
             let rect = this.componentProperties.rect
-            this.styleObject = {
+            this.wrapperStyle = {
                 left: rect[0] + 'px',
-                top: rect[1] + 10 + 'px'
+                top: rect[1] + 10 + 'px',
+                width: rect[2] - rect[0] + 'px'
+            }
+            this.sliderStyle = {
+                width: rect[2] - rect[0] + 'px'
+            }
+            this.isRotated =
+                this.componentProperties.rotate != null ? true : false
+            if (this.isRotated == true) {
+                this.sliderStyle.width = rect[3] - rect[1] + 'px'
+            }
+            if (this.sliderStyle.width.match(/\d+/)[0] < 100) {
+                this.sliderStyle['transform-origin'] = '29px 29px'
             }
         },
         update_R_Bit: async function() {

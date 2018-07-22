@@ -598,7 +598,7 @@
 			<gpx:sg message="81">
 				<gpx:cgbject Transparent="1" text-align="1"></>
 				<font original="3"></></></>
-		<gpx:object rect="305 85 319 116" object-name="_Rectangle">
+		<gpx:object rect="305 85 405 116" object-name="_Rectangle">
 			<gpx:sg>
 				<gpx:cgbject brush-color="808080"></>
 				<control-link>
@@ -643,7 +643,7 @@
 					<Array name="cpoint" size="2">
 						<0 point2f="399 268"></>
 						<1 point2f="408 268"></></></></></>
-		<gpx:object rect="396 153 410 184" object-name="_Rectangle">
+		<gpx:object rect="396 153 496 253" object-name="_Rectangle">
 			<gpx:sg>
 				<gpx:cgbject brush-color="808080" rotate="90"></>
 				<control-link>
@@ -1573,18 +1573,6 @@
 			<gpx:object rect="12.500 91.500 152.500 119.500" object-name="_Rectangle">
 				<gpx:sg>
 					<gpx:cgbject brush-color="C0C0C0"></></></>
-			<gpx:object rect="17.500 118.500 147.500 120.500" object-name="_HVLine">
-				<gpx:sg translate="0 14">
-					<gpx:cgbject pen-color="FFFFFF">
-						<Array name="cpoint" size="2">
-							<0 point2f="12.500 119.500"></>
-							<1 point2f="152.500 119.500"></></></></></>
-			<gpx:object rect="151.500 91.500 155.500 121.500" object-name="_HVLine">
-				<gpx:sg translate="71 1">
-					<gpx:cgbject pen-color="FFFFFF">
-						<Array name="cpoint" size="2">
-							<0 point2f="152.500 92.500"></>
-							<1 point2f="152.500 120.500"></></></></></></>
 		<gpx:object rect="15 11 150 34" object-name="GROUPHEAD">
 			<gpx:sg>
 				<gpx:cgbject></></>
@@ -1713,19 +1701,7 @@
 				<font original="3"></></></>
 		<gpx:object rect="96 324 166 394" object-name="_Rectangle">
 			<gpx:sg>
-				<gpx:cgbject brush-color="C0C0C0"></></></>
-		<gpx:object rect="165 363 167 434" object-name="_HVLine">
-			<gpx:sg>
-				<gpx:cgbject pen-color="FFFFFF">
-					<Array name="cpoint" size="2">
-						<0 point2f="166 325"></>
-						<1 point2f="166 395"></></></></></>
-		<gpx:object rect="108 393 179 395" object-name="_HVLine">
-			<gpx:sg>
-				<gpx:cgbject pen-color="FFFFFF">
-					<Array name="cpoint" size="2">
-						<0 point2f="97 394"></>
-						<1 point2f="166 394"></></></></></>
+				<gpx:cgbject brush-color="C0C0C0" planar="1"></></></>
 		<gpx:object rect="96 324 106 334" object-name="_Rectangle">
 			<gpx:sg>
 				<gpx:cgbject brush-color="808080"></>
@@ -1827,19 +1803,7 @@
 				<font original="3"></></></>
 		<gpx:object rect="362 324 432 394" object-name="_Rectangle">
 			<gpx:sg>
-				<gpx:cgbject brush-color="C0C0C0"></></></>
-		<gpx:object rect="431 363 433 434" object-name="_HVLine">
-			<gpx:sg>
-				<gpx:cgbject pen-color="FFFFFF">
-					<Array name="cpoint" size="2">
-						<0 point2f="432 325"></>
-						<1 point2f="432 395"></></></></></>
-		<gpx:object rect="374 393 445 395" object-name="_HVLine">
-			<gpx:sg>
-				<gpx:cgbject pen-color="FFFFFF">
-					<Array name="cpoint" size="2">
-						<0 point2f="363 394"></>
-						<1 point2f="432 394"></></></></></>
+				<gpx:cgbject brush-color="C0C0C0" planar="1"></></></>
 		<gpx:object rect="362 324 372 334" object-name="_Rectangle">
 			<gpx:sg>
 				<gpx:cgbject brush-color="808080"></>
@@ -1944,19 +1908,7 @@
 				<font original="2"></></></>
 		<gpx:object rect="667 212 717 262" object-name="_Rectangle">
 			<gpx:sg>
-				<gpx:cgbject brush-color="C0C0C0"></></></>
-		<gpx:object rect="716 211 718 263" object-name="_HVLine">
-			<gpx:sg>
-				<gpx:cgbject pen-color="FFFFFF">
-					<Array name="cpoint" size="2">
-						<0 point2f="717 212"></>
-						<1 point2f="717 262"></></></></></>
-		<gpx:object rect="667 261 719 263" object-name="_HVLine">
-			<gpx:sg>
-				<gpx:cgbject pen-color="FFFFFF">
-					<Array name="cpoint" size="2">
-						<0 point2f="668 262"></>
-						<1 point2f="718 262"></></></></></>
+				<gpx:cgbject brush-color="C0C0C0" planar="1"></></></>
 		<gpx:object rect="667 212 677 222" object-name="_Rectangle">
 			<gpx:sg>
 				<gpx:cgbject brush-color="808080"></>

@@ -69,6 +69,8 @@ export default {
                 )
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
                 this.update_A_Bit(this.uTagname, true)
+
+                // Get Objects
                 this.gpxObject = pf['gpx:object']
                 this.gpxButton = this.gpxObject._Button
                 this.gpxInput = this.gpxObject._Text
@@ -80,12 +82,30 @@ export default {
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )
-                this.gpxSlider = this.gpxObject._Rectangle
-                    .filter(item => item['control-link'] != null)
-                    .filter(item => item['control-link'].length == 1)
-                this.gpxPlanar = this.gpxObject._Rectangle
-                    .filter(item => item['control-link'] != null)
-                    .filter(item => item['control-link'].length == 2)
+                // Get Slider
+                this.gpxSlider = this.gpxObject.VSCROLL || []
+                if (this.gpxSlider.length != 0) {
+                    for (let i in this.gpxSlider) {
+                        this.gpxSlider[i].rotate = 1
+                    }
+                }
+                if (this.gpxObject.HSCROLL != null) {
+                    for (let i in this.gpxObject.HSCROLL) {
+                        this.gpxSlider.push(this.gpxObject.HSCROLL[i])
+                    }
+                }
+                if (this.gpxSlider.length == 0) {
+                    this.gpxSlider = this.gpxObject._Rectangle
+                        .filter(item => item['control-link'] != null)
+                        .filter(item => item['control-link'].length == 1)
+                        .filter(
+                            item =>
+                                item['control-link'][0]['link-name'] ==
+                                    'slider-horizontal' ||
+                                item['control-link'][0]['link-name'] ==
+                                    'slider-vertical'
+                        )
+                }
             } else {
                 let text = await res.text()
                 console.log(text)

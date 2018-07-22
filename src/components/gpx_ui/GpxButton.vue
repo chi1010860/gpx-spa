@@ -244,7 +244,7 @@ button {
     width: 100px;
     height: 50px;
     padding: 1px;
-    border: 2px outset #ddd;
+    border: 3px outset #ddd;
 }
 button:active {
     top: 1px;

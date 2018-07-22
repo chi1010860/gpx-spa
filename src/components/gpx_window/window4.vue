@@ -4,6 +4,7 @@
             <div class="row-1">
                 <fieldset class="fieldset-0"></fieldset>
             </div>
+            <gpx-switch-rk v-for="(item, index) in gpxSwitchRk" :componentProperties="item" :key="'switchrk' + index"></gpx-switch-rk>
             <gpx-button v-for="(item, index) in gpxButton" :componentProperties="item" :key="'button' + index"></gpx-button>
             <gpx-input v-for="(item, index) in gpxInput" :componentProperties="item" :key="'input' + index"></gpx-input>
             <gpx-value v-for="(item, index) in gpxValue" :componentProperties="item" :key="'value' + index"></gpx-value>
@@ -12,11 +13,13 @@
             <gpx-planar v-for="(item, index) in gpxPlanar" :componentProperties="item" :key="'planar' + index"></gpx-planar>
         </div>
         <gpx-hvline :rect="hvline"></gpx-hvline>
+        <gpx-line v-for="(item, index) in gpxLine" :componentProperties="item" :key="'line' + index"></gpx-line>
     </div>
 </template>
 
 <script>
 import gURL from '@/router/url'
+import GpxSwitchRk from '@/components/gpx_ui/GpxSwitchRk'
 import GpxButton from '@/components/gpx_ui/GpxButton'
 import GpxInput from '@/components/gpx_ui/GpxInput'
 import GpxValue from '@/components/gpx_ui/GpxValue'
@@ -24,6 +27,7 @@ import GpxText from '@/components/gpx_ui/GpxText'
 import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
+import GpxLine from '@/components/gpx_ui/GpxLine'
 import GpxModal from '@/components/gpx_ui/GpxModal'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -33,10 +37,12 @@ export default {
             hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             uTagname: 0,
             gpxObject: {},
+            gpxSwitchRk: [],
             gpxButton: [],
             gpxInput: [],
             gpxValue: [],
             gpxText: [],
+            gpxLine: [],
             gpxSlider: [],
             gpxPlanar: []
         }
@@ -48,6 +54,7 @@ export default {
         })
     },
     components: {
+        'gpx-switch-rk': GpxSwitchRk,
         'gpx-button': GpxButton,
         'gpx-input': GpxInput,
         'gpx-value': GpxValue,
@@ -55,6 +62,7 @@ export default {
         'gpx-slider': GpxSlider,
         'gpx-planar': GpxPlanar,
         'gpx-hvline': GpxHVLine,
+        'gpx-line': GpxLine,
         'gpx-modal': GpxModal
     },
     methods: {
@@ -69,7 +77,10 @@ export default {
                 )
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
                 this.update_A_Bit(this.uTagname, true)
+
+                // Get Objects
                 this.gpxObject = pf['gpx:object']
+                this.gpxSwitchRk = this.gpxObject.SWITCHRK
                 this.gpxButton = this.gpxObject._Button
                 this.gpxInput = this.gpxObject._Text
                     .filter(item => item['control-link'].length != 0)
@@ -80,12 +91,46 @@ export default {
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )
-                this.gpxSlider = this.gpxObject._Rectangle
-                    .filter(item => item['control-link'] != null)
-                    .filter(item => item['control-link'].length == 1)
+                this.gpxLine = this.gpxObject._HVLine
+                // Get Slider
+                this.gpxSlider = this.gpxObject.VSCROLL || []
+                if (this.gpxSlider.length != 0) {
+                    for (let i in this.gpxSlider) {
+                        this.gpxSlider[i].rotate = 1
+                    }
+                }
+                if (this.gpxObject.HSCROLL != null) {
+                    for (let i in this.gpxObject.HSCROLL) {
+                        this.gpxSlider.push(this.gpxObject.HSCROLL[i])
+                    }
+                }
+                if (this.gpxSlider.length == 0) {
+                    this.gpxSlider = this.gpxObject._Rectangle
+                        .filter(item => item['control-link'] != null)
+                        .filter(item => item['control-link'].length == 1)
+                        .filter(
+                            item =>
+                                item['control-link'][0]['link-name'] ==
+                                    'slider-horizontal' ||
+                                item['control-link'][0]['link-name'] ==
+                                    'slider-vertical'
+                        )
+                }
+                // Get Planar
                 this.gpxPlanar = this.gpxObject._Rectangle
                     .filter(item => item['control-link'] != null)
                     .filter(item => item['control-link'].length == 2)
+                    .filter(
+                        item =>
+                            item['control-link'][0]['link-name'] ==
+                            'slider-horizontal'
+                    )
+                let planar = this.gpxObject._Rectangle.filter(
+                    item => item.planar != null
+                )
+                for (let i in this.gpxPlanar) {
+                    this.gpxPlanar[i].planar = planar[i]
+                }
             } else {
                 let text = await res.text()
                 console.log(text)

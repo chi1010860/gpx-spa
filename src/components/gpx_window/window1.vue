@@ -89,12 +89,39 @@ export default {
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )
-                this.gpxSlider = this.gpxObject._Rectangle
-                    .filter(item => item['control-link'] != null)
-                    .filter(item => item['control-link'].length == 1)
+                // Get Slider
+                this.gpxSlider = this.gpxObject.VSCROLL || []
+                if (this.gpxSlider.length != 0) {
+                    for (let i in this.gpxSlider) {
+                        this.gpxSlider[i].rotate = 1
+                    }
+                }
+                if (this.gpxObject.HSCROLL != null) {
+                    for (let i in this.gpxObject.HSCROLL) {
+                        this.gpxSlider.push(this.gpxObject.HSCROLL[i])
+                    }
+                }
+                if (this.gpxSlider.length == 0) {
+                    this.gpxSlider = this.gpxObject._Rectangle
+                        .filter(item => item['control-link'] != null)
+                        .filter(item => item['control-link'].length == 1)
+                        .filter(
+                            item =>
+                                item['control-link'][0]['link-name'] ==
+                                    'slider-horizontal' ||
+                                item['control-link'][0]['link-name'] ==
+                                    'slider-vertical'
+                        )
+                }
+                // Get Planar
                 this.gpxPlanar = this.gpxObject._Rectangle
                     .filter(item => item['control-link'] != null)
                     .filter(item => item['control-link'].length == 2)
+                    .filter(
+                        item =>
+                            item['control-link'][0]['link-name'] ==
+                            'slider-horizontal'
+                    )
                 let planar = this.gpxObject._Rectangle.filter(
                     item => item.planar != null
                 )
@@ -148,9 +175,6 @@ export default {
         this.$bus.$emit('appLoadingFinished', {
             isLoading: false
         })
-        // this.$bus.$emit('winpc32Init', {
-        //     isLoading: true
-        // })
     },
     created() {
         this.getGpxWindow(1)

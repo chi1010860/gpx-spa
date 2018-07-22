@@ -87,12 +87,6 @@ export default {
                 this.gpxText = this.gpxObject._Text.filter(
                     item => item['control-link'].length == 0
                 )
-                this.gpxSlider = this.gpxObject._Rectangle
-                    .filter(item => item['control-link'] != null)
-                    .filter(item => item['control-link'].length == 1)
-                this.gpxPlanar = this.gpxObject._Rectangle
-                    .filter(item => item['control-link'] != null)
-                    .filter(item => item['control-link'].length == 2)
             } else {
                 let text = await res.text()
                 console.log(text)

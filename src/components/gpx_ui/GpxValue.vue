@@ -52,11 +52,14 @@ export default {
         },
         styleObject() {
             let rect = this.componentProperties.rect
+            let Transparent = this.componentProperties.Transparent
             return {
                 left: rect[0] + 'px',
                 top: rect[1] + 'px',
                 width: rect[2] - rect[0] + 'px',
-                height: rect[3] - rect[1] + 'px'
+                height: rect[3] - rect[1] + 'px',
+                border: Transparent == '1' ? 'none' : '',
+                'background-color': Transparent == '1' ? 'buttonface' : ''
             }
         }
     },
@@ -144,5 +147,7 @@ input {
     position: absolute;
     margin: 0px;
     text-align: center;
+    color: black;
+    user-select: all;
 }
 </style>
