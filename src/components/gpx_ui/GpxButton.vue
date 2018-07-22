@@ -107,7 +107,7 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit()
+                    this.update_A_Bit(this.uTagname, this.isTurnOn)
                 }
             } else if (eventType == 'mouseup') {
                 if (
@@ -120,14 +120,14 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit()
+                    this.update_A_Bit(this.uTagname, this.isTurnOn)
                 } else if (controlLink.keypad == enumDiscreteType.get('set')) {
                     // console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = true
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit()
+                    this.update_A_Bit(this.uTagname, this.isTurnOn)
                 } else if (
                     controlLink.keypad == enumDiscreteType.get('reset')
                 ) {
@@ -136,7 +136,7 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit()
+                    this.update_A_Bit(this.uTagname, this.isTurnOn)
                 }
             }
         },
@@ -192,7 +192,7 @@ export default {
                 })
             }
         },
-        update_A_Bit: async function() {
+        update_A_Bit: async function(_tagname, _state) {
             // API
             let URL = gURL + '/winpc32/update_A_Bit'
 
@@ -203,8 +203,8 @@ export default {
 
             // Payload
             let data = {
-                state: this.isTurnOn,
-                tagname: this.uTagname
+                tagname: _tagname,
+                state: _state
             }
             let encodedData = JSON.stringify(data)
             let reqInit = {
@@ -232,7 +232,7 @@ export default {
     },
     created() {
         this.componentInit()
-        this.update_A_Bit()
+        this.update_A_Bit(this.uTagname, this.isTurnOn)
     }
 }
 </script>
