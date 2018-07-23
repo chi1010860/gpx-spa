@@ -31,3 +31,8 @@ export const actionLanguageChange = ({ commit }, language) => {
     // console.log('actionLanguageChange')
     commit(types.LANGUAGE_CHANGE, language)
 }
+
+export const actionFontStyleInit = ({ commit }, fontStyle) => {
+    // console.log('actionFontStyleInit')
+    commit(types.FONTSTYLE_INIT, fontStyle)
+}

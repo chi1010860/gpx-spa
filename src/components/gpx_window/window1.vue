@@ -212,7 +212,7 @@ export default {
     padding-bottom: 15px;
 }
 .fieldset-0 {
-    width: 124px;
+    width: 130px;
     height: 30px;
     background-color: #ccc;
     border: inset;

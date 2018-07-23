@@ -26,5 +26,9 @@ export const mutations = {
     [types.LANGUAGE_CHANGE](state, _language) {
         state.language = _language
         // console.log(state.language)
+    },
+    [types.FONTSTYLE_INIT](state, _fontStyle) {
+        state.fontStyle = _fontStyle
+        // console.log(state.fontStyle)
     }
 }

@@ -131,7 +131,7 @@ export default {
     position: absolute;
     display: inline-block;
     width: 100px;
-    height: 100px;
+    height: 20px;
     padding: 0;
 }
 .slider-horizontal {

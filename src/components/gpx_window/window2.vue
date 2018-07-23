@@ -97,7 +97,7 @@ export default {
                                 'value-string'
                     )
                 this.gpxText = this.gpxObject._Text.filter(
-                    item => item['control-link'].length == 0
+                    item => item['control-link'].length <= 1
                 )
                 // Get Slider
                 this.gpxSlider = this.gpxObject.VSCROLL || []
@@ -204,7 +204,7 @@ export default {
     padding-bottom: 15px;
 }
 .fieldset-0 {
-    width: 124px;
+    width: 130px;
     height: 30px;
     background-color: #ccc;
     border: inset;

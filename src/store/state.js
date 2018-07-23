@@ -2,5 +2,6 @@
 export const state = {
     count: 0,
     keytext: [],
-    language: 'original'
+    language: 'original',
+    fontStyle: []
 }

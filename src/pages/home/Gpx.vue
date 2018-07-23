@@ -31,7 +31,8 @@ export default {
     computed: {
         ...mapGetters({
             keytext: 'getKeytext',
-            language: 'getLanguage'
+            language: 'getLanguage',
+            fontStyle: 'getFontStyle'
         })
     },
     components: {
@@ -42,7 +43,11 @@ export default {
         'gpx-hvline': GpxHvline
     },
     methods: {
-        ...mapActions(['actionKeytextInit', 'actionLanguageChange']),
+        ...mapActions([
+            'actionKeytextInit',
+            'actionLanguageChange',
+            'actionFontStyleInit'
+        ]),
         winpc32Init: async function() {
             let URL = gURL + '/winpc32/init'
             // AJAX
@@ -67,6 +72,7 @@ export default {
                 this.actionLanguageChange(
                     result['style-sheet']['language-table'][0]
                 )
+                this.actionFontStyleInit(result['style-sheet']['ss:font'])
                 this.drawPageFrame(result['gpx:document'])
                 let win = result.PageFrame.find(
                     item => item['page-title'] == 'Window1'
