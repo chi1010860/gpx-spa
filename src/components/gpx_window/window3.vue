@@ -26,7 +26,6 @@ import GpxText from '@/components/gpx_ui/GpxText'
 import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
-import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data() {
@@ -43,12 +42,6 @@ export default {
             gpxPlanar: []
         }
     },
-    computed: {
-        ...mapGetters({
-            keytext: 'getKeytext',
-            language: 'getLanguage'
-        })
-    },
     components: {
         'gpx-switch-rk': GpxSwitchRk,
         'gpx-button': GpxButton,
@@ -60,7 +53,6 @@ export default {
         'gpx-hvline': GpxHVLine
     },
     methods: {
-        ...mapActions(['actionLanguageChange']),
         getGpxWindow: async function(index) {
             let URL = gURL + '/api/gpx'
             let res = await fetch(URL)

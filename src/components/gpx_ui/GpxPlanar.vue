@@ -121,10 +121,10 @@ export default {
                 maxOffsetTop = planarHeight - squareHeight
             if (_square) {
                 /* if present, the header is where you move the DIV from:*/
-                _square.onmousedown = dragMouseDown
+                _square.onmousedown = dragMouseDown(e)
             } else {
                 /* otherwise, move the DIV from anywhere inside the DIV:*/
-                _square.onmousedown = dragMouseDown
+                _square.onmousedown = dragMouseDown(e)
             }
 
             function dragMouseDown(e) {

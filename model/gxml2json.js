@@ -72,7 +72,7 @@ function getKeyText(_gxml) {
 		_keyText[i] = {
 			id: list[i].match(/\d+/g)[0],
 			original: _original.slice(10, _original.lastIndexOf('"')),
-			zhTw: _zhTw.slice(7, _zhTw.lastIndexOf('"'))
+			'zh-tw': _zhTw.slice(7, _zhTw.lastIndexOf('"'))
 		}
 	}
 	return _keyText

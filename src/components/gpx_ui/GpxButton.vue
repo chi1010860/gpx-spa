@@ -1,5 +1,5 @@
 <template>
-    <button @mousedown="fnMousedown" :style="styleObject">{{ msg }}</button>
+    <button @mousedown="fnMousedown" :style="styleObject" :disabled="isDisable">{{ msg }}</button>
 </template>
 
 <script>
@@ -14,8 +14,6 @@ var enumDiscreteType = new Map([
     ['set', 4]
 ])
 
-var enumAnalog
-
 export default {
     props: {
         componentProperties: {}
@@ -29,14 +27,25 @@ export default {
             isMousedown: false,
             eventName: '',
             vsEval: [],
-            analogValue: 0
+            analogValue: 0,
+            // disable
+            isDisable: false,
+            disableEvent: ''
         }
     },
     computed: {
         ...mapGetters({
             keytext: 'getKeytext',
-            language: 'getLanguage'
+            language: 'getLanguage',
+            fontStyle: 'getFontStyle'
         }),
+        fontSzie() {
+            let index =
+                this.componentProperties.font != null
+                    ? parseInt(this.componentProperties.font)
+                    : 1
+            return Math.abs(this.fontStyle[index - 1].height) + 'px'
+        },
         msg() {
             if (this.componentProperties.message != undefined) {
                 return this.keytext.find(
@@ -52,7 +61,8 @@ export default {
                 left: rect[0] + 'px',
                 top: rect[1] + 'px',
                 width: rect[2] - rect[0] + 'px',
-                height: rect[3] - rect[1] + 'px'
+                height: rect[3] - rect[1] + 'px',
+                'font-size': this.fontSzie
             }
         },
         controlLinkName() {
@@ -63,6 +73,36 @@ export default {
         }
     },
     methods: {
+        componentInit() {
+            this.controlLink = this.componentProperties['control-link'][0]
+            this.eventName = 'eventBy_' + this.controlLink.tagname
+            if (this.controlLinkName == 'PB-discrete') {
+                if (
+                    this.controlLink.keypad == enumDiscreteType.get('reverse')
+                ) {
+                    this.isTurnOn = true
+                    this.$bus.$emit(this.eventName, {
+                        state: this.isTurnOn
+                    })
+                } else {
+                    this.isTurnOn = false
+                    this.$bus.$emit(this.eventName, {
+                        state: this.isTurnOn
+                    })
+                }
+            }
+            let cl = this.componentProperties['control-link'].find(
+                item => item['link-name'] == 'disable'
+            )
+            if (cl != null) {
+                this.disableEvent = 'eventBy_' + cl.expression.match(/\w+/)[0]
+                this.$bus.$on(this.disableEvent, event => {
+                    if (event.state != null) {
+                        this.isDisable = event.state
+                    }
+                })
+            }
+        },
         fnMousedown(e) {
             var vm = this
             if (this.controlLinkName == 'PB-discrete') {
@@ -81,25 +121,6 @@ export default {
                 // clear events
                 document.onmouseup = null
                 document.onmousemove = null
-            }
-        },
-        componentInit() {
-            this.controlLink = this.componentProperties['control-link'][0]
-            this.eventName = 'eventBy_' + this.controlLink.tagname
-            if (this.controlLinkName == 'PB-discrete') {
-                if (
-                    this.controlLink.keypad == enumDiscreteType.get('reverse')
-                ) {
-                    this.isTurnOn = true
-                    this.$bus.$emit(this.eventName, {
-                        state: this.isTurnOn
-                    })
-                } else {
-                    this.isTurnOn = false
-                    this.$bus.$emit(this.eventName, {
-                        state: this.isTurnOn
-                    })
-                }
             }
         },
         PB_discrete(controlLink, eventType) {
@@ -239,6 +260,9 @@ export default {
     created() {
         this.componentInit()
         this.update_A_Bit(this.uTagname, this.isTurnOn)
+    },
+    beforeDestroy() {
+        this.$bus.$off(this.disableEvent)
     }
 }
 </script>

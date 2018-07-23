@@ -3,6 +3,7 @@
         <div class="page-frame">
             <gpx-title></gpx-title>
             <gpx-clock></gpx-clock>
+            <gpx-language></gpx-language>
             <div class="window">
                 <router-view></router-view>
             </div>
@@ -16,6 +17,7 @@
 import gURL from '@/router/url.js'
 import GpxTitle from '@/components/gpx_ui/GpxTitle'
 import GpxClock from '@/components/gpx_ui/GpxClock'
+import GpxLanguage from '@/components/gpx_ui/GpxLanguage'
 import GpxButtonNavbar from '@/components/gpx_ui/GpxButtonNavbar'
 import GpxPageButton from '@/components/gpx_ui/GpxPageButton'
 import GpxHvline from '@/components/gpx_ui/GpxHVLine'
@@ -38,6 +40,7 @@ export default {
     components: {
         'gpx-title': GpxTitle,
         'gpx-clock': GpxClock,
+        'gpx-language': GpxLanguage,
         'gpx-button-navbar': GpxButtonNavbar,
         'gpx-page-button': GpxPageButton,
         'gpx-hvline': GpxHvline

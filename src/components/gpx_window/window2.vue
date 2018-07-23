@@ -32,7 +32,6 @@ import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxRectangle from '@/components/gpx_ui/GpxRectangle'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
-import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data() {
@@ -49,12 +48,6 @@ export default {
             gpxRectangle: []
         }
     },
-    computed: {
-        ...mapGetters({
-            keytext: 'getKeytext',
-            language: 'getLanguage'
-        })
-    },
     components: {
         'gpx-button': GpxButton,
         'gpx-input': GpxInput,
@@ -66,7 +59,6 @@ export default {
         'gpx-rectangle': GpxRectangle
     },
     methods: {
-        ...mapActions(['actionLanguageChange']),
         getGpxWindow: async function(index) {
             let URL = gURL + '/api/gpx'
             let res = await fetch(URL)

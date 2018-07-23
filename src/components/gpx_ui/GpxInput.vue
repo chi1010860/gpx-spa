@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input class="gpx-input" type="text" :style="styleObject" :value="showValue" @focus="showModal">
+        <input class="gpx-input" type="text" :style="styleObject" :value="showValue" @focus="showModal" :disabled="isDisable">
         <gpx-modal v-if="isModalShown" @ok="changeValue">
             <h3 slot="header">{{parentHeader}}</h3>
             <button class="button-discrete" v-if="isDiscrete" slot='body' @click="setOn">{{promptSet}}</button>
@@ -47,7 +47,10 @@ export default {
             maxValue: 100,
             // string
             stringValue: ' ',
-            eventName: ''
+            eventName: '',
+            // disable
+            isDisable: false,
+            disableEvent: ''
         }
     },
     computed: {
@@ -99,6 +102,17 @@ export default {
                 color: '#' + this.componentProperties['text-color']
             }
             this.assignModalData()
+            let cl = this.componentProperties['control-link'].find(
+                item => item['link-name'] == 'disable'
+            )
+            if (cl != null) {
+                this.disableEvent = 'eventBy_' + cl.expression.match(/\w+/)[0]
+                this.$bus.$on(this.disableEvent, event => {
+                    if (event.state != null) {
+                        this.isDisable = event.state
+                    }
+                })
+            }
         },
         showModal() {
             this.isModalShown = true
@@ -297,6 +311,9 @@ export default {
         this.componentInit()
         this.update_A_Bit()
         if (this.controlLinkName != 'userinput-discrete') this.update_R_Bit()
+    },
+    beforeDestroy() {
+        this.$bus.$off(this.disableEvent)
     }
 }
 </script>

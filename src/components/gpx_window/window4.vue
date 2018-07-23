@@ -11,6 +11,8 @@
             <gpx-text v-for="(item, index) in gpxText" :componentProperties="item" :key="'text' + index"></gpx-text>
             <gpx-slider v-for="(item, index) in gpxSlider" :componentProperties="item" :key="'slider' + index"></gpx-slider>
             <gpx-planar v-for="(item, index) in gpxPlanar" :componentProperties="item" :key="'planar' + index"></gpx-planar>
+            <gpx-rectangle v-for="(item, index) in gpxRectangle" :componentProperties="item" :key="'rectangle' + index"></gpx-rectangle>
+            <gpx-ellipse v-for="(item, index) in gpxEllipse" :componentProperties="item" :key="'ellipse' + index"></gpx-ellipse>
 
             <div class="group-fieldset">
                 <fieldset class="fieldset-1"></fieldset>
@@ -32,9 +34,10 @@ import GpxValue from '@/components/gpx_ui/GpxValue'
 import GpxText from '@/components/gpx_ui/GpxText'
 import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
+import GpxRectangle from '@/components/gpx_ui/GpxRectangle'
+import GpxEllipse from '@/components/gpx_ui/GpxEllipse'
 import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
 import GpxLine from '@/components/gpx_ui/GpxLine'
-import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data() {
@@ -49,14 +52,10 @@ export default {
             gpxText: [],
             gpxSlider: [],
             gpxPlanar: [],
-            gpxLine: []
+            gpxLine: [],
+            gpxRectangle: [],
+            gpxEllipse: []
         }
-    },
-    computed: {
-        ...mapGetters({
-            keytext: 'getKeytext',
-            language: 'getLanguage'
-        })
     },
     components: {
         'gpx-switch-rk': GpxSwitchRk,
@@ -66,11 +65,12 @@ export default {
         'gpx-text': GpxText,
         'gpx-slider': GpxSlider,
         'gpx-planar': GpxPlanar,
+        'gpx-rectangle': GpxRectangle,
+        'gpx-ellipse': GpxEllipse,
         'gpx-hvline': GpxHVLine,
         'gpx-line': GpxLine
     },
     methods: {
-        ...mapActions(['actionLanguageChange']),
         getGpxWindow: async function(index) {
             let URL = gURL + '/api/gpx'
             let res = await fetch(URL)
@@ -144,6 +144,18 @@ export default {
                 for (let i in this.gpxPlanar) {
                     this.gpxPlanar[i].planar = planar[i]
                 }
+                // Get Rectangle
+                this.gpxRectangle = this.gpxObject._Rectangle
+                    .filter(item => item['control-link'] != null)
+                    .filter(item => item['control-link'].length >= 1)
+                    .filter(
+                        item =>
+                            item['control-link'][0]['link-name'].match(
+                                /slider/
+                            ) == null
+                    )
+                // Get Ellipse
+                this.gpxEllipse = this.gpxObject._Ellipse
             } else {
                 let text = await res.text()
                 console.log(text)

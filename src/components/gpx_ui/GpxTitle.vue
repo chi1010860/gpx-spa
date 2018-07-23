@@ -9,19 +9,30 @@
 
 <script>
 import gURL from '@/router/url'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    name: 'GpxName',
     data() {
         return {
-            keytext: [],
-            language: 'original',
             titleName: {
                 h1: '',
                 h2: ''
             },
             uTagname: 0,
-            windowStatus: false
+            windowStatus: false,
+            msgBuffer: []
+        }
+    },
+    computed: {
+        ...mapGetters({
+            keytext: 'getKeytext',
+            language: 'getLanguage',
+            fontStyle: 'getFontStyle'
+        })
+    },
+    watch: {
+        language: function(value) {
+            this.getMessage(this.msgBuffer)
         }
     },
     methods: {
@@ -30,11 +41,11 @@ export default {
             let res = await fetch(URL)
             if (res.ok) {
                 let result = await res.json()
-                this.getKeyText(result['style-sheet']['key-text'])
                 let pf = result.PageFrame.find(
                     item => item['page-title'] == 'Title'
                 )
-                this.getMessage(pf['gpx:object'].MSG)
+                this.msgBuffer = pf['gpx:object'].MSG
+                this.getMessage(this.msgBuffer)
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
                 this.windowStatus = true
                 this.update_A_Bit()
@@ -43,22 +54,17 @@ export default {
                 console.log(text)
             }
         },
-        getKeyText(data) {
-            for (let i in data) {
-                this.keytext.push(data[i])
-            }
-        },
         getMessage(data) {
             let MSG1 = data.find(item => item.text == '2A')
             let h1_index = MSG1.MessageIndex[0].message
             this.titleName.h1 = this.keytext.find(item => item.id == h1_index)[
-                'original'
+                this.language
             ]
 
             let MSG2 = data.find(item => item.text == '30')
             let h2_index = MSG2.MessageIndex[0].message
             this.titleName.h2 = this.keytext.find(item => item.id == h2_index)[
-                'original'
+                this.language
             ]
         },
         update_A_Bit: async function() {

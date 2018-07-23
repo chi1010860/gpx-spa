@@ -131,8 +131,8 @@ export default {
                     for (let c in buffer) {
                         fontColor += buffer[c]
                     }
-                    fontColor = '#' + fontColor
                 }
+                fontColor = '#' + fontColor
                 bgColor = '#' + this.componentProperties['brush-color']
             } else if (this.controlLinkName.match(/discrete/) != null) {
                 fontColor = this.color_off
@@ -191,7 +191,6 @@ export default {
         },
         toggleColorByAnalog() {
             let vm = this
-            console.log(this.levelDetect)
             let levelDetect = eval(this.levelDetect)
             levelDetect()
             this.toggleColor()
