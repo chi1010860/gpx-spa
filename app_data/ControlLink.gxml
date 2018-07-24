@@ -10,7 +10,7 @@
 			<5 original="Please input int. number 0~100" zh-tw="請輸入0~100間的整數"></>
 			<6 original="Analog (Int.)" zh-tw="類比(Int.)"></>
 			<7 original="Please input scale number 0.0~100.0" zh-tw="請輸入0.0~100.0間的小數"></>
-			<8 original="Analog (Int. Scale)" zh-tw="類比(Scale.)"></>
+			<8 original="Analog (Int. Scale)" zh-tw="類比(Int. Scale)"></>
 			<9 original="Please input float number 0.0~100.0" zh-tw="請輸入0.0~100.0間的浮點數"></>
 			<10 original="Analog (float)" zh-tw="類比(float.)"></>
 			<11 original="Please input string. ( 0 ~ 12 characters )" zh-tw="請輸入0~12字元內的字串"></>
@@ -19,11 +19,11 @@
 			<14 original="OFF" zh-tw="關"></>
 			<15 original="String Output" zh-tw="字串輸出"></>
 			<16 original="Input" zh-tw="輸入"></>
-			<17 original="Display" zh-tw="顯示"></>
+			<17 original="Display" zh-tw="顯示器"></>
 			<18 original="User<br>Input" zh-tw="使用者<br>輸入"></>
 			<21 original="Color<br>Control" zh-tw="顏色控制"></>
 			<27 original="Figure<br>Control" zh-tw="圖案控制"></>
-			<30 original="Misc-<br>ellaneous" zh-tw="其他"></>
+			<30 original="Misc-<br>ellaneous" zh-tw="其他應用"></>
 			<34 original="中文" zh-tw="English"></>
 			<35 original="English" zh-tw="英文"></>
 			<40 original="Sample Project" zh-tw="範例專案"></>
@@ -37,7 +37,7 @@
 			<58 original="Administrator" zh-tw="管理員"></>
 			<60 original="User Input" zh-tw="使用者輸入"></>
 			<63 original="Slider" zh-tw="滑塊"></>
-			<64 original="Push Buttons" zh-tw="按鈕"></>
+			<64 original="Push Buttons" zh-tw="各類按鈕"></>
 			<65 original="Please push either button." zh-tw="請按一個按鈕"></>
 			<66 original="Set ON" zh-tw="打開"></>
 			<67 original="Set OFF" zh-tw="關閉"></>
@@ -53,10 +53,10 @@
 			<81 original="100" zh-tw="100"></>
 			<82 original="50" zh-tw="50"></>
 			<86 original="Vertical" zh-tw="垂直"></>
-			<87 original="Planar" zh-tw="平板"></>
-			<88 original=" Direct" zh-tw="直接"></>
-			<90 original="Reverse" zh-tw="反向"></>
-			<91 original="Toggle" zh-tw="切換"></>
+			<87 original="Planar" zh-tw="畫板"></>
+			<88 original=" Direct" zh-tw="直接型"></>
+			<90 original="Reverse" zh-tw="相反型"></>
+			<91 original="Toggle" zh-tw="切換型"></>
 			<92 original="Set" zh-tw="設定"></>
 			<93 original="Reset" zh-tw="重設"></>
 			<94 original="ON" zh-tw="開"></>
@@ -68,30 +68,30 @@
 			<100 original="ON" zh-tw="開"></>
 			<101 original="OFF" zh-tw="關"></>
 			<102 original="Action" zh-tw="動作"></>
-			<103 original="On Down" zh-tw="按紐往下"></>
-			<104 original="While Down" zh-tw="按住"></>
-			<105 original="On Up" zh-tw="按鈕往上"></>
+			<103 original="On Down" zh-tw="下壓瞬間"></>
+			<104 original="While Down" zh-tw="按住不放"></>
+			<105 original="On Up" zh-tw="上彈瞬間"></>
 			<106 original="Show window" zh-tw="顯示視窗"></>
 			<107 original="Hide window" zh-tw="隱藏視窗"></>
-			<110 original="Miscellaneous" zh-tw="其他"></>
-			<112 original="Visibility" zh-tw="顯示"></>
+			<110 original="Miscellaneous" zh-tw="其他應用"></>
+			<112 original="Visibility" zh-tw="隱藏"></>
 			<113 original="Button" zh-tw="按鈕"></>
 			<114 original="Blink" zh-tw="閃爍"></>
-			<115 original="Orientation" zh-tw="導向"></>
-			<116 original="Disable" zh-tw="使失效"></>
+			<115 original="Orientation" zh-tw="儀表"></>
+			<116 original="Disable" zh-tw="元件啟用"></>
 			<117 original="Password" zh-tw="密碼"></>
-			<118 original="Admin." zh-tw="管理"></>
+			<118 original="Admin." zh-tw="管理員"></>
 			<121 original="ON" zh-tw="開"></>
 			<122 original="OFF" zh-tw="關"></>
 			<123 original="Please input number 0 ~ 100" zh-tw="請輸入0~100間的整數"></>
 			<124 original="Logout" zh-tw="登出"></>
-			<125 original="Sys. Int." zh-tw="系統網路"></>
-			<126 original="Maint." zh-tw="主要"></>
-			<127 original="EndUser" zh-tw="終端使用者"></>
-			<128 original="Figure Control" zh-tw="圖案控制"></>
-			<130 original="Object Size" zh-tw="物件大小"></>
+			<125 original="Sys. Int." zh-tw="系統整合員"></>
+			<126 original="Maint." zh-tw="維護員"></>
+			<127 original="EndUser" zh-tw="用戶"></>
+			<128 original="Figure Control" zh-tw="圖型控制"></>
+			<130 original="Object Size" zh-tw="物件尺寸"></>
 			<131 original="Location" zh-tw="物件位置"></>
-			<132 original="Percent Fill" zh-tw="填滿百分比"></>
+			<132 original="Percent Fill" zh-tw="物件填滿"></>
 			<133 original="Width" zh-tw="寬度"></>
 			<134 original="Height" zh-tw="高度"></>
 			<135 original="Area" zh-tw="面積"></>
@@ -99,11 +99,11 @@
 			<149 original="Sweep" zh-tw="掃出"></>
 			<150 original="Color Control" zh-tw="顏色控制"></>
 			<152 original="Fill Color" zh-tw="填滿顏色"></>
-			<153 original="Line Color" zh-tw="線段顏色"></>
+			<153 original="Line Color" zh-tw="外框顏色"></>
 			<154 original="Text Color" zh-tw="文字顏色"></>
 			<156 original="Analog" zh-tw="類比"></>
 			<157 original="Discrete Alarm" zh-tw="二元警示"></>
-			<158 original="Alarm" zh-tw="警示"></>
+			<158 original="Alarm" zh-tw="警告"></>
 			<159 original="Analog Alarm" zh-tw="類比警示"></>
 			<160 original="LoLo" zh-tw="LoLo"></>
 			<161 original="Lo" zh-tw="Lo"></>
@@ -1902,7 +1902,7 @@
 		<gpx:object rect="614 133 661 203" object-name="VSCROLL">
 			<gpx:cgbject tagname0="wR0612" x-max="100" drawing-OP="8800C6">
 				<font original="3"></></></>
-		<gpx:object rect="544 204 593 223" object-name="_Text">
+		<gpx:object rect="544 208 593 223" object-name="_Text">
 			<gpx:sg message="87">
 				<gpx:cgbject Transparent="1"></>
 				<font original="2"></></></>
@@ -1927,11 +1927,11 @@
 				<control-link>
 					<value-analog expression="wR0614;" text-format="0" iopoint1="[R0043 43 258">
 						<font original="7"></></></></></>
-		<gpx:object rect="606 203 655 219" object-name="_Text">
+		<gpx:object rect="606 205 655 219" object-name="_Text">
 			<gpx:sg message="86">
 				<gpx:cgbject Transparent="1"></>
 				<font original="6"></></></>
-		<gpx:object rect="599 233 664 249" object-name="_Text">
+		<gpx:object rect="599 235 664 249" object-name="_Text">
 			<gpx:sg message="79">
 				<gpx:cgbject Transparent="1"></>
 				<font original="6"></></></>
@@ -1956,11 +1956,11 @@
 						<Array name="cpoint" size="2">
 							<0 point2f="557 350.500"></>
 							<1 point2f="772 350.500"></></></></></></>
-		<gpx:object rect="544 268 617 287" object-name="_Text">
+		<gpx:object rect="544 275 617 287" object-name="_Text">
 			<gpx:sg message="148">
 				<gpx:cgbject Transparent="1"></>
 				<font original="2"></></></>
-		<gpx:object rect="545 336 597 355" object-name="_Text">
+		<gpx:object rect="545 341 597 355" object-name="_Text">
 			<gpx:sg message="149">
 				<gpx:cgbject Transparent="1"></>
 				<font original="2"></></></>

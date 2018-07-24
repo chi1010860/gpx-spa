@@ -31,7 +31,7 @@ export default {
         })
     },
     watch: {
-        language: function(value) {
+        language() {
             this.getMessage(this.msgBuffer)
         }
     },

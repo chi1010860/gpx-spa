@@ -85,6 +85,11 @@ export default {
             return parseInt(this.controlLink.tagname.match(/\d+/)[0])
         }
     },
+    watch: {
+        language() {
+            this.assignModalData(this.msgBuffer)
+        }
+    },
     components: {
         'gpx-modal': GpxModal,
         'gpx-keyboard': GpxKeyboard

@@ -142,7 +142,7 @@ button {
     position: absolute;
     width: 100px;
     height: 50px;
-    padding: 1px;
+    padding-bottom: 1px;
     border: 3px outset #ddd;
 }
 button:active {
