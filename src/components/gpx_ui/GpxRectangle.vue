@@ -1,5 +1,5 @@
 <template>
-    <div class="gpx-rectangle" :style="[rectangleStyle, updateStyle]" v-show="isShown"></div>
+    <div class="gpx-rectangle" :style="[rectangleStyle, updateStyle, updateStyleW, updateStyleH]" v-show="isShown"></div>
 </template>
 
 <script>
@@ -14,6 +14,8 @@ export default {
             // General
             rectangleStyle: {},
             updateStyle: {},
+            updateStyleW: {},
+            updateStyleH: {},
             // Blink
             isShown: true,
             firstState: true,
@@ -31,7 +33,9 @@ export default {
             // Discrete
             isTurnOn: false,
             color_on: '#00CC33',
-            color_off: '#FF0000'
+            color_off: '#FF0000',
+            // percentfill
+            percentfillBuffer: {}
         }
     },
     computed: {
@@ -112,6 +116,13 @@ export default {
                 border: bdStyle
             }
 
+            this.percentfillBuffer = {
+                left: rect[0],
+                top: rect[1],
+                width: rect[2] - rect[0],
+                height: rect[3] - rect[1]
+            }
+
             function colorInit(cn) {
                 if (cn == 'visibility') {
                     this.firstState = this.controlLink.state ? false : true
@@ -154,28 +165,31 @@ export default {
                     bgColor = colorRevise(
                         this.componentProperties['brush-color']
                     )
-                    this.objectsizeChange()
+                    this.objectsizeChange(cn)
                 } else if (cn == 'objectsize-height') {
                     bgColor = colorRevise(
                         this.componentProperties['brush-color']
                     )
-                    this.objectsizeChange()
+                    this.objectsizeChange(cn)
                 } else if (cn == 'location-horizontal') {
                     bgColor = colorRevise(
                         this.componentProperties['brush-color']
                     )
-                    this.locationChange()
+                    this.locationChange(cn)
                 } else if (cn == 'location-vertical') {
                     bgColor = colorRevise(
                         this.componentProperties['brush-color']
                     )
-                    this.locationChange()
+                    this.locationChange(cn)
                 } else if (cn == 'percentfill-width') {
                     bgColor = '#808080'
+                    this.percentfillChange(cn)
                 } else if (cn == 'percentfill-height') {
                     bgColor = '#808080'
+                    this.percentfillChange(cn)
                 } else if (cn == 'percentfill-radial') {
                     bgColor = '#808080'
+                    this.percentfillChange(cn)
                 }
             }
 
@@ -266,107 +280,69 @@ export default {
                 border: bdStyle
             }
         },
-        objectsizeChange() {
+        objectsizeChange(cn) {
             let rect = this.componentProperties.rect
             let w = rect[2] - rect[0]
             let h = rect[3] - rect[1]
             let t = rect[1]
-            let cn = this.controlLinkName
-            let cn_isArray = false
-            if (Array.isArray(cn) == false) {
-                updateStyleChange.call(this, cn)
-            } else if (Array.isArray(cn) == true) {
-                cn_isArray = true
-                for (let i in cn) {
-                    updateStyleChange.call(this, cn[i])
-                }
-            }
-            this.updateStyle = {
-                width: w + 'px',
-                top: t + 'px',
-                height: h + 'px'
-            }
 
-            function updateStyleChange(cn) {
-                if (cn.match(/width/) != null) {
-                    w = Math.ceil(
-                        this.value / this.maxValue * (rect[2] - rect[0])
-                    )
+            if (cn.match(/width/) != null) {
+                w = Math.ceil(this.value / this.maxValue * (rect[2] - rect[0]))
+                this.updateStyleW = {
+                    width: w + 'px'
                 }
-                if (cn.match(/height/) != null) {
-                    h = Math.ceil(
-                        this.value / this.maxValue * (rect[3] - rect[1])
-                    )
-                    if (cn_isArray == false) {
-                        t = rect[1] + (rect[3] - rect[1]) - h
-                    }
+            }
+            if (cn.match(/height/) != null) {
+                h = Math.ceil(this.value / this.maxValue * (rect[3] - rect[1]))
+                if (Array.isArray(this.controlLinkName) == false) {
+                    t = rect[1] + (rect[3] - rect[1]) - h
+                }
+                this.updateStyleH = {
+                    top: t + 'px',
+                    height: h + 'px'
                 }
             }
         },
-        locationChange() {
+        locationChange(cn) {
             let rect = this.componentProperties.rect
             let l = rect[0]
             let t = rect[1]
-            let cn = this.controlLinkName
-            let cn_isArray = false
-            if (Array.isArray(cn) == false) {
-                updateStyleChange.call(this, cn)
-            } else if (Array.isArray(cn) == true) {
-                cn_isArray = true
-                for (let i in cn) {
-                    updateStyleChange.call(this, cn[i])
-                }
-            }
-            this.updateStyle = {
-                left: l + 'px',
-                top: t + 'px'
-            }
 
-            function updateStyleChange(cn) {
-                if (cn.match(/horizontal/) != null) {
-                    if (cn_isArray == false) {
-                        l = rect[0] + this.value
-                    } else {
-                        l = rect[0] + this.value / this.maxValue * 70
-                    }
+            if (cn.match(/horizontal/) != null) {
+                if (Array.isArray(this.controlLinkName) == false) {
+                    l = rect[0] + this.value
+                } else {
+                    l = rect[0] + this.value / this.maxValue * 70
                 }
-                if (cn.match(/vertical/) != null) {
-                    if (cn_isArray == false) {
-                        t = rect[1] + this.maxValue - this.value
-                    } else {
-                        t = rect[1] + this.value / this.maxValue * 70
-                    }
+                this.updateStyleW = {
+                    left: l + 'px'
+                }
+            }
+            if (cn.match(/vertical/) != null) {
+                if (Array.isArray(this.controlLinkName) == false) {
+                    t = rect[1] + this.maxValue - this.value
+                } else {
+                    t = rect[1] + this.value / this.maxValue * 70
+                }
+                this.updateStyleH = {
+                    top: t + 'px'
                 }
             }
         },
-        percentfillChange() {
+        percentfillChange(cn) {
             let rect = this.componentProperties.rect
-            let l = rect[0]
-            let t = rect[1]
-            let w = rect[2] - rect[0]
-            let h = rect[3] - rect[1]
-            let cn = this.controlLinkName
-            let cn_isArray = false
+            let p = this.percentfillBuffer
 
-            if (Array.isArray(cn) == false) {
-                removeDiv(this.eventName)
-                updateStyleChange.call(this, cn)
-                createDiv(this.eventName)
-            } else if (Array.isArray(cn) == true) {
-                cn_isArray = true
-                removeDiv(this.eventName[0])
-                for (let i in cn) {
-                    updateStyleChange.call(this, cn[i])
-                }
-                createDiv(this.eventName[0])
-            }
+            removeDiv(this.eventName)
+            updateStyleChange.call(this, cn)
+            createDiv(this.eventName)
 
             function createDiv(en) {
                 let updateStyle = {
-                    left: l + 'px;',
-                    top: t + 'px;',
-                    width: w + 'px;',
-                    height: h + 'px;'
+                    left: p.left + 'px;',
+                    top: p.top + 'px;',
+                    width: p.width + 'px;',
+                    height: p.height + 'px;'
                 }
                 var div = document.createElement('div')
                 div.style =
@@ -392,35 +368,35 @@ export default {
 
             function updateStyleChange(cn) {
                 if (cn.match(/width/) != null) {
-                    w = Math.ceil(
+                    p.width = Math.ceil(
                         this.value / this.maxValue * (rect[2] - rect[0])
                     )
                 }
                 if (cn.match(/height/) != null) {
-                    h = Math.ceil(
+                    p.height = Math.ceil(
                         this.value / this.maxValue * (rect[3] - rect[1])
                     )
-                    if (cn_isArray == false) {
-                        t = rect[1] + (rect[3] - rect[1]) - h
+                    if (Array.isArray(this.controlLinkName) == false) {
+                        p.top = rect[1] + (rect[3] - rect[1]) - p.height
                     }
                 }
                 if (cn.match(/radial/) != null) {
-                    l =
+                    p.left =
                         rect[0] +
                         (rect[2] - rect[0]) / 2 -
                         Math.ceil(
                             this.value / this.maxValue * (rect[2] - rect[0]) / 2
                         )
-                    t =
+                    p.top =
                         rect[1] +
                         (rect[3] - rect[1]) / 2 -
                         Math.ceil(
                             this.value / this.maxValue * (rect[3] - rect[1]) / 2
                         )
-                    w = Math.ceil(
+                    p.width = Math.ceil(
                         this.value / this.maxValue * (rect[2] - rect[0])
                     )
-                    h = Math.ceil(
+                    p.height = Math.ceil(
                         this.value / this.maxValue * (rect[3] - rect[1])
                     )
                 }
@@ -430,15 +406,17 @@ export default {
     created() {
         this.componentInit()
 
-        this.$bus.$on(this.eventName, event => {
-            if (Array.isArray(this.controlLinkName) == false) {
+        if (Array.isArray(this.controlLinkName) == false) {
+            this.$bus.$on(this.eventName, event => {
                 eventHandler.call(this, this.controlLinkName, event)
-            } else {
-                for (let i in this.controlLinkName) {
+            })
+        } else {
+            for (let i in this.eventName) {
+                this.$bus.$on(this.eventName[i], event => {
                     eventHandler.call(this, this.controlLinkName[i], event)
-                }
+                })
             }
-        })
+        }
 
         function eventHandler(cn, event) {
             if (cn == 'visibility') {
@@ -465,13 +443,13 @@ export default {
                 }
             } else if (cn.match(/objectsize/) != null) {
                 this.value = parseInt(event.analogValue)
-                this.objectsizeChange()
+                this.objectsizeChange(cn)
             } else if (cn.match(/location/) != null) {
                 this.value = parseInt(event.analogValue)
-                this.locationChange()
+                this.locationChange(cn)
             } else if (cn.match(/percentfill/) != null) {
                 this.value = parseInt(event.analogValue)
-                this.percentfillChange()
+                this.percentfillChange(cn)
             }
         }
     },

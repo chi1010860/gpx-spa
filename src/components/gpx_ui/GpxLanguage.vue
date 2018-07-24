@@ -142,8 +142,9 @@ button {
     position: absolute;
     width: 100px;
     height: 50px;
-    padding-bottom: 1px;
+    padding: 0px 1px 1px 1px;
     border: 3px outset #ddd;
+    border-top: 0px;
 }
 button:active {
     top: 1px;
