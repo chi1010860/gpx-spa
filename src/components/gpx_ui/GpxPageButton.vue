@@ -1,7 +1,5 @@
 <template>
-    <router-link :to="{name: routerlinkName}" exact>
-        <button class="page-button" :style="styleObject" v-html="msg" @mousedown="fnActive" @mouseup="fnInactive"></button>
-    </router-link>
+    <button @mousedown="fnActive" :style="[buttonStyle, updateStyle]" v-html="msg"></button>
 </template>
 
 <script>
@@ -14,7 +12,8 @@ export default {
     },
     data() {
         return {
-            styleObject: {}
+            buttonStyle: {},
+            updateStyle: {}
         }
     },
     computed: {
@@ -22,7 +21,7 @@ export default {
             keytext: 'getKeytext',
             language: 'getLanguage'
         }),
-        routerlinkName() {
+        windowName() {
             return this.componentProperties.window
         },
         msg() {
@@ -34,18 +33,29 @@ export default {
     methods: {
         componentInit() {
             let rect = this.componentProperties.rect
-            this.styleObject = {
+            this.buttonStyle = {
                 width: rect[2] - rect[0] + 'px',
                 height: rect[3] - rect[1] + 'px',
                 backgroundColor: '#' + this.componentProperties['brush-color'],
                 border: '2px outset #ddd'
             }
         },
-        fnActive() {
-            this.styleObject.border = '2px solid #ddd'
-        },
-        fnInactive() {
-            this.styleObject.border = '2px outset #ddd'
+        fnActive(e) {
+            var vm = this
+            vm.updateStyle = { border: '2px solid #ddd' }
+            document.onmouseup = fnInactive
+
+            function fnInactive(e) {
+                vm.$bus.$emit('windowHide')
+                vm.$bus.$emit('windowShow', {
+                    windowName: vm.windowName.toLowerCase()
+                })
+                vm.updateStyle = { border: '2px outset #ddd' }
+
+                // clear events
+                document.onmouseup = null
+                document.onmousemove = null
+            }
         }
     },
     created() {
@@ -55,7 +65,7 @@ export default {
 </script>
 
 <style scoped>
-.page-button {
+button {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -65,9 +75,6 @@ export default {
     margin-right: 1px;
     text-decoration: none;
     text-align: center;
-    border: 2px outset #ddd;
-}
-.page-button:active {
-    color: #333;
+    border: 3px outset #ddd;
 }
 </style>

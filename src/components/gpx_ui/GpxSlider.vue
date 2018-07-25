@@ -6,6 +6,8 @@
 
 <script>
 import gURL from '@/router/url'
+import { update_R_Bit } from '@/assets/js/winpc32ajax'
+
 export default {
     props: {
         componentProperties: {}
@@ -57,6 +59,7 @@ export default {
     methods: {
         componentInit() {
             let rect = this.componentProperties.rect
+
             this.wrapperStyle = {
                 left: rect[0] + 'px',
                 top: rect[1] + 10 + 'px',
@@ -73,55 +76,17 @@ export default {
             if (this.sliderStyle.width.match(/\d+/)[0] < 100) {
                 this.sliderStyle['transform-origin'] = '29px 29px'
             }
-        },
-        update_R_Bit: async function() {
-            // API
-            let URL = gURL + '/winpc32/update_R_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                value: parseInt(this.sliderValue),
-                tagname: this.uTagname
-            }
-            let encodedData = JSON.stringify(data)
-
-            // Request
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
         }
     },
     created() {
         this.componentInit()
-        this.update_R_Bit()
+        update_R_Bit(this.uTagname, parseInt(this.sliderValue))
     },
     updated() {
         this.$bus.$emit(this.eventName, {
             analogValue: this.sliderValue
         })
-        this.update_R_Bit()
+        update_R_Bit(this.uTagname, parseInt(this.sliderValue))
     }
 }
 </script>

@@ -7,6 +7,7 @@
 
 <script>
 import gURL from '@/router/url'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     name: 'GpxSwitch',
@@ -36,43 +37,6 @@ export default {
                 width: rect[2] - rect[0] + 'px',
                 height: rect[3] - rect[1] + 'px'
             }
-        },
-        update_A_Bit: async function(_tagname, _state) {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                tagname: _tagname,
-                state: _state
-            }
-            let encodedData = JSON.stringify(data)
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // Request
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
         }
     },
     created() {
@@ -82,7 +46,7 @@ export default {
         this.$bus.$emit(this.eventName, {
             state: this.isChecked
         })
-        this.update_A_Bit(this.uTagname, this.isChecked)
+        update_A_Bit(this.uTagname, this.isChecked)
     }
 }
 </script>

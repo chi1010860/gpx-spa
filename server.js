@@ -1,10 +1,11 @@
 // Import modules
 var express = require('express')
+var app = express()
+var server = require('http').Server(app)
+var io = require('socket.io')(server)
 var cors = require('cors')
 var corsOptions = require('./controller/corsOptions')
-var app = express()
 var PORT = process.env.PORT || 80
-var fs = require('fs')
 
 // Import API
 var gpxApi = require('./controller/gpxApi.js')
@@ -12,12 +13,11 @@ var winpc32Api = require('./controller/winpc32Api.js')
 var lightswitchApi = require('./controller/lightswitchApi.js')
 var usersApi = require('./controller/usersApi.js')
 
-// TODO: move this session to a module
-app.get('/gpxjson', (req, res) => {
-    fs.readFile('./app_data/gpx.json', (err, data) => {
-        if (err) throw err
-        res.send(JSON.parse(data))
-    })
+// Build the Sever
+server.listen(PORT, function (err) {
+    if (err) throw err
+    console.log('Server has been built on http://localhost:%d/', PORT)
+    console.log('Get GPX object by API: http://localhost:%d/api/gpx', PORT)
 })
 
 // Parse POST request body as JSON
@@ -35,8 +35,19 @@ app.use(winpc32Api)
 app.use(lightswitchApi)
 app.use(usersApi)
 
-app.listen(PORT, function (err) {
-    if (err) throw err
-    console.log('Server has been built on http://localhost:%d/', PORT)
-    console.log('Get GPX object by API: http://localhost:%d/api/gpx', PORT)
+// WebSocket
+// Namespace defination
+var io_language = io.of('/language')
+io.on('connection', function (socket) {
+    socket.emit('first server emit', 'WebSocket has been connected.')
+    socket.on('first event', function (data) {
+        console.log(data)
+    })
+})
+
+io_language.on('connection', socket => {
+    socket.on('language toggle', function (data) {
+        console.log(data)
+        io_language.emit('language toggle', data)
+    })
 })

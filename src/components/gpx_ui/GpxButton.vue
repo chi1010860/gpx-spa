@@ -5,6 +5,7 @@
 <script>
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 var enumDiscreteType = new Map([
     ['direct', null],
@@ -134,7 +135,7 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit(this.uTagname, this.isTurnOn)
+                    update_A_Bit(this.uTagname, this.isTurnOn)
                 }
             } else if (eventType == 'mouseup') {
                 if (
@@ -147,14 +148,14 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit(this.uTagname, this.isTurnOn)
+                    update_A_Bit(this.uTagname, this.isTurnOn)
                 } else if (controlLink.keypad == enumDiscreteType.get('set')) {
                     // console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = true
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit(this.uTagname, this.isTurnOn)
+                    update_A_Bit(this.uTagname, this.isTurnOn)
                 } else if (
                     controlLink.keypad == enumDiscreteType.get('reset')
                 ) {
@@ -163,7 +164,7 @@ export default {
                     this.$bus.$emit(this.eventName, {
                         state: this.isTurnOn
                     })
-                    this.update_A_Bit(this.uTagname, this.isTurnOn)
+                    update_A_Bit(this.uTagname, this.isTurnOn)
                 }
             }
         },
@@ -218,48 +219,11 @@ export default {
                     vsEval: vm.vsEval
                 })
             }
-        },
-        update_A_Bit: async function(_tagname, _state) {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                tagname: _tagname,
-                state: _state
-            }
-            let encodedData = JSON.stringify(data)
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // Request
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
         }
     },
     created() {
         this.componentInit()
-        this.update_A_Bit(this.uTagname, this.isTurnOn)
+        update_A_Bit(this.uTagname, this.isTurnOn)
     },
     beforeDestroy() {
         this.$bus.$off(this.disableEvent)

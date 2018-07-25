@@ -1,16 +1,21 @@
 <template>
-    <button @click="fnClick" :style="styleObject">{{ msg }}</button>
+    <button @click="fnClick" :style="styleObject" v-show="isShown">{{ msg }}</button>
 </template>
 
 <script>
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var socket = io.connect(gURL + '/language')
 
 export default {
     data() {
         return {
             componentProperties: {},
             languageTable: [],
+            isShown: false,
             isTurnOn: false,
             styleObject: {},
             fontSzie: '',
@@ -32,6 +37,9 @@ export default {
     watch: {
         language: function(value) {
             this.getMessage(this.msgBuffer)
+        },
+        isTurnOn() {
+            this.changeLanguage()
         }
     },
     methods: {
@@ -73,7 +81,7 @@ export default {
                 'font-size': this.fontSzie
             }
 
-            this.update_A_Bit(this.uTagname, this.isTurnOn)
+            update_A_Bit(this.uTagname, this.isTurnOn)
         },
         getMessage(data) {
             let MSG1 = data.find(item => item.text == '27')
@@ -84,54 +92,35 @@ export default {
         },
         fnClick() {
             this.isTurnOn = !this.isTurnOn
+            update_A_Bit(this.uTagname, this.isTurnOn)
+            this.socketEmit()
+        },
+        changeLanguage() {
             if (this.isTurnOn == true) {
                 this.actionLanguageChange(this.languageTable[1])
-                this.update_A_Bit(this.uTagname, this.isTurnOn)
             } else if (this.isTurnOn == false) {
                 this.actionLanguageChange(this.languageTable[0])
-                this.update_A_Bit(this.uTagname, this.isTurnOn)
             }
         },
-        update_A_Bit: async function(_tagname, _state) {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
+        socketEmit() {
             let data = {
-                tagname: _tagname,
-                state: _state
+                isTurnOn: this.isTurnOn
             }
-            let encodedData = JSON.stringify(data)
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // Request
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
+            socket.emit('language toggle', data)
+        },
+        socketListen() {
+            socket.on('language toggle', data => {
+                console.log(data)
+                this.isTurnOn = data.isTurnOn
+            })
         }
     },
     created() {
+        this.$bus.$on('showFirstPage', () => {
+            this.isShown = true
+        })
         this.getGpxTitle()
+        this.socketListen()
     }
 }
 </script>

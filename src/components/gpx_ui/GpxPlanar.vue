@@ -9,6 +9,8 @@
 
 <script>
 import gURL from '@/router/url'
+import { update_R_Bit } from '@/assets/js/winpc32ajax'
+
 export default {
     props: {
         componentProperties: {}
@@ -63,44 +65,6 @@ export default {
             this.square.squareStyle = {
                 width: this.square.squareWidth + 'px',
                 height: this.square.squareHeight + 'px'
-            }
-        },
-        update_R_Bit: async function(_tagname, _value) {
-            // API
-            let URL = gURL + '/winpc32/update_R_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                tagname: _tagname,
-                value: _value
-            }
-            let encodedData = JSON.stringify(data)
-
-            // Request
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
             }
         },
         // Draggagle Element
@@ -175,7 +139,7 @@ export default {
                     vm.$bus.$emit(vm.eventName[i], {
                         analogValue: vm.output.outputValue[i]
                     })
-                    vm.update_R_Bit(vm.uTagname[i], vm.output.outputValue[i])
+                    update_R_Bit(vm.uTagname[i], vm.output.outputValue[i])
                 }
             }
 
@@ -202,7 +166,7 @@ export default {
             this.$bus.$emit(this.eventName[i], {
                 analogValue: this.output.outputValue[i]
             })
-            this.update_R_Bit(this.uTagname[i], this.output.outputValue[i])
+            update_R_Bit(this.uTagname[i], this.output.outputValue[i])
         }
     }
 }

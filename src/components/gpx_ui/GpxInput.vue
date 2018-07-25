@@ -19,6 +19,7 @@ import gURL from '@/router/url'
 import GpxModal from '@/components/gpx_ui/GpxModal'
 import GpxKeyboard from '@/components/gpx_ui/GpxKeyboard'
 import { mapGetters, mapActions } from 'vuex'
+import { update_A_Bit, update_R_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     props: {
@@ -149,12 +150,18 @@ export default {
         setOn() {
             this.discreteValue = this.msg(this.controlLink['msg-on'])
             this.isModalShown = false
-            this.update_A_Bit()
+            update_A_Bit(
+                this.uTagname,
+                this.discreteValue == 'ON' ? true : false
+            )
         },
         setOff() {
             this.discreteValue = this.msg(this.controlLink['msg-off'])
             this.isModalShown = false
-            this.update_A_Bit()
+            update_A_Bit(
+                this.uTagname,
+                this.discreteValue == 'ON' ? true : false
+            )
         },
         detectKeycode(event) {
             if (event.keyCode == 13) this.changeValue()
@@ -212,29 +219,7 @@ export default {
                     controlLinkName: this.controlLinkName
                 })
             }
-            this.update_R_Bit()
-        },
-        onKeying(unit) {
-            if (unit == '⬅') {
-                let tempString = this.modalInputValue.split('')
-                tempString.pop()
-                this.modalInputValue = tempString.join('')
-            } else {
-                this.modalInputValue += unit
-            }
-        },
-        update_R_Bit: async function() {
-            // API
-            let URL = gURL + '/winpc32/update_R_Bit'
 
-            // 實例表頭
-            let m_headers = new Headers()
-            // This one is enough for GET requests
-            m_headers.append('Accept', 'application/json')
-            // This one sends body
-            m_headers.append('Content-Type', 'application/json')
-
-            // 資料酬載 (Payload)
             let tempValue = ''
             if (typeof this.showValue == 'string') {
                 for (let index in this.showValue) {
@@ -244,78 +229,33 @@ export default {
             } else {
                 tempValue = this.showValue
             }
-            let data = {
-                value: tempValue,
-                tagname: this.uTagname
-            }
-            let encodedData = JSON.stringify(data)
-
-            let m_Init = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // 實例請求
-            let m_request = new Request(URL, m_Init)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
+            update_R_Bit(this.uTagname, tempValue)
         },
-        update_A_Bit: async function() {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // 實例表頭
-            let m_headers = new Headers()
-            // This one is enough for GET requests
-            m_headers.append('Accept', 'application/json')
-            // This one sends body
-            m_headers.append('Content-Type', 'application/json')
-            // 資料酬載 (Payload)
-            let data = {
-                state: this.discreteValue == 'ON' ? true : false,
-                tagname: this.uTagname
-            }
-            let encodedData = JSON.stringify(data)
-
-            let m_Init = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // 實例請求
-            let m_request = new Request(URL, m_Init)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
+        onKeying(unit) {
+            if (unit == '⬅') {
+                let tempString = this.modalInputValue.split('')
+                tempString.pop()
+                this.modalInputValue = tempString.join('')
             } else {
-                let text = await res.text()
-                console.warn(text)
+                this.modalInputValue += unit
             }
         }
     },
     created() {
         this.componentInit()
-        this.update_A_Bit()
-        if (this.controlLinkName != 'userinput-discrete') this.update_R_Bit()
+        update_A_Bit(this.uTagname, this.discreteValue == 'ON' ? true : false)
+        if (this.controlLinkName != 'userinput-discrete') {
+            let tempValue = ''
+            if (typeof this.showValue == 'string') {
+                for (let index in this.showValue) {
+                    tempValue += this.showValue.charCodeAt(index).toString()
+                }
+                tempValue = parseInt(tempValue)
+            } else {
+                tempValue = this.showValue
+            }
+            update_R_Bit(this.uTagname, tempValue)
+        }
     },
     beforeDestroy() {
         this.$bus.$off(this.disableEvent)

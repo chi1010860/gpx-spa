@@ -10,6 +10,7 @@
 <script>
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     data() {
@@ -48,7 +49,7 @@ export default {
                 this.getMessage(this.msgBuffer)
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
                 this.windowStatus = true
-                this.update_A_Bit()
+                update_A_Bit(this.uTagname, this.windowStatus)
             } else {
                 let text = await res.text()
                 console.log(text)
@@ -66,44 +67,6 @@ export default {
             this.titleName.h2 = this.keytext.find(item => item.id == h2_index)[
                 this.language
             ]
-        },
-        update_A_Bit: async function() {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // 實例表頭
-            let m_headers = new Headers()
-            // This one is enough for GET requests
-            m_headers.append('Accept', 'application/json')
-            // This one sends body
-            m_headers.append('Content-Type', 'application/json')
-            // 資料酬載 (Payload)
-            let data = {
-                state: this.windowStatus,
-                tagname: this.uTagname
-            }
-            let encodedData = JSON.stringify(data)
-            let m_Init = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // 實例請求
-            let m_request = new Request(URL, m_Init)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
         }
     },
     created() {
@@ -111,7 +74,7 @@ export default {
     },
     beforeDestroy() {
         this.windowStatus = false
-        this.update_A_Bit()
+        update_A_Bit(this.uTagname, this.windowStatus)
     }
 }
 </script>

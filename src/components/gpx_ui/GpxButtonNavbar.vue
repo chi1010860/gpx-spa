@@ -8,6 +8,7 @@
 import gURL from '@/router/url.js'
 import GpxPageButton from '@/components/gpx_ui/GpxPageButton'
 import { mapGetters, mapActions } from 'vuex'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     data() {
@@ -41,7 +42,7 @@ export default {
                 // update_A_bit
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
                 this.navbarStatus = true
-                this.update_A_Bit(this.uTagname, this.navbarStatus)
+                update_A_Bit(this.uTagname, this.navbarStatus)
             } else {
                 let text = await res.text()
                 console.log(text)
@@ -55,43 +56,6 @@ export default {
                 height: bnHeight + 'px',
                 backgroundColor: '#' + _pf['brush-color']
             }
-        },
-        update_A_Bit: async function(_tagname, _state) {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                state: _state,
-                tagname: _tagname
-            }
-            let encodedData = JSON.stringify(data)
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // Request
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
         }
     },
     created() {
@@ -99,7 +63,7 @@ export default {
     },
     beforeDestroy() {
         this.navbarStatus = false
-        this.update_A_Bit(this.uTagname, this.navbarStatus)
+        update_A_Bit(this.uTagname, this.navbarStatus)
     }
 }
 </script>

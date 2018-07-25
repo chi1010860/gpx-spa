@@ -1,23 +1,18 @@
 <template>
-    <div class="void">
-        Welcome to GPX
-    </div>
+    <div class="void">{{msg}}</div>
 </template>
 
 <script>
 export default {
-    name: 'Void',
-    methods: {},
-    mounted() {
-        // This timeout must be remove in production version
-        setTimeout(() => {
-            this.$bus.$emit('appLoadingFinished', {
-                isLoading: false
-            })
-            this.$bus.$emit('winpc32Init', {
-                isLoading: false
-            })
-        }, 500)
+    data() {
+        return {
+            msg: ''
+        }
+    },
+    created() {
+        this.$bus.$on('showFirstPage', () => {
+            this.msg = 'Welcome to GPX'
+        })
     }
 }
 </script>

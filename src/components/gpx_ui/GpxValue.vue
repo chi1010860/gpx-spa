@@ -5,6 +5,7 @@
 <script>
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
+import { update_R_Bit } from '@/assets/js/winpc32ajax'
 
 var enumDiscreteType = new Map([
     ['direct', null],
@@ -72,44 +73,6 @@ export default {
             )
             this.eventName =
                 'eventBy_' + this.controlLink.expression.match(/\w+/)[0]
-        },
-        update_R_Bit: async function(_tagname, _value) {
-            // API
-            let URL = gURL + '/winpc32/update_R_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                tagname: _tagname,
-                value: _value
-            }
-            let encodedData = JSON.stringify(data)
-
-            // Request
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
         }
     },
     created() {
@@ -125,7 +88,7 @@ export default {
                     for (let i in event.vsEval) {
                         var fn = eval(event.vsEval[0])
                         fn()
-                        vm.update_R_Bit(vm.uTagname, vm.analogValue)
+                        update_R_Bit(vm.uTagname, vm.analogValue)
                     }
                 } else {
                     this.analogValue = event.analogValue

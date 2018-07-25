@@ -19,7 +19,6 @@
                 <fieldset class="fieldset-3"></fieldset>
             </div>
         </div>
-        <gpx-hvline :rect="hvline"></gpx-hvline>
     </div>
 </template>
 
@@ -33,12 +32,11 @@ import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxRectangle from '@/components/gpx_ui/GpxRectangle'
 import GpxGauge from '@/components/gpx_ui/GpxGauge'
-import GpxHVLine from '@/components/gpx_ui/GpxHVLine'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     data() {
         return {
-            hvline: [[0, 75, 801, 77], [-1, 78, 800, 80]],
             uTagname: 0,
             gpxObject: {},
             gpxButton: [],
@@ -59,8 +57,7 @@ export default {
         'gpx-slider': GpxSlider,
         'gpx-planar': GpxPlanar,
         'gpx-rectangle': GpxRectangle,
-        'gpx-gauge': GpxGauge,
-        'gpx-hvline': GpxHVLine
+        'gpx-gauge': GpxGauge
     },
     methods: {
         getGpxWindow: async function(index) {
@@ -72,7 +69,7 @@ export default {
                     item => item['page-title'] == 'Window' + index
                 )
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
-                this.update_A_Bit(this.uTagname, true)
+                update_A_Bit(this.uTagname, true)
 
                 // Get Objects
                 this.gpxObject = pf['gpx:object']
@@ -132,47 +129,16 @@ export default {
                             item['control-link'][0]['link-name'] ==
                             'orientation'
                     )['control-link'][0]
+
+                // Loading finished
+                this.windowLoad()
             } else {
                 let text = await res.text()
                 console.log(text)
             }
         },
-        update_A_Bit: async function(_tagname, _state) {
-            // API
-            let URL = gURL + '/winpc32/update_A_Bit'
-
-            // Headers
-            let m_headers = new Headers()
-            m_headers.append('Accept', 'application/json')
-            m_headers.append('Content-Type', 'application/json')
-
-            // Payload
-            let data = {
-                state: _state,
-                tagname: _tagname
-            }
-            let encodedData = JSON.stringify(data)
-            let reqInit = {
-                method: 'POST',
-                headers: m_headers,
-                body: encodedData
-            }
-
-            // Request
-            let m_request = new Request(URL, reqInit)
-
-            // AJAX
-            let res = await fetch(m_request)
-
-            if (res.ok) {
-                let result = await res.json()
-                console.log(
-                    `tagname: ${result.logicName} value: ${result.bitValue}`
-                )
-            } else {
-                let text = await res.text()
-                console.warn(text)
-            }
+        windowLoad() {
+            this.$bus.$emit('windowLoad')
         }
     },
     beforeCreate() {
@@ -184,7 +150,7 @@ export default {
         this.getGpxWindow(5)
     },
     beforeDestroy() {
-        this.update_A_Bit(this.uTagname, false)
+        update_A_Bit(this.uTagname, false)
     }
 }
 </script>

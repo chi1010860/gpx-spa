@@ -7,13 +7,19 @@
         <a class="link" href="#">-------------------</a>
         <router-link class="link" :to="{name: 'Others'}" exact>Others</router-link>
         <a class="link" href="#">-------------------</a>
-        <a class="link" href="http://localhost/api/gpx">GPX data</a>
+        <a class="link" :href="api_gpx">GPX data</a>
     </div>
 </template>
 
 <script>
+import gURL from '@/router/url.js'
+
 export default {
-    name: 'SideBar'
+    computed: {
+        api_gpx() {
+            return gURL + '/api/gpx'
+        }
+    }
 }
 </script>
 
