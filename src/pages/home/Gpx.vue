@@ -42,6 +42,7 @@ import { mapGetters, mapActions } from 'vuex'
 import io from 'socket.io-client'
 
 var socket = io.connect(gURL)
+var io_window = io.connect(gURL + '/window')
 
 export default {
     data() {
@@ -89,19 +90,29 @@ export default {
             'actionFontStyleInit'
         ]),
         windowInit() {
+            // Single client
             this.$bus.$emit('appLoadingFinished', {
                 isLoading: false
-            })
-            this.$bus.$on('windowShow', event => {
-                this.showWindow[event.windowName] = true
             })
             this.$bus.$on('windowHide', () => {
                 for (let key in this.showWindow) {
                     this.showWindow[key] = false
                 }
             })
+            this.$bus.$on('windowShow', event => {
+                this.showWindow[event.windowName] = true
+            })
             this.$bus.$on('windowLoad', () => {
                 this.isLoading = false
+            })
+            // Broadcast
+            io_window.on('windowHide', () => {
+                for (let key in this.showWindow) {
+                    this.showWindow[key] = false
+                }
+            })
+            io_window.on('windowShow', data => {
+                this.showWindow[data.windowName] = true
             })
         },
         winpc32Init: async function() {

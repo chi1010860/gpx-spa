@@ -3,8 +3,12 @@
 </template>
 
 <script>
-// Warning
-// Don't use this component
+import gURL from '@/router/url'
+import io from 'socket.io-client'
+
+var io_button = io.connect(gURL + '/button')
+var io_slider = io.connect(gURL + '/slider')
+
 export default {
     props: {
         componentProperties: {}
@@ -79,15 +83,23 @@ export default {
             }
         },
         uTagname() {
-            let temp1 =
-                this.controlLink.expression != null
-                    ? this.controlLink.expression.match(/\d+/)[0]
-                    : null
-            let temp2 =
-                this.controlLink.tagname != null
-                    ? this.controlLink.tagname.match(/\d+/)[0]
-                    : null
-            return temp1 || temp2
+            if (Array.isArray(this.controlLink) == false) {
+                let temp1 =
+                    this.controlLink.expression != null
+                        ? this.controlLink.expression.match(/\d+/)[0]
+                        : null
+                let temp2 =
+                    this.controlLink.tagname != null
+                        ? this.controlLink.tagname.match(/\d+/)[0]
+                        : null
+                return parseInt(temp1 || temp2)
+            } else {
+                let tempArray = [
+                    this.controlLink[0].expression.match(/\d+/)[0],
+                    this.controlLink[1].expression.match(/\d+/)[0]
+                ]
+                return tempArray.map(x => parseInt(x))
+            }
         },
         blinkPeriod() {
             return 500
@@ -357,11 +369,11 @@ export default {
                     'background-color: #0080FF;' +
                     'position:absolute;'
                 div.id = en
-                document.getElementsByClassName('container')[0].appendChild(div)
+                document.getElementById('window4').appendChild(div)
             }
 
             function removeDiv(en) {
-                let c = document.getElementsByClassName('container')[0]
+                let c = document.getElementById('window4')
                 let lastDiv = document.getElementById(en)
                 if (lastDiv != null) c.removeChild(lastDiv)
             }
@@ -407,13 +419,25 @@ export default {
         this.componentInit()
 
         if (Array.isArray(this.controlLinkName) == false) {
-            this.$bus.$on(this.eventName, event => {
-                eventHandler.call(this, this.controlLinkName, event)
+            // this.$bus.$on(this.eventName, event => {
+            //     eventHandler.call(this, this.controlLinkName, event)
+            // })
+            io_button.on('buttonUpdate' + this.uTagname, data => {
+                eventHandler.call(this, this.controlLinkName, data)
+            })
+            io_slider.on('sliderUpdate' + this.uTagname, data => {
+                eventHandler.call(this, this.controlLinkName, data)
             })
         } else {
             for (let i in this.eventName) {
-                this.$bus.$on(this.eventName[i], event => {
-                    eventHandler.call(this, this.controlLinkName[i], event)
+                // this.$bus.$on(this.eventName[i], event => {
+                //     eventHandler.call(this, this.controlLinkName[i], event)
+                // })
+                io_button.on('buttonUpdate' + this.uTagname[i], data => {
+                    eventHandler.call(this, this.controlLinkName[i], data)
+                })
+                io_slider.on('sliderUpdate' + this.uTagname[i], data => {
+                    eventHandler.call(this, this.controlLinkName[i], data)
                 })
             }
         }

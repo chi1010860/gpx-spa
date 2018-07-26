@@ -1,12 +1,15 @@
 <template>
     <div class="slider-wrapper" :style="wrapperStyle">
-        <input :class="classObject" type="range" :style="sliderStyle" :min="minValue" :max="maxValue" v-model="sliderValue">
+        <input :class="classObject" type="range" :style="sliderStyle" :min="minValue" :max="maxValue" :value="sliderValue" @input="valueUpdate">
     </div>
 </template>
 
 <script>
 import gURL from '@/router/url'
 import { update_R_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_slider = io.connect(gURL + '/slider')
 
 export default {
     props: {
@@ -76,16 +79,21 @@ export default {
             if (this.sliderStyle.width.match(/\d+/)[0] < 100) {
                 this.sliderStyle['transform-origin'] = '29px 29px'
             }
+        },
+        valueUpdate(e) {
+            this.sliderValue = e.target.value
+            this.$bus.$emit(this.eventName, {
+                analogValue: this.sliderValue
+            })
+            io_slider.emit('sliderCall', {
+                uTagname: this.uTagname,
+                analogValue: this.sliderValue
+            })
+            // update_R_Bit(this.uTagname, parseInt(this.sliderValue))
         }
     },
     created() {
         this.componentInit()
-        update_R_Bit(this.uTagname, parseInt(this.sliderValue))
-    },
-    updated() {
-        this.$bus.$emit(this.eventName, {
-            analogValue: this.sliderValue
-        })
         update_R_Bit(this.uTagname, parseInt(this.sliderValue))
     }
 }

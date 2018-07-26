@@ -5,6 +5,10 @@
 <script>
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
+import { update_A_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_window = io.connect(gURL + '/window')
 
 export default {
     props: {
@@ -12,6 +16,7 @@ export default {
     },
     data() {
         return {
+            // Style
             buttonStyle: {},
             updateStyle: {}
         }
@@ -28,6 +33,9 @@ export default {
             return this.keytext.find(
                 item => item.id == this.componentProperties.message
             )[this.language]
+        },
+        uTagname() {
+            return this.componentProperties.tagname
         }
     },
     methods: {
@@ -46,10 +54,20 @@ export default {
             document.onmouseup = fnInactive
 
             function fnInactive(e) {
+                let windows = [2, 3, 4, 5, 6]
+                windows.splice(windows.indexOf(vm.uTagname), 1)
+                windows.forEach(w => {
+                    update_A_Bit(w, false)
+                })
+                update_A_Bit(vm.uTagname, true)
                 vm.$bus.$emit('windowHide')
                 vm.$bus.$emit('windowShow', {
                     windowName: vm.windowName.toLowerCase()
                 })
+                io_window.emit('windowCall', {
+                    windowName: vm.windowName.toLowerCase()
+                })
+
                 vm.updateStyle = { border: '2px outset #ddd' }
 
                 // clear events

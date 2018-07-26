@@ -8,7 +8,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { update_A_Bit } from '@/assets/js/winpc32ajax'
 import io from 'socket.io-client'
 
-var socket = io.connect(gURL + '/language')
+var io_language = io.connect(gURL + '/language')
 
 export default {
     data() {
@@ -106,11 +106,10 @@ export default {
             let data = {
                 isTurnOn: this.isTurnOn
             }
-            socket.emit('language toggle', data)
+            io_language.emit('languageCall', data)
         },
         socketListen() {
-            socket.on('language toggle', data => {
-                console.log(data)
+            io_language.on('language toggle', data => {
                 this.isTurnOn = data.isTurnOn
             })
         }
@@ -129,8 +128,6 @@ export default {
 button {
     cursor: pointer;
     position: absolute;
-    width: 100px;
-    height: 50px;
     padding: 0px 1px 1px 1px;
     border: 3px outset #ddd;
     border-top: 0px;

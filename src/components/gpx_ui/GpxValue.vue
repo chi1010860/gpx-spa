@@ -6,6 +6,10 @@
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
 import { update_R_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_button = io.connect(gURL + '/button')
+var io_slider = io.connect(gURL + '/slider')
 
 var enumDiscreteType = new Map([
     ['direct', null],
@@ -73,6 +77,14 @@ export default {
             )
             this.eventName =
                 'eventBy_' + this.controlLink.expression.match(/\w+/)[0]
+        },
+        socketListen() {
+            io_button.on('buttonUpdate' + this.uTagname, data => {
+                this.isTurnOn = data.isTurnOn
+            })
+            io_slider.on('sliderUpdate' + this.uTagname, data => {
+                this.analogValue = data.analogValue
+            })
         }
     },
     created() {
@@ -83,14 +95,7 @@ export default {
             }
 
             if (event.analogValue != null) {
-                if (event.controlLinkName == 'PB-action') {
-                    let vm = this
-                    for (let i in event.vsEval) {
-                        var fn = eval(event.vsEval[0])
-                        fn()
-                        update_R_Bit(vm.uTagname, vm.analogValue)
-                    }
-                } else {
+                if (event.controlLinkName != 'PB-action') {
                     this.analogValue = event.analogValue
                 }
             }
@@ -99,6 +104,17 @@ export default {
                 this.stringValue = event.stringValue
             }
         })
+        io_button.on('PB-action update', data => {
+            if (data.eventName == this.eventName) {
+                let vm = this
+                for (let i in data.vsEval) {
+                    var fn = eval(data.vsEval[0])
+                    fn()
+                    update_R_Bit(vm.uTagname, vm.analogValue)
+                }
+            }
+        })
+        this.socketListen()
     },
     beforeDestroy() {
         this.$bus.$off(this.eventName)

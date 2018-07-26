@@ -8,6 +8,9 @@
 <script>
 import gURL from '@/router/url'
 import { update_A_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_switchRk = io.connect(gURL + '/switchRk')
 
 export default {
     name: 'GpxSwitch',
@@ -37,15 +40,27 @@ export default {
                 width: rect[2] - rect[0] + 'px',
                 height: rect[3] - rect[1] + 'px'
             }
+        },
+        socketEmit() {
+            io_switchRk.emit('switchRkCall', {
+                isChecked: this.isChecked
+            })
+        },
+        socketListen() {
+            io_switchRk.on('switchRk toggle', data => {
+                this.isChecked = data.isChecked
+            })
         }
     },
     created() {
         this.componentInit()
+        this.socketListen()
     },
     updated() {
         this.$bus.$emit(this.eventName, {
             state: this.isChecked
         })
+        this.socketEmit()
         update_A_Bit(this.uTagname, this.isChecked)
     }
 }

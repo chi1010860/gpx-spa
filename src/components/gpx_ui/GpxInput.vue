@@ -20,6 +20,9 @@ import GpxModal from '@/components/gpx_ui/GpxModal'
 import GpxKeyboard from '@/components/gpx_ui/GpxKeyboard'
 import { mapGetters, mapActions } from 'vuex'
 import { update_A_Bit, update_R_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_userinput = io.connect(gURL + '/userinput')
 
 export default {
     props: {
@@ -150,18 +153,20 @@ export default {
         setOn() {
             this.discreteValue = this.msg(this.controlLink['msg-on'])
             this.isModalShown = false
-            update_A_Bit(
-                this.uTagname,
-                this.discreteValue == 'ON' ? true : false
-            )
+            update_A_Bit(this.uTagname, this.discreteValue == true)
+            io_userinput.emit('userinput-discrete call', {
+                uTagname: this.uTagname,
+                discreteValue: true
+            })
         },
         setOff() {
             this.discreteValue = this.msg(this.controlLink['msg-off'])
             this.isModalShown = false
-            update_A_Bit(
-                this.uTagname,
-                this.discreteValue == 'ON' ? true : false
-            )
+            update_A_Bit(this.uTagname, this.discreteValue == false)
+            io_userinput.emit('userinput-discrete call', {
+                uTagname: this.uTagname,
+                discreteValue: false
+            })
         },
         detectKeycode(event) {
             if (event.keyCode == 13) this.changeValue()
@@ -206,17 +211,20 @@ export default {
                         this.isModalShown = false
                     }
                 }
-                this.$bus.$emit(this.eventName, {
-                    analogValue: this.analogValue,
-                    controlLinkName: this.controlLinkName
+
+                io_userinput.emit('userinput-analog call', {
+                    uTagname: this.uTagname,
+                    eventName: this.eventName,
+                    showValue: this.analogValue
                 })
             } else if (this.controlLinkName == 'userinput-string') {
                 this.stringValue = this.modalInputValue
                 this.isModalShown = false
 
-                this.$bus.$emit(this.eventName, {
-                    stringValue: this.stringValue,
-                    controlLinkName: this.controlLinkName
+                io_userinput.emit('userinput-string call', {
+                    uTagname: this.uTagname,
+                    eventName: this.eventName,
+                    showValue: this.stringValue
                 })
             }
 
@@ -239,10 +247,37 @@ export default {
             } else {
                 this.modalInputValue += unit
             }
+        },
+        socketListen() {
+            io_userinput.on('userinput-discrete ON', data => {
+                if (data.uTagname == this.uTagname)
+                    this.discreteValue = this.msg(this.controlLink['msg-on'])
+            })
+            io_userinput.on('userinput-discrete OFF', data => {
+                if (data.uTagname == this.uTagname)
+                    this.discreteValue = this.msg(this.controlLink['msg-off'])
+            })
+            io_userinput.on('userinput-analog update', data => {
+                if (data.uTagname == this.uTagname)
+                    this.analogValue = data.showValue
+                this.$bus.$emit(this.eventName, {
+                    analogValue: this.analogValue,
+                    controlLinkName: this.controlLinkName
+                })
+            })
+            io_userinput.on('userinput-string update', data => {
+                if (data.uTagname == this.uTagname)
+                    this.stringValue = data.showValue
+                this.$bus.$emit(this.eventName, {
+                    stringValue: this.stringValue,
+                    controlLinkName: this.controlLinkName
+                })
+            })
         }
     },
     created() {
         this.componentInit()
+        this.socketListen()
         update_A_Bit(this.uTagname, this.discreteValue == 'ON' ? true : false)
         if (this.controlLinkName != 'userinput-discrete') {
             let tempValue = ''

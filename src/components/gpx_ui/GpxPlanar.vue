@@ -10,6 +10,9 @@
 <script>
 import gURL from '@/router/url'
 import { update_R_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_slider = io.connect(gURL + '/slider')
 
 export default {
     props: {
@@ -136,10 +139,14 @@ export default {
                 )
 
                 for (let i in vm.eventName) {
-                    vm.$bus.$emit(vm.eventName[i], {
+                    // vm.$bus.$emit(vm.eventName[i], {
+                    //     analogValue: vm.output.outputValue[i]
+                    // })
+                    io_slider.emit('sliderCall', {
+                        uTagname: vm.uTagname[i],
                         analogValue: vm.output.outputValue[i]
                     })
-                    update_R_Bit(vm.uTagname[i], vm.output.outputValue[i])
+                    // update_R_Bit(vm.uTagname[i], vm.output.outputValue[i])
                 }
             }
 

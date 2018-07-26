@@ -32,7 +32,6 @@ import GpxSlider from '@/components/gpx_ui/GpxSlider'
 import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxRectangle from '@/components/gpx_ui/GpxRectangle'
 import GpxGauge from '@/components/gpx_ui/GpxGauge'
-import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     data() {
@@ -69,7 +68,6 @@ export default {
                     item => item['page-title'] == 'Window' + index
                 )
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
-                update_A_Bit(this.uTagname, true)
 
                 // Get Objects
                 this.gpxObject = pf['gpx:object']
@@ -148,9 +146,6 @@ export default {
     },
     created() {
         this.getGpxWindow(5)
-    },
-    beforeDestroy() {
-        update_A_Bit(this.uTagname, false)
     }
 }
 </script>

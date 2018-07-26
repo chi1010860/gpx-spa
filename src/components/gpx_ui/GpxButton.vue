@@ -6,6 +6,9 @@
 import gURL from '@/router/url'
 import { mapGetters, mapActions } from 'vuex'
 import { update_A_Bit } from '@/assets/js/winpc32ajax'
+import io from 'socket.io-client'
+
+var io_button = io.connect(gURL + '/button')
 
 var enumDiscreteType = new Map([
     ['direct', null],
@@ -132,10 +135,7 @@ export default {
                 ) {
                     // console.log(`keypad: ${controlLink.keypad} ${eventType}`)
                     this.isTurnOn = !this.isTurnOn
-                    this.$bus.$emit(this.eventName, {
-                        state: this.isTurnOn
-                    })
-                    update_A_Bit(this.uTagname, this.isTurnOn)
+                    updateData.call(this)
                 }
             } else if (eventType == 'mouseup') {
                 if (
@@ -145,27 +145,29 @@ export default {
                 ) {
                     // console.log(`keypad: ${controlLink.keypad} ${eventType}`)
                     this.isTurnOn = !this.isTurnOn
-                    this.$bus.$emit(this.eventName, {
-                        state: this.isTurnOn
-                    })
-                    update_A_Bit(this.uTagname, this.isTurnOn)
+                    updateData.call(this)
                 } else if (controlLink.keypad == enumDiscreteType.get('set')) {
                     // console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = true
-                    this.$bus.$emit(this.eventName, {
-                        state: this.isTurnOn
-                    })
-                    update_A_Bit(this.uTagname, this.isTurnOn)
+                    updateData.call(this)
                 } else if (
                     controlLink.keypad == enumDiscreteType.get('reset')
                 ) {
                     // console.log(`keypad: ${controlLink.keypad}`)
                     this.isTurnOn = false
-                    this.$bus.$emit(this.eventName, {
-                        state: this.isTurnOn
-                    })
-                    update_A_Bit(this.uTagname, this.isTurnOn)
+                    updateData.call(this)
                 }
+            }
+            function updateData() {
+                this.$bus.$emit(this.eventName, {
+                    state: this.isTurnOn
+                })
+                io_button.emit('buttonCall', {
+                    uTagname: this.uTagname,
+                    isTurnOn: this.isTurnOn,
+                    state: this.isTurnOn
+                })
+                update_A_Bit(this.uTagname, this.isTurnOn)
             }
         },
         PB_action(controlLink, eventType) {
@@ -214,6 +216,12 @@ export default {
             }
             function updateValue() {
                 vm.$bus.$emit(vm.eventName, {
+                    analogValue: vm.analogValue,
+                    controlLinkName: vm.controlLinkName,
+                    vsEval: vm.vsEval
+                })
+                io_button.emit('PB-action call', {
+                    eventName: vm.eventName,
                     analogValue: vm.analogValue,
                     controlLinkName: vm.controlLinkName,
                     vsEval: vm.vsEval

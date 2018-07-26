@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container">
+        <div class="container" id="window4">
             <div class="row-1">
                 <fieldset class="fieldset-0"></fieldset>
             </div>
@@ -36,7 +36,6 @@ import GpxPlanar from '@/components/gpx_ui/GpxPlanar'
 import GpxRectangle from '@/components/gpx_ui/GpxRectangle'
 import GpxEllipse from '@/components/gpx_ui/GpxEllipse'
 import GpxLine from '@/components/gpx_ui/GpxLine'
-import { update_A_Bit } from '@/assets/js/winpc32ajax'
 
 export default {
     data() {
@@ -77,7 +76,6 @@ export default {
                     item => item['page-title'] == 'Window' + index
                 )
                 this.uTagname = parseInt(pf.tagname.match(/\d+/)[0])
-                update_A_Bit(this.uTagname, true)
 
                 // Get Objects
                 this.gpxObject = pf['gpx:object']
@@ -166,9 +164,6 @@ export default {
     },
     created() {
         this.getGpxWindow(4)
-    },
-    beforeDestroy() {
-        update_A_Bit(this.uTagname, false)
     }
 }
 </script>
