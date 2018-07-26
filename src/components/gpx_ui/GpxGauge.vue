@@ -3,6 +3,11 @@
 </template>
 
 <script>
+import gURL from '@/router/url'
+import io from 'socket.io-client'
+
+var io_slider = io.connect(gURL + '/slider')
+
 export default {
     props: {
         componentProperties: {}
@@ -49,6 +54,9 @@ export default {
         },
         id() {
             return 'ellipse_' + this.controlLink.expression.match(/\w+/)[0]
+        },
+        uTagname() {
+            return parseInt(this.controlLink.expression.match(/\d+/)[0])
         }
     },
     methods: {
@@ -130,6 +138,11 @@ export default {
                 this.new_value = event.analogValue
                 this.canvasRedraw()
             }
+        })
+
+        io_slider.on('sliderUpdate' + this.uTagname, data => {
+            this.new_value = data.analogValue
+            this.canvasRedraw()
         })
     },
     mounted() {
