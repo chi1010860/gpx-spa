@@ -162,7 +162,7 @@ export default {
     width: 130px;
     height: 30px;
     background-color: #ccc;
-    border: inset;
+    border: inset white;
 }
 .group-fieldset {
     display: flex;
