@@ -81,7 +81,7 @@ io_button.on('connection', socket => {
 io_userinput.on('connection', socket => {
     socket.on('userinput-discrete call', data => {
         if (data.discreteValue == true) {
-            io_userinput.emit('userinput-discrete ON', dat1a)
+            io_userinput.emit('userinput-discrete ON', data)
         } else {
             io_userinput.emit('userinput-discrete OFF', data)
         }
